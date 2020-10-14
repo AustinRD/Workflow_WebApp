@@ -49,17 +49,47 @@
 
 <!-- Workflow Search -->
 <div id="workflowSearch" class="w3-card-4 w3-padding w3-margin" style="display: none;">
+    <button class="w3-button w3-right w3-blue" type="button" onclick="window.location.href='.'">Start Workflow</button>
     <h5>Workflow Search</h5>
     <p>You may search by ID</p>
-    <form method="post">
-        <input type="text"></input>
-        <button type="submit" name="workflowSearch">Search</button>
-    </form>    
+    <input id="workflowInput" type="text" onkeyup="search('workflowTable', 'workflowInput')"></input>
+    <table id="workflowTable" class="pagination w3-table-all w3-responsive" data-pagecount="8" style="max-width:fit-content;">
+        <tr>
+            <th>Initiator Email</th>
+            <th>Course</th>
+            <th>Semester</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+
+        <?php
+            $sql = "SELECT f20_application_info.student_email, concat(f20_application_info.semester, ' ', f20_application_info.year) 
+            AS semyear, concat(f20_application_info.dept_code, ' ', course_number) 
+            AS Course, f20_application_info.instructor_email, assigned_to, f20_application_info.fw_id 
+            FROM f20_application_info INNER JOIN f20_application_util ON f20_application_info.fw_id = f20_application_util.fw_id";
+
+            $query = mysqli_query($db_conn, $sql);
+            while ($row = mysqli_fetch_array($query)) {
+                $initEmail = $row['student_email'];
+                $course = $row['Course'];
+                $semester = $row['semyear'];
+                $status = $row['assigned_to'];
+                $wfID = $row['fw_id'];
+        ?>
+        <tr>
+            <td><?php echo $initEmail; ?></td>
+            <td><?php echo $course; ?></td>
+            <td><?php echo $semester; ?></td>
+            <td><?php echo $status; ?></td>
+            <td><a class="w3-button" href="."<?php echo $wfID; ?>">Edit</a></button></td>
+        </tr>
+        <?php } ?>
+    </table>
 </div>
 
 <!-- Department Search -->
 <div id="departmentSearch" class="w3-card-4 w3-padding w3-margin" style="display: none;">
-    <button class="w3-button w3-right w3-blue" type="button" onclick="window.location.href='./createdepartment.php'">Create Department</button>
+    <button class="w3-button w3-right w3-blue" type="button" onclick="window.location.href='./dashboard.php?content=create'">Create Department</button>
     <h5>Department Search</h5>
     <p>You may search by Department Name or Abbreviation</p>
     <input id="departmentInput" type="text" onkeyup="search('departmentTable', 'departmentInput')"></input>
@@ -74,14 +104,13 @@
         </tr>
         <?php
             $sql = "SELECT * FROM f20_academic_dept_info";
-            $run = mysqli_query($db_conn, $sql);
-            while ($row = mysqli_fetch_assoc($run)) {  //for each row
+            $query = mysqli_query($db_conn, $sql);
+            while ($row = mysqli_fetch_assoc($query)) {
                 $code = $row['dept_code'];
                 $name = $row["dept_name"];
                 $chair = $row['chair_email'];
                 $dean = $row['dean_email'];
                 $secretary = $row['secretary_email'];
-                $modify = null;
         ?>
         <tr>
             <td class="w3-center"><?php echo $code; ?></td>
@@ -97,7 +126,7 @@
 
 <!-- Course Search -->
 <div id="courseSearch" class="w3-card-4 w3-padding w3-margin" style="display: none;">
-    <button class="w3-button w3-right w3-blue" type="button" onclick="window.location.href='./createcourse.php'">Create Course</button>
+    <button class="w3-button w3-right w3-blue" type="button" onclick="window.location.href='./dashboard.php?content=create'">Create Course</button>
     <h5>Course Search</h5>
     <p>You may search by Course Number or Department</p>
     <input type="text" id="courseInput" onkeyup="search('courseTable', 'courseInput')"></input>
@@ -109,12 +138,12 @@
         </tr>
         <?php
             $sql = "SELECT * FROM f20_course_numbers";
-            $run = mysqli_query($db_conn, $sql);
-            while ($row = mysqli_fetch_assoc($run)) {
+            $query = mysqli_query($db_conn, $sql);
+            while ($row = mysqli_fetch_assoc($query)) {
                 $dept = $row['dept_code'];
                 $number = $row["course_number"];
                 $id = $row['id'];
-                $modify = null;
+                
         ?>
         <tr>
             <td><?php echo $dept; ?></td>
@@ -127,14 +156,36 @@
 
 <!-- User Search -->
 <div id="userSearch" class="w3-card-4 w3-padding w3-margin" style="display: none;">
+    <button class="w3-button w3-right w3-blue" type="button" onclick="window.location.href='./dashboard.php?content=create'">Create User</button>
     <h5>User Search</h5>
     <p>You may search by ID or Email</p>
-    <form method="post">
-        <input type="text"></input>
-        <button type="submit" name="userSearch">Search</button>
-    </form>   
+    <input type="text" id="courseInput" onkeyup="search('userTable', 'userInput')"></input>
+    <table id="userTable" class="pagination w3-table-all w3-responsive" data-pagecount="8" style="max-width:fit-content;">
+        <tr>
+            <th class="w3-center">Name</th>
+            <th class="w3-center">Email</th>
+            <th class="w3-center">Account Type</th>
+            <th class="w3-center">Last Login</th>
+            <th class="w3-center">Action</th>
+        </tr>
+        <?php
+            $sql = "SELECT * FROM f20_userpass";
+            $query = mysqli_query($db_conn, $sql);
+            while ($row = mysqli_fetch_assoc($query)) {
+                $userEmail = $row['email'];
+                $userType = $row['profile_type'];
+                $lastAccess = $row['last_access'];
+        ?>
+        <tr>
+            <td><?php echo " " ?></td>
+            <td><?php echo $userEmail; ?></td>
+            <td><?php echo $userType; ?></td>
+            <td><?php echo $lastAccess; ?></td>
+            <td><a class="w3-button" href=".">Edit</a></button></td>
+        </tr>
+        <?php } ?>
+    </table>
 </div>
-
 
 <!-- Table Pagination Script -->
 <script>
