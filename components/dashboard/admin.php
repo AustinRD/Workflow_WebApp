@@ -11,14 +11,14 @@
         <h4>Messages</h4>
     </div>
     </div>
-    <div class="w3-quarter" onClick="location.href = './search.php'">
+    <div class="w3-quarter" onClick="location.href = './dashboard.php?content=search'">
     <div class="w3-container w3-blue w3-padding-16">
         <div class="w3-left"><i class="fa fa-search w3-xxxlarge"></i></div>
         <div class="w3-clear"></div>
         <h4>Search</h4>
     </div>
     </div>
-    <div class="w3-quarter" onClick="location.href = './create.php'">
+    <div class="w3-quarter" onClick="location.href = './dashboard.php?content=create'">
     <div class="w3-container w3-teal w3-padding-16">
         <div class="w3-left"><i class="fa fa-plus w3-xxxlarge"></i></div>
         <div class="w3-clear"></div>

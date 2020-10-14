@@ -14,150 +14,126 @@
     include_once('./backend/db_connector.php');
 ?>
 
-<html>
-<head>
-    <title>Student Account</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-</head>
-<style>
-    html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
-</style>
+<!-- Content Title -->
+<header class="w3-container" style="padding-top:22px">
+    <h5><b><i class="fa fa-search"></i>  Admin Search Tool</b></h5>
+</header>
 
-<body class="w3-light-grey">
-    <?php include_once('./components/header.php'); ?>
-    <?php include_once('./components/sidebar.php'); ?>
-    
-    <!-- !PAGE CONTENT! -->
-    <div class="w3-main" style="margin-left:300px;margin-top:43px;">
-        <header class="w3-container" style="padding-top:22px">
-            <h5><b><i class="fa fa-search"></i>  Admin Search Tool</b></h5>
-        </header>
-
-        <!-- Action Panel -->
-        <div class="w3-row-padding w3-margin-bottom">
-            <div class="w3-quarter" onclick="openSearch('workflowSearch');">
-            <div class="w3-container w3-blue w3-padding-16 w3-border">
-                <div class="w3-left"><i class="fa fa-share-alt w3-xxxlarge"></i></div>
-                <div class="w3-clear"><h5>Workflow</h5></div>
-            </div>
-            </div>
-            <div class="w3-quarter" onclick="openSearch('departmentSearch');">
-            <div class="w3-container w3-blue w3-padding-16 w3-border ">
-                <div class="w3-left"><i class="fa fa-building w3-xxxlarge"></i></div>
-                <div class="w3-clear"><h5>Deparment</h5></div>
-            </div>
-            </div>
-            <div class="w3-quarter" onclick="openSearch('courseSearch');">
-            <div class="w3-container w3-blue w3-padding-16 w3-border">
-                <div class="w3-left"><i class="fa fa-book w3-xxxlarge"></i></div>
-                <div class="w3-clear"><h5>Course</h5></div>
-            </div>
-            </div>
-            <div class="w3-quarter" onclick="openSearch('userSearch');">
-            <div class="w3-container w3-blue w3-padding-16 w3-border">
-                <div class="w3-left"><i class="fa fa-users w3-xxxlarge"></i></div>
-                <div class="w3-clear"><h5>User</h5></div>
-            </div>
-            </div>
-        </div>
-
-        <!-- Workflow Search -->
-        <div id="workflowSearch" class="w3-card-4 w3-padding w3-margin" style="display: none;">
-            <h5>Workflow Search</h5>
-            <p>You may search by ID</p>
-            <form method="post">
-                <input type="text"></input>
-                <button type="submit" name="workflowSearch">Search</button>
-            </form>    
-        </div>
-
-        <!-- Department Search -->
-        <div id="departmentSearch" class="w3-card-4 w3-padding w3-margin" style="display: none;">
-            <button class="w3-button w3-right w3-blue" type="button" onclick="window.location.href='./createdepartment.php'">Create Department</button>
-            <h5>Department Search</h5>
-            <p>You may search by Department Name or Abbreviation</p>
-            <input id="departmentInput" type="text" onkeyup="search('departmentTable', 'departmentInput')"></input>
-            <table id="departmentTable" class="pagination w3-table-all w3-responsive" data-pagecount="8" style="max-width:fit-content;">
-                <tr>
-                    <th class="w3-center">Department</th>
-                    <th>Name</th>
-                    <th>Chair Email</th>
-                    <th>Dean Email</th>
-                    <th>Secretary Email</th>
-                    <th>Actions</th>
-                </tr>
-                <?php
-                    $sql = "SELECT * FROM f20_academic_dept_info";
-                    $run = mysqli_query($db_conn, $sql);
-                    while ($row = mysqli_fetch_assoc($run)) {  //for each row
-                        $code = $row['dept_code'];
-                        $name = $row["dept_name"];
-                        $chair = $row['chair_email'];
-                        $dean = $row['dean_email'];
-                        $secretary = $row['secretary_email'];
-                        $modify = null;
-                ?>
-                <tr>
-                    <td class="w3-center"><?php echo $code; ?></td>
-                    <td><?php echo $name; ?></td>
-                    <td><?php echo $chair; ?></td>
-                    <td><?php echo $dean; ?></td>
-                    <td><?php echo $secretary; ?></td>
-                    <td><a class="w3-button" href="./editdepartment.php?department=<?php echo $code; ?>">Edit</a></button></td>
-                </tr>
-                <?php } ?>
-            </table>
-        </div>
-
-        <!-- Course Search -->
-        <div id="courseSearch" class="w3-card-4 w3-padding w3-margin" style="display: none;">
-            <button class="w3-button w3-right w3-blue" type="button" onclick="window.location.href='./createcourse.php'">Create Course</button>
-            <h5>Course Search</h5>
-            <p>You may search by Course Number or Department</p>
-            <input type="text" id="courseInput" onkeyup="search('courseTable', 'courseInput')"></input>
-            <table id="courseTable" class="pagination w3-table-all w3-responsive" data-pagecount="8" style="max-width:fit-content;">
-                <tr>
-                    <th class="w3-center">Department</th>
-                    <th class="w3-center">Course Number</th>
-                    <th class="w3-center">Actions </th>
-                </tr>
-                <?php
-                    $sql = "SELECT * FROM f20_course_numbers";
-                    $run = mysqli_query($db_conn, $sql);
-                    while ($row = mysqli_fetch_assoc($run)) {
-                        $dept = $row['dept_code'];
-                        $number = $row["course_number"];
-                        $id = $row['id'];
-                        $modify = null;
-                ?>
-                <tr>
-                    <td><?php echo $dept; ?></td>
-                    <td><?php echo $number; ?></td>
-                    <td><a class="w3-button" href="./editcourse.php?department=<?php echo $dept; ?>&course=<?php echo $number; ?>">Edit</a></button></td>
-                </tr>
-                <?php } ?>
-            </table>
-        </div>
-
-        <!-- User Search -->
-        <div id="userSearch" class="w3-card-4 w3-padding w3-margin" style="display: none;">
-            <h5>User Search</h5>
-            <p>You may search by ID or Email</p>
-            <form method="post">
-                <input type="text"></input>
-                <button type="submit" name="userSearch">Search</button>
-            </form>   
-        </div>
-
-        <?php include_once('./components/footer.php'); ?>
+<!-- Action Panel -->
+<div class="w3-row-padding w3-margin-bottom">
+    <div class="w3-quarter" onclick="openSearch('workflowSearch');">
+    <div class="w3-container w3-blue w3-padding-16 w3-border">
+        <div class="w3-left"><i class="fa fa-share-alt w3-xxxlarge"></i></div>
+        <div class="w3-clear"><h5>Workflow</h5></div>
     </div>
-    <!-- End page content -->
-</body>
-</html>
+    </div>
+    <div class="w3-quarter" onclick="openSearch('departmentSearch');">
+    <div class="w3-container w3-blue w3-padding-16 w3-border ">
+        <div class="w3-left"><i class="fa fa-building w3-xxxlarge"></i></div>
+        <div class="w3-clear"><h5>Deparment</h5></div>
+    </div>
+    </div>
+    <div class="w3-quarter" onclick="openSearch('courseSearch');">
+    <div class="w3-container w3-blue w3-padding-16 w3-border">
+        <div class="w3-left"><i class="fa fa-book w3-xxxlarge"></i></div>
+        <div class="w3-clear"><h5>Course</h5></div>
+    </div>
+    </div>
+    <div class="w3-quarter" onclick="openSearch('userSearch');">
+    <div class="w3-container w3-blue w3-padding-16 w3-border">
+        <div class="w3-left"><i class="fa fa-users w3-xxxlarge"></i></div>
+        <div class="w3-clear"><h5>User</h5></div>
+    </div>
+    </div>
+</div>
+
+<!-- Workflow Search -->
+<div id="workflowSearch" class="w3-card-4 w3-padding w3-margin" style="display: none;">
+    <h5>Workflow Search</h5>
+    <p>You may search by ID</p>
+    <form method="post">
+        <input type="text"></input>
+        <button type="submit" name="workflowSearch">Search</button>
+    </form>    
+</div>
+
+<!-- Department Search -->
+<div id="departmentSearch" class="w3-card-4 w3-padding w3-margin" style="display: none;">
+    <button class="w3-button w3-right w3-blue" type="button" onclick="window.location.href='./createdepartment.php'">Create Department</button>
+    <h5>Department Search</h5>
+    <p>You may search by Department Name or Abbreviation</p>
+    <input id="departmentInput" type="text" onkeyup="search('departmentTable', 'departmentInput')"></input>
+    <table id="departmentTable" class="pagination w3-table-all w3-responsive" data-pagecount="8" style="max-width:fit-content;">
+        <tr>
+            <th class="w3-center">Department</th>
+            <th>Name</th>
+            <th>Chair Email</th>
+            <th>Dean Email</th>
+            <th>Secretary Email</th>
+            <th>Actions</th>
+        </tr>
+        <?php
+            $sql = "SELECT * FROM f20_academic_dept_info";
+            $run = mysqli_query($db_conn, $sql);
+            while ($row = mysqli_fetch_assoc($run)) {  //for each row
+                $code = $row['dept_code'];
+                $name = $row["dept_name"];
+                $chair = $row['chair_email'];
+                $dean = $row['dean_email'];
+                $secretary = $row['secretary_email'];
+                $modify = null;
+        ?>
+        <tr>
+            <td class="w3-center"><?php echo $code; ?></td>
+            <td><?php echo $name; ?></td>
+            <td><?php echo $chair; ?></td>
+            <td><?php echo $dean; ?></td>
+            <td><?php echo $secretary; ?></td>
+            <td><a class="w3-button" href="./editdepartment.php?department=<?php echo $code; ?>">Edit</a></button></td>
+        </tr>
+        <?php } ?>
+    </table>
+</div>
+
+<!-- Course Search -->
+<div id="courseSearch" class="w3-card-4 w3-padding w3-margin" style="display: none;">
+    <button class="w3-button w3-right w3-blue" type="button" onclick="window.location.href='./createcourse.php'">Create Course</button>
+    <h5>Course Search</h5>
+    <p>You may search by Course Number or Department</p>
+    <input type="text" id="courseInput" onkeyup="search('courseTable', 'courseInput')"></input>
+    <table id="courseTable" class="pagination w3-table-all w3-responsive" data-pagecount="8" style="max-width:fit-content;">
+        <tr>
+            <th class="w3-center">Department</th>
+            <th class="w3-center">Course Number</th>
+            <th class="w3-center">Actions </th>
+        </tr>
+        <?php
+            $sql = "SELECT * FROM f20_course_numbers";
+            $run = mysqli_query($db_conn, $sql);
+            while ($row = mysqli_fetch_assoc($run)) {
+                $dept = $row['dept_code'];
+                $number = $row["course_number"];
+                $id = $row['id'];
+                $modify = null;
+        ?>
+        <tr>
+            <td><?php echo $dept; ?></td>
+            <td><?php echo $number; ?></td>
+            <td><a class="w3-button" href="./editcourse.php?department=<?php echo $dept; ?>&course=<?php echo $number; ?>">Edit</a></button></td>
+        </tr>
+        <?php } ?>
+    </table>
+</div>
+
+<!-- User Search -->
+<div id="userSearch" class="w3-card-4 w3-padding w3-margin" style="display: none;">
+    <h5>User Search</h5>
+    <p>You may search by ID or Email</p>
+    <form method="post">
+        <input type="text"></input>
+        <button type="submit" name="userSearch">Search</button>
+    </form>   
+</div>
 
 
 <!-- Table Pagination Script -->

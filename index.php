@@ -61,15 +61,15 @@
               //If the user is found and the password is correct
               //  then print a success message and redirect
               echo '<div class="w3-panel w3-round w3-green">
-                      <p>Sign In Success:<br> Redirecting.<p>
+                      <p>Sign In Success:<br> Redirecting.</p>
                     </div>';
-              exit(header("refresh:1;url=./dashboard.php"));
+              exit(header("refresh:1;url=./dashboard.php?content=home"));
             } 
             else {
               //The username was not found or password didn't match
               //  then print an error message.
               echo '<div class="w3-panel w3-round w3-red">
-                      <p>Sign In Failed:<br> Invalid Username or Password!<p>
+                      <p>Sign In Failed:<br> Invalid Username or Password!</p>
                     </div>';
             }
           }

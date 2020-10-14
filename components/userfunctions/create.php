@@ -14,244 +14,197 @@
     include_once('./backend/db_connector.php');
 ?>
 
-<html>
-<head>
-    <title>Student Account</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-</head>
-<style>
-    html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
-</style>
+<!-- Content Title -->
+<header class="w3-container" style="padding-top:22px">
+    <h5><b><i class="fa fa-search"></i>  Admin Create Tool</b></h5>
+</header>
 
-<body class="w3-light-grey">
-    <?php include_once('./components/header.php'); ?>
-    <?php include_once('./components/sidebar.php'); ?>
-    
-    <!-- !PAGE CONTENT! -->
-    <div class="w3-main" style="margin-left:300px;margin-top:43px;">
-        <header class="w3-container" style="padding-top:22px">
-            <h5><b><i class="fa fa-search"></i>  Admin Search Tool</b></h5>
-        </header>
-        <!-- Action Panel -->
-        <div class="w3-row-padding w3-margin-bottom">
-            <div class="w3-quarter">
-            <div class="w3-container w3-blue w3-padding-16 w3-border">
-                <div class="w3-left"><i class="fa fa-share-alt w3-xxxlarge"></i></div>
-                <div class="w3-clear"><h5>Workflow</h5></div>
-            </div>
-            </div>
-            <div class="w3-quarter">
-            <div class="w3-container w3-blue w3-padding-16 w3-border ">
-                <div class="w3-left"><i class="fa fa-building w3-xxxlarge"></i></div>
-                <div class="w3-clear"><h5>Deparment</h5></div>
-            </div>
-            </div>
-            <div class="w3-quarter">
-            <div class="w3-container w3-blue w3-padding-16 w3-border">
-                <div class="w3-left"><i class="fa fa-book w3-xxxlarge"></i></div>
-                <div class="w3-clear"><h5>Course</h5></div>
-            </div>
-            </div>
-            <div class="w3-quarter">
-            <div class="w3-container w3-blue w3-padding-16 w3-border">
-                <div class="w3-left"><i class="fa fa-users w3-xxxlarge"></i></div>
-                <div class="w3-clear"><h5>User</h5></div>
-            </div>
-            </div>
-        </div>
-
-        <!-- Workflow Search -->
-        <div class="w3-card-4 w3-padding w3-margin">
-            <h5>Workflow Search</h5>
-            <p>You may search by ID</p>
-            <form method="post">
-                <input type="text"></input>
-                <button type="submit" name="workflowSearch">Search</button>
-            </form>    
-        </div>
-
-        <!-- Department Search -->
-        <div class="w3-card-4 w3-padding w3-margin">
-            <button class="w3-button w3-right w3-blue" type="button" onclick="window.location.href='./createdepartment.php'">Create Department</button>
-            <h5>Department Search</h5>
-            <p>You may search by Department Name or Abbreviation</p>
-            <form method="post">
-                <input type="text"></input>
-                <button type="submit" name="departmentSearch">Search</button>
-            </form>
-            <table class="pagination w3-table-all w3-responsive" data-pagecount="8" style="max-width:fit-content;">
-                <tr>
-                    <th class="w3-center">Department</th>
-                    <th>Name</th>
-                    <th>Chair Email</th>
-                    <th>Dean Email</th>
-                    <th>Secretary Email</th>
-                    <th>Actions</th>
-                </tr>
-                <?php
-                    $sql = "SELECT * FROM f20_academic_dept_info";
-                    $run = mysqli_query($db_conn, $sql);
-                    while ($row = mysqli_fetch_assoc($run)) {  //for each row
-                        $code = $row['dept_code'];
-                        $name = $row["dept_name"];
-                        $chair = $row['chair_email'];
-                        $dean = $row['dean_email'];
-                        $secretary = $row['secretary_email'];
-                        $modify = null;
-                ?>
-                <tr>
-                    <td class="w3-center"><?php echo $code; ?></td>
-                    <td><?php echo $name; ?></td>
-                    <td><?php echo $chair; ?></td>
-                    <td><?php echo $dean; ?></td>
-                    <td><?php echo $secretary; ?></td>
-                    <td><a class="w3-button" href="./editdepartment.php?department=<?php echo $code; ?>">Edit</a></button></td>
-                </tr>
-                <?php } ?>
-            </table>
-        </div>
-
-        <!-- Course Search -->
-        <div class="w3-card-4 w3-padding w3-margin">
-            <button class="w3-button w3-right w3-blue" type="button" onclick="window.location.href='./createcourse.php'">Create Course</button>
-            <h5>Course Search</h5>
-            <p>You may search by Course Number or Department</p>
-            <form method="post">
-                <input type="text"></input>
-                <button type="submit" name="courseSearch">Search</button>
-            </form>
-            <table class="pagination w3-table-all w3-responsive" data-pagecount="8" style="max-width:fit-content;">
-                <tr>
-                    <th class="w3-center">Department</th>
-                    <th class="w3-center">Course Number</th>
-                    <th class="w3-center">Actions </th>
-                </tr>
-                <?php
-                    $sql = "SELECT * FROM f20_course_numbers";
-                    $run = mysqli_query($db_conn, $sql);
-                    while ($row = mysqli_fetch_assoc($run)) {
-                        $dept = $row['dept_code'];
-                        $number = $row["course_number"];
-                        $id = $row['id'];
-                        $modify = null;
-                ?>
-                <tr>
-                    <td><?php echo $dept; ?></td>
-                    <td><?php echo $number; ?></td>
-                    <td><a class="w3-button" href="./editcourse.php?department=<?php echo $dept; ?>&course=<?php echo $number; ?>">Edit</a></button></td>
-                </tr>
-                <?php } ?>
-            </table>
-        </div>
-
-        <!-- User Search -->
-        <div class="w3-card-4 w3-padding w3-margin">
-            <h5>User Search</h5>
-            <p>You may search by ID or Email</p>
-            <form method="post">
-                <input type="text"></input>
-                <button type="submit" name="userSearch">Search</button>
-            </form>   
-        </div>
-
-        <?php include_once('./components/footer.php'); ?>
+<!-- Action Panel -->
+<div class="w3-row-padding w3-margin-bottom">
+    <div class="w3-quarter" onclick="openForm('workflowForm');">
+    <div class="w3-container w3-teal w3-padding-16 w3-border">
+        <div class="w3-left"><i class="fa fa-share-alt w3-xxxlarge"></i></div>
+        <div class="w3-clear"><h5>Workflow</h5></div>
     </div>
-    <!-- End page content -->
-</body>
-</html>
+    </div>
+    <div class="w3-quarter" onclick="openForm('departmentForm');">
+    <div class="w3-container w3-teal w3-padding-16 w3-border ">
+        <div class="w3-left"><i class="fa fa-building w3-xxxlarge"></i></div>
+        <div class="w3-clear"><h5>Deparment</h5></div>
+    </div>
+    </div>
+    <div class="w3-quarter" onclick="openForm('courseForm');">
+    <div class="w3-container w3-teal w3-padding-16 w3-border">
+        <div class="w3-left"><i class="fa fa-book w3-xxxlarge"></i></div>
+        <div class="w3-clear"><h5>Course</h5></div>
+    </div>
+    </div>
+    <div class="w3-quarter" onclick="openForm('userForm');">
+    <div class="w3-container w3-teal w3-padding-16 w3-border">
+        <div class="w3-left"><i class="fa fa-users w3-xxxlarge"></i></div>
+        <div class="w3-clear"><h5>User</h5></div>
+    </div>
+    </div>
+</div>
 
-<script>
-    var perPage = 5;
+<?php
+    if (isset($_POST['courseCreate'])) {
+        $dept = mysqli_real_escape_string($db_conn, $_POST['dept']);
+        $class = mysqli_real_escape_string($db_conn, $_POST['classnumber']);
 
-    function genTables() {
-        var tables = document.querySelectorAll(".pagination");
-        for (var i = 0; i < tables.length; i++) {
-            perPage = parseInt(tables[i].dataset.pagecount);
-            createFooters(tables[i]);
-            createTableMeta(tables[i]);
-            loadTable(tables[i]);
+        $insertclass = "INSERT INTO f20_course_numbers (dept_code, course_number) VALUES ('$dept', '$class')";
+        $insertclassquery = mysqli_query($db_conn, $insertclass);
+
+        //Database insert success
+        if (mysqli_errno($db_conn) == 0) {
+            echo("<div class='w3-panel w3-margin w3-green'><p>Course Successfully Created.</p></div>");
+        } 
+        //Database detected duplicate entry
+        else if (mysqli_errno($db_conn) == 1062) {  
+            echo("<div class='w3-panel w3-margin w3-red'><p>Failed to Create Course - Duplicate Found.</p></div>");
         }
     }
+    //Below needs work - implement user creation, add password(generate random or make user pick) and name field to database.
+    else if (isset($_POST['userCreate'])) {
+        $userName = mysqli_real_escape_string($db_conn, $_POST['name']);
+        $userEmail = mysqli_real_escape_string($db_conn, $_POST['email']);
+        $bannerID = mysqli_real_escape_string($db_conn, $_POST['banner']);
+        $userType = mysqli_real_escape_string($db_conn, $_POST['type']);
 
-    // based on current page, only show the elements in that range
-    function loadTable(table) {
-        if (table.querySelector('th'))
-            var startIndex = 1;
-        else
-            var startIndex = 0;
+        $insertclass = "INSERT INTO f20_course_numbers (dept_code, course_number) VALUES ('$dept', '$class')";
+        $insertclassquery = mysqli_query($db_conn, $insertclass);
 
-        var start = (parseInt(table.dataset.currentpage) * table.dataset.pagecount) + startIndex;
-        var end = start + parseInt(table.dataset.pagecount);
-        var rows = table.rows;
-
-        for (var x = startIndex; x < rows.length - 1; x++) {
-            if (x < start || x >= end)
-                rows[x].style.display = "none";
-            else
-                rows[x].style.display = "table-row";
+        //Database insert success
+        if (mysqli_errno($db_conn) == 0) {
+            echo("<div class='w3-panel w3-margin w3-green'><p>Course Successfully Created.</p></div>");
+        } 
+        //Database detected duplicate entry
+        else if (mysqli_errno($db_conn) == 1062) {  
+            echo("<div class='w3-panel w3-margin w3-red'><p>Failed to Create Course - Duplicate Found.</p></div>");
         }
     }
+    else if (isset($_POST['workflowCreate'])) {
+        $userName = mysqli_real_escape_string($db_conn, $_POST['name']);
+        $userEmail = mysqli_real_escape_string($db_conn, $_POST['email']);
+        $bannerID = mysqli_real_escape_string($db_conn, $_POST['banner']);
+        $userType = mysqli_real_escape_string($db_conn, $_POST['type']);
 
-    function createTableMeta(table) {
-        table.dataset.currentpage = "0";
+        $insertclass = "INSERT INTO f20_course_numbers (dept_code, course_number) VALUES ('$dept', '$class')";
+        $insertclassquery = mysqli_query($db_conn, $insertclass);
+
+        //Database insert success
+        if (mysqli_errno($db_conn) == 0) {
+            echo("<div class='w3-panel w3-margin w3-green'><p>Course Successfully Created.</p></div>");
+        } 
+        //Database detected duplicate entry
+        else if (mysqli_errno($db_conn) == 1062) {  
+            echo("<div class='w3-panel w3-margin w3-red'><p>Failed to Create Course - Duplicate Found.</p></div>");
+        }
     }
+    else if (isset($_POST['departmentCreate'])) {
+        $userName = mysqli_real_escape_string($db_conn, $_POST['name']);
+        $userEmail = mysqli_real_escape_string($db_conn, $_POST['email']);
+        $bannerID = mysqli_real_escape_string($db_conn, $_POST['banner']);
+        $userType = mysqli_real_escape_string($db_conn, $_POST['type']);
 
-    function createFooters(table) {
-        var hasHeader = false;
-        if (table.querySelector('th'))
-            hasHeader = true;
+        $insertclass = "INSERT INTO f20_course_numbers (dept_code, course_number) VALUES ('$dept', '$class')";
+        $insertclassquery = mysqli_query($db_conn, $insertclass);
 
-        var rows = table.rows.length;
+        //Database insert success
+        if (mysqli_errno($db_conn) == 0) {
+            echo("<div class='w3-panel w3-margin w3-green'><p>Course Successfully Created.</p></div>");
+        } 
+        //Database detected duplicate entry
+        else if (mysqli_errno($db_conn) == 1062) {  
+            echo("<div class='w3-panel w3-margin w3-red'><p>Failed to Create Course - Duplicate Found.</p></div>");
+        }
+    }
+?>
 
-        if (hasHeader)
-            rows = rows - 1;
+<!-- Create Workflow -->
+<div id="workflowForm" class="w3-card-4 w3-padding w3-margin" style="display: none;">
+    <h5>Create Workflow</h5>
+    <form method="post">
+        <input type="text"></input>
+        <button type="submit" name="workflowCreate">Create</button>
+    </form>    
+</div>
 
-        var numPages = rows / perPage;
-        
-        var pager = document.createElement("div");
-        
-        // add an extra page, if we're 
-        if (numPages % 1 > 0)
-            numPages = Math.floor(numPages) + 1;
+<!-- Create Department -->
+<div id="departmentForm" class="w3-card-4 w3-padding w3-margin" style="display: none;">
+    <h5>Create Department</h5>
+    <form method="post">
+        <input type="text"></input>
+        <button type="submit" name="departmentCreate">Create</button>
+    </form>
+</div>
 
-        pager.className = "pager";
-        for (var i = 0; i < numPages ; i++) {
-            var page = document.createElement("button");
-            page.innerHTML = i + 1;
-            page.className = "pager-item";
-            page.dataset.index = i;
-
-            if (i == 0)
-                page.classList.add("selected");
-
-            page.addEventListener('click', function() {
-                var parent = this.parentNode;
-                var items = parent.querySelectorAll(".pager-item");
-                for (var x = 0; x < items.length; x++) {
-                    items[x].classList.remove("selected");
+<!-- Create Course -->
+<div id="courseForm" class="w3-card-4 w3-padding w3-margin" style="display: none;">
+    <h5>Create Course</h5>
+    <form method="post" action="./dashboard.php?content=create">
+        <label for="type">Department</label>
+        <select id="type" name="dept" class="w3-input" required>
+            <?php
+                $sql = "SELECT * FROM f20_academic_dept_info ORDER BY dept_code ASC";
+                $deptquery  = mysqli_query($db_conn, $sql);
+                $r = mysqli_num_rows($deptquery);
+                if ($r > 0) {
+                    while ($result = mysqli_fetch_assoc($deptquery)) {
+                        $deptcode = $result['dept_code'];
+                        echo("<option value=" . $deptcode . ">" . $deptcode . "</option>");
+                    }
                 }
-                this.classList.add('selected');
-                table.dataset.currentpage = this.dataset.index;
-                loadTable(table);
-            });
-            pager.appendChild(page);
-        }
+            ?>
+        </select>
+        <br>
+        <label for="classnumber">Class number:</label>
+        <input id="classnumber" name="classnumber" type="text" class="w3-input" maxlength="3" size="3" required />
+        <br>
+        <button type="submit" class="w3-button w3-teal" name="courseCreate">Create</button>
+    </form>
+</div>
 
-        // insert page at the top of the table
-        var footer = table.createTFoot();
-        var row = footer.insertRow(0);
-        var cell = row.insertCell(0);
-        cell.classList.add("w3-center");
-        cell.setAttribute("colspan", table.rows[0].cells.length)
-        cell.appendChild(pager);
-        
+<!-- Create User -->
+<div id="userForm" class="w3-card-4 w3-padding w3-margin" style="display: none;">
+    <h5>Create User</h5>
+    <form method="post" action="./dashboard.php?content=create">
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text" class="w3-input" required>
+        <label for="email">Email Address</label>
+        <input id="email" name="email" placeholder="@newpaltz.edu" type="text" class="w3-input" required>
+        <label for="banner">Banner ID</label>
+        <input id="banner" name="banner" type="text" class="w3-input" required>
+        <label for="type">User Type</label>
+        <select id="type" name="type" class="w3-input" required>
+            <option value="admin">Admin</option>
+            <option value="recreg">Records & Registration</option>
+            <option value="crc">Career Resource Center</option>
+            <option value="dean">Dean</option>
+            <option value="chair">Department Chair</option>
+            <option value="secretary">Secretary</option>
+            <option value="student">Student</option>
+            <option value="employer">Employer</option>
+            <option value="instructor">Faculty [Advisor/Instructor]</option> 
+        </select>
+        <br>
+        <button type="submit" class="w3-button w3-teal" name="userCreate">Create</button>
+    </form>
+</div>
+
+<!-- Showing/Hiding Create Forms -->
+<!-- A later version of this application will use PHP to load the forms -->
+<script>
+    function openForm(formID)
+    {
+        closeForm('workflowForm');
+        closeForm('departmentForm');
+        closeForm('courseForm');
+        closeForm('userForm');
+        document.getElementById(formID).style.display = "block";
     }
-
-    window.addEventListener('load', function() {
-        genTables();
-    });
+    function closeForm(formID)
+    {
+        document.getElementById(formID).style.display = "none";
+    }
 </script>

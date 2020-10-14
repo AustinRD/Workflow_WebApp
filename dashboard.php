@@ -29,32 +29,51 @@
     <!-- !PAGE CONTENT! -->
     <div class="w3-main" style="margin-left:300px;margin-top:43px;">
     <?php
-        include_once('./backend/config.php');
-        switch ($_SESSION['user_type']) {
-            case $GLOBALS['student_type']:
-                include_once("./components/dashboard/student.php");
-                break;
-            case $GLOBALS['admin_type']:
-                include_once("./components/dashboard/admin.php");
-                break;
-            case $GLOBALS['secretary_type']:
-                include_once("./components/dashboard/secretary.php");
-                break;
-            case $GLOBALS['chair_type']:
-                include_once("./components/dashboard/chair.php");
-                break;
-            case $GLOBALS['dean_type']:
-                include_once("./components/dashboard/dean.php");
-                break;
-            case $GLOBALS['instructor_type']:
-                include_once("./components/dashboard/instructor.php");
-                break;
-            case $GLOBALS['employer_type']:
-                include_once("./components/dashboard/employer.php");
-                break;
-            case $GLOBALS['recreg_type']:
-                include_once("./components/dashboard/recreg.php");
-                break;
+        if($_GET['content'] == "home")
+        {
+            include_once('./backend/config.php');
+            switch ($_SESSION['user_type']) {
+                case $GLOBALS['student_type']:
+                    include_once("./components/dashboard/student.php");
+                    break;
+                case $GLOBALS['admin_type']:
+                    include_once("./components/dashboard/admin.php");
+                    break;
+                case $GLOBALS['secretary_type']:
+                    include_once("./components/dashboard/secretary.php");
+                    break;
+                case $GLOBALS['chair_type']:
+                    include_once("./components/dashboard/chair.php");
+                    break;
+                case $GLOBALS['dean_type']:
+                    include_once("./components/dashboard/dean.php");
+                    break;
+                case $GLOBALS['instructor_type']:
+                    include_once("./components/dashboard/instructor.php");
+                    break;
+                case $GLOBALS['employer_type']:
+                    include_once("./components/dashboard/employer.php");
+                    break;
+                case $GLOBALS['recreg_type']:
+                    include_once("./components/dashboard/recreg.php");
+                    break;
+            }
+        }
+        else if($_GET['content'] == "search")
+        {
+            include_once("./components/userfunctions/search.php");
+        }
+        else if($_GET['content'] == "create")
+        {
+            include_once("./components/userfunctions/create.php");
+        }
+        else if($_GET['content'] == "messages")
+        {
+            include_once("./components/userfunctions/messages.php");
+        }
+        else if($_GET['content'] == "workflows")
+        {
+            include_once("./components/userfunctions/workflows.php");
         }
     ?>
         <?php include_once('./components/footer.php'); ?>

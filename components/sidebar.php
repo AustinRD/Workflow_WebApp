@@ -22,11 +22,11 @@
   <?php if($_SESSION['user_type'] == $GLOBALS['student_type']) { ?>
   <div class="w3-bar-block">
     <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
-    <a href="./dashboard.php" id="homeBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-home fa-fw"></i>  Home</a>
-    <a href="./messages.php" id="messagesBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-comment fa-fw"></i>  Messages</a>
-    <a href="./connections.php" id="connectionsBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  Connections</a>
-    <a href="./workflows.php" id="workflowsBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-share-alt fa-fw"></i>  Workflows</a>
-    <a href="./history.php" id="historyBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-history fa-fw"></i>  History</a>
+    <a href="./dashboard.php?content=home" id="homeBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-home fa-fw"></i>  Home</a>
+    <a href="./dashboard.php?content=messages" id="messagesBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-comment fa-fw"></i>  Messages</a>
+    <a href="./dashboard.php?content=connections" id="connectionsBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  Connections</a>
+    <a href="./dashboard.php?content=workflows" id="workflowsBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-share-alt fa-fw"></i>  Workflows</a>
+    <a href="./dashboard.php?content=history" id="historyBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-history fa-fw"></i>  History</a>
     <a href="./settings.php" id="settingsBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-cog fa-fw"></i>  Settings</a>
     <a href="./util/logout.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-sign-out fa-fw"></i>  Sign-Out</a><br><br>
   </div>
@@ -36,10 +36,10 @@
   <?php if($_SESSION['user_type'] == $GLOBALS['admin_type']) { ?>
   <div class="w3-bar-block">
     <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
-    <a href="./dashboard.php" id="homeBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-home fa-fw"></i>  Home</a>
-    <a href="./search.php" id="searchBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-search fa-fw"></i>  Search</a>
-    <a href="./create.php" id="createBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-plus fa-fw"></i>  Create</a>
-    <a href="./messages.php" id="messagesBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-comment fa-fw"></i>  Messages</a>
+    <a href="./dashboard.php?content=home" id="homeBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-home fa-fw"></i>  Home</a>
+    <a href="./dashboard.php?content=search" id="searchBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-search fa-fw"></i>  Search</a>
+    <a href="./dashboard.php?content=create" id="createBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-plus fa-fw"></i>  Create</a>
+    <a href="./dashboard.php?content=messages" id="messagesBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-comment fa-fw"></i>  Messages</a>
     <a href="./settings.php" id="settingsBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-cog fa-fw"></i>  Settings</a>
     <a href="./util/logout.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-sign-out fa-fw"></i>  Sign-Out</a><br><br>
   </div>
@@ -51,34 +51,34 @@
 
 <script>
     //Highlighting the active sidebar option.
-    var tempURL = window.location.pathname;
-    tempURL = tempURL.split("/");
+    var tempURL = window.location.href;
+    tempURL = tempURL.split("=");
 
-    if(tempURL[tempURL.length - 1] == "dashboard.php")
+    if(tempURL[1] == "home")
     {
         document.getElementById('homeBar').className += " w3-blue";
     }
-    else if(tempURL[tempURL.length - 1] == "connections.php")
+    else if(tempURL[1] == "connections")
     {
         document.getElementById('connectionsBar').className += " w3-blue";
     }
-    else if(tempURL[tempURL.length - 1] == "workflows.php")
+    else if(tempURL[1] == "workflows")
     {
         document.getElementById('workflowsBar').className += " w3-blue";
     }
-    else if(tempURL[tempURL.length - 1] == "history.php")
+    else if(tempURL[1] == "history")
     {
         document.getElementById('historyBar').className += " w3-blue";
     }
-    else if(tempURL[tempURL.length - 1] == "settings.php")
+    else if(tempURL[1] == "settings")
     {
         document.getElementById('settingsBar').className += " w3-blue";
     }
-    else if(tempURL[tempURL.length - 1] == "search.php")
+    else if(tempURL[1] == "search")
     {
         document.getElementById('searchBar').className += " w3-blue";
     }
-    else if(tempURL[tempURL.length - 1] == "create.php")
+    else if(tempURL[1] == "create")
     {
         document.getElementById('createBar').className += " w3-blue";
     }
