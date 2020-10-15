@@ -12,8 +12,39 @@
     }
     include_once('./backend/util.php');
     include_once('./backend/db_connector.php');
-?>
 
+    if(isset($_POST['remove'])) {
+        $removeType = mysqli_real_escape_string($db_conn, $_POST['removeType']);
+        $removeData = mysqli_real_escape_string($db_conn, $_POST['removeData']);
+
+        if($removeType == "user")
+        {
+            $sql = "DELETE FROM " . $GLOBALS['accounts'] . " WHERE email = '$removeData'";
+        }
+        else if($removeType == "course")
+        {
+            $removeData = explode(" ", $removeData);
+            $sql = "DELETE FROM f20_course_numbers WHERE course_number = '$removeData[1]' AND dept_code = '$removeData[0]'";
+            $temp = $removeData[0] . " " . $removeData[1];
+            $removeData = $temp;
+        }
+        else if($removeType == "department")
+        {
+            $sql = "DELETE FROM f20_academic_dept_info WHERE dept_code = '$removeData'";
+        }
+        else if($removeType == "workflow")
+        {
+            $sql = "DELETE FROM f20_application_info WHERE fw_id = '$removeData'";
+        }
+
+        if ($db_conn->query($sql) === TRUE) {
+            echo("<div class='w3-panel w3-margin w3-green'><p>Successfully Removed " . $removeData . "</p></div>");
+        } 
+        else {
+            echo("<div class='w3-panel w3-margin w3-red'><p>Error removing record: " . $db_conn->error . "</p></div>");
+        }
+    }
+?>
 <!-- Content Title -->
 <header class="w3-container" style="padding-top:22px">
     <h5><b><i class="fa fa-search"></i>  Admin Search Tool</b></h5>
@@ -81,7 +112,10 @@
             <td><?php echo $course; ?></td>
             <td><?php echo $semester; ?></td>
             <td><?php echo $status; ?></td>
-            <td><a class="w3-button" href="."<?php echo $wfID; ?>">Edit</a></button></td>
+            <td>
+                <a class="w3-button w3-green">Edit</a>
+                <a class="w3-button w3-red" onclick="removeEntry('workflow', '<?php echo $wfID ?>')">Remove</a>
+            </td>
         </tr>
         <?php } ?>
     </table>
@@ -118,7 +152,10 @@
             <td><?php echo $chair; ?></td>
             <td><?php echo $dean; ?></td>
             <td><?php echo $secretary; ?></td>
-            <td><a class="w3-button" href="./editdepartment.php?department=<?php echo $code; ?>">Edit</a></button></td>
+            <td>
+                <a class="w3-button w3-green">Edit</a>
+                <a class="w3-button w3-red" onclick="removeEntry('department', '<?php echo $code ?>')">Remove</a>
+            </td>
         </tr>
         <?php } ?>
     </table>
@@ -141,14 +178,17 @@
             $query = mysqli_query($db_conn, $sql);
             while ($row = mysqli_fetch_assoc($query)) {
                 $dept = $row['dept_code'];
-                $number = $row["course_number"];
+                $number = $row['course_number'];
                 $id = $row['id'];
                 
         ?>
         <tr>
             <td><?php echo $dept; ?></td>
             <td><?php echo $number; ?></td>
-            <td><a class="w3-button" href="./editcourse.php?department=<?php echo $dept; ?>&course=<?php echo $number; ?>">Edit</a></button></td>
+            <td>
+                <a class="w3-button w3-green">Edit</a>
+                <a class="w3-button w3-red" onclick="removeEntry('course', '<?php echo $dept . " " . $number ?>')">Remove</a>
+            </td>
         </tr>
         <?php } ?>
     </table>
@@ -159,7 +199,7 @@
     <button class="w3-button w3-right w3-blue" type="button" onclick="window.location.href='./dashboard.php?content=create'">Create User</button>
     <h5>User Search</h5>
     <p>You may search by ID or Email</p>
-    <input type="text" id="courseInput" onkeyup="search('userTable', 'userInput')"></input>
+    <input type="text" id="userInput" onkeyup="search('userTable', 'userInput')"></input>
     <table id="userTable" class="pagination w3-table-all w3-responsive" data-pagecount="8" style="max-width:fit-content;">
         <tr>
             <th class="w3-center">Name</th>
@@ -169,7 +209,7 @@
             <th class="w3-center">Action</th>
         </tr>
         <?php
-            $sql = "SELECT * FROM f20_userpass";
+            $sql = "SELECT * FROM f20_UserPass";
             $query = mysqli_query($db_conn, $sql);
             while ($row = mysqli_fetch_assoc($query)) {
                 $userEmail = $row['email'];
@@ -181,11 +221,47 @@
             <td><?php echo $userEmail; ?></td>
             <td><?php echo $userType; ?></td>
             <td><?php echo $lastAccess; ?></td>
-            <td><a class="w3-button" href=".">Edit</a></button></td>
+            <td>
+                <a class="w3-button w3-green">Edit</a>
+                <a class="w3-button w3-red" onclick="removeEntry('user', '<?php echo $userEmail ?>')">Remove</a>
+            </td>
         </tr>
         <?php } ?>
     </table>
 </div>
+
+
+
+<!-- Modal Pop-up to warn of deletion -->
+<div id="warningHolder" class="w3-modal w3-center">
+    <div class="w3-modal-content">
+        <div class="w3-container w3-red">
+            <p>Warning!!</p>
+            <p>A 'Remove' can not be undone!</p>
+            <p>Are you sure?
+                <br>
+                <form method="post" action="./dashboard.php?content=search">
+                    <input id="removeType" name="removeType" type="hidden">
+                    <input id="removeData" name="removeData" type="hidden">
+                    <button type="submit" name="remove">Yes</button>
+                    <button type="button" onclick="document.getElementById('warningHolder').style.display='none'">No</button>
+                </form>
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Remove from database Script -->
+<script>
+    function removeEntry(entryType, entry)
+    {
+        //Display the warning modal.
+        document.getElementById('warningHolder').style.display='block';
+        //Replace hidden input data to prepare for if the user chooses to submit.
+        document.getElementById('removeType').value = entryType;
+        document.getElementById('removeData').value = entry;
+    }
+</script>
 
 <!-- Table Pagination Script -->
 <script>
