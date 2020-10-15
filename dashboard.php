@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- The workflows page requires the custom styles for the status bar -->
+    <link rel="stylesheet" href="css/workflowProgress.css">
 </head>
 <style>
     html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
@@ -74,6 +76,29 @@
         else if($_GET['content'] == "workflows")
         {
             include_once("./components/userfunctions/workflows.php");
+        }
+        else if($_GET['content'] == "view")
+        {
+            if($_GET['contentType'] == "user")
+            {
+                include_once("./components/userfunctions/view/viewUser.php");
+            }
+            if($_GET['contentType'] == "workflow")
+            {
+                include_once("./components/userfunctions/view/viewWorkflow.php");
+            }
+            if($_GET['contentType'] == "department")
+            {
+                include_once("./components/userfunctions/view/viewDepartment.php");
+            }
+            if($_GET['contentType'] == "course")
+            {
+                include_once("./components/userfunctions/view/viewCourse.php");
+            }
+        }
+        else if($_GET['content'] == "viewWorkflow")
+        {
+            include_once("./components/userfunctions/viewWorkflow.php");
         }
     ?>
         <?php include_once('./components/footer.php'); ?>

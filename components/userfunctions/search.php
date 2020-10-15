@@ -12,39 +12,8 @@
     }
     include_once('./backend/util.php');
     include_once('./backend/db_connector.php');
-
-    if(isset($_POST['remove'])) {
-        $removeType = mysqli_real_escape_string($db_conn, $_POST['removeType']);
-        $removeData = mysqli_real_escape_string($db_conn, $_POST['removeData']);
-
-        if($removeType == "user")
-        {
-            $sql = "DELETE FROM " . $GLOBALS['accounts'] . " WHERE email = '$removeData'";
-        }
-        else if($removeType == "course")
-        {
-            $removeData = explode(" ", $removeData);
-            $sql = "DELETE FROM f20_course_numbers WHERE course_number = '$removeData[1]' AND dept_code = '$removeData[0]'";
-            $temp = $removeData[0] . " " . $removeData[1];
-            $removeData = $temp;
-        }
-        else if($removeType == "department")
-        {
-            $sql = "DELETE FROM f20_academic_dept_info WHERE dept_code = '$removeData'";
-        }
-        else if($removeType == "workflow")
-        {
-            $sql = "DELETE FROM f20_application_info WHERE fw_id = '$removeData'";
-        }
-
-        if ($db_conn->query($sql) === TRUE) {
-            echo("<div class='w3-panel w3-margin w3-green'><p>Successfully Removed " . $removeData . "</p></div>");
-        } 
-        else {
-            echo("<div class='w3-panel w3-margin w3-red'><p>Error removing record: " . $db_conn->error . "</p></div>");
-        }
-    }
 ?>
+
 <!-- Content Title -->
 <header class="w3-container" style="padding-top:22px">
     <h5><b><i class="fa fa-search"></i>  Admin Search Tool</b></h5>
@@ -113,8 +82,8 @@
             <td><?php echo $semester; ?></td>
             <td><?php echo $status; ?></td>
             <td>
-                <a class="w3-button w3-green">Edit</a>
-                <a class="w3-button w3-red" onclick="removeEntry('workflow', '<?php echo $wfID ?>')">Remove</a>
+                <button class="w3-button w3-green">Edit</button>
+                <button class="w3-button w3-red" onclick="removeEntry('workflow', '<?php echo $wfID ?>')">Remove</button>
             </td>
         </tr>
         <?php } ?>
@@ -153,8 +122,8 @@
             <td><?php echo $dean; ?></td>
             <td><?php echo $secretary; ?></td>
             <td>
-                <a class="w3-button w3-green">Edit</a>
-                <a class="w3-button w3-red" onclick="removeEntry('department', '<?php echo $code ?>')">Remove</a>
+                <button class="w3-button w3-green">Edit</button>
+                <button class="w3-button w3-red" onclick="removeEntry('department', '<?php echo $code ?>')">Remove</button>
             </td>
         </tr>
         <?php } ?>
@@ -186,8 +155,8 @@
             <td><?php echo $dept; ?></td>
             <td><?php echo $number; ?></td>
             <td>
-                <a class="w3-button w3-green">Edit</a>
-                <a class="w3-button w3-red" onclick="removeEntry('course', '<?php echo $dept . " " . $number ?>')">Remove</a>
+                <button class="w3-button w3-green">Edit</button>
+                <button type="button" class="w3-button w3-red" onclick="removeEntry('course', '<?php echo $dept . ' ' . $number ?>')">Remove</button>
             </td>
         </tr>
         <?php } ?>
@@ -209,8 +178,9 @@
             <th class="w3-center">Action</th>
         </tr>
         <?php
-            $sql = "SELECT * FROM f20_UserPass";
+            $sql = "SELECT * FROM " . $GLOBALS['accounts'];
             $query = mysqli_query($db_conn, $sql);
+            $rowNum = 1;
             while ($row = mysqli_fetch_assoc($query)) {
                 $userEmail = $row['email'];
                 $userType = $row['profile_type'];
@@ -222,46 +192,15 @@
             <td><?php echo $userType; ?></td>
             <td><?php echo $lastAccess; ?></td>
             <td>
-                <a class="w3-button w3-green">Edit</a>
-                <a class="w3-button w3-red" onclick="removeEntry('user', '<?php echo $userEmail ?>')">Remove</a>
+                <form method="post" action="./dashboard.php?content=view&contentType=user">
+                    <input type="hidden" name="userEmail" value="<?php echo $userEmail;?>">
+                    <button type="submit" name="viewUser" class="w3-button w3-blue">View</button>
+                </form>
             </td>
         </tr>
-        <?php } ?>
+        <?php $rowNum++; } ?>
     </table>
 </div>
-
-
-
-<!-- Modal Pop-up to warn of deletion -->
-<div id="warningHolder" class="w3-modal w3-center">
-    <div class="w3-modal-content">
-        <div class="w3-container w3-red">
-            <p>Warning!!</p>
-            <p>A 'Remove' can not be undone!</p>
-            <p>Are you sure?
-                <br>
-                <form method="post" action="./dashboard.php?content=search">
-                    <input id="removeType" name="removeType" type="hidden">
-                    <input id="removeData" name="removeData" type="hidden">
-                    <button type="submit" name="remove">Yes</button>
-                    <button type="button" onclick="document.getElementById('warningHolder').style.display='none'">No</button>
-                </form>
-            </p>
-        </div>
-    </div>
-</div>
-
-<!-- Remove from database Script -->
-<script>
-    function removeEntry(entryType, entry)
-    {
-        //Display the warning modal.
-        document.getElementById('warningHolder').style.display='block';
-        //Replace hidden input data to prepare for if the user chooses to submit.
-        document.getElementById('removeType').value = entryType;
-        document.getElementById('removeData').value = entry;
-    }
-</script>
 
 <!-- Table Pagination Script -->
 <script>
@@ -359,6 +298,7 @@
 </script>
 
 <!-- Table Filter/Search Script -->
+<!-- Need to enable search on more than just the first column.-->
 <script>
     function search(tableID, inputID) {
         // Declare variables

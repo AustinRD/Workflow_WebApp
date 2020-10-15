@@ -74,7 +74,7 @@
     {
         document.getElementById('settingsBar').className += " w3-blue";
     }
-    else if(tempURL[1] == "search")
+    else if(tempURL[1] == "search" || tempURL[1] == "view&contentType")
     {
         document.getElementById('searchBar').className += " w3-blue";
     }
@@ -102,7 +102,7 @@
 
     // Close the sidebar with the close button
     function w3_close() {
-    mySidebar.style.display = "none";
-    overlayBg.style.display = "none";
+      mySidebar.style.display = "none";
+      overlayBg.style.display = "none";
     }
 </script>
