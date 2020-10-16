@@ -1,9 +1,139 @@
 <?php
-    $user = mysqli_real_escape_string($db_conn, $_POST['userEmail']);
-    $sql = "SELECT * FROM " . $GLOBALS['accounts'] . " WHERE email = '$user'";
+    if(!isset($_SESSION)) {
+        session_start();
+    }
+    //User has not signed in.
+    if(!isset($_SESSION['user_type'])) {
+        echo "<div class='w3-panel w3-margin w3-red'><p>Session Expired, Please sign in again.</p></div>";
+        exit();
+    }
+    //User is not an admin.
+    if(!($_SESSION['user_type'] == 'admin')){
+        echo "<div class='w3-panel w3-margin w3-red'><p>Error! You do not have permission to access this information.</p></div>";
+        exit();
+    }
+    //Course ID was not sent to the page.
+    if(!isset($_POST['courseNumber'])) {
+        echo "<div class='w3-panel w3-margin w3-red'><p>Error! No course recieved</p></div>";
+        exit();
+    }
+    else {
+        include_once('./backend/util.php');
+        include_once('./backend/db_connector.php');
+        //Gather data passed to this page.
+        $department = mysqli_real_escape_string($db_conn, $_POST['department']);
+        $courseNumber = mysqli_real_escape_string($db_conn, $_POST['courseNumber']);
+        
 
+        //User chose to remove entry.
+        if(isset($_POST['remove'])) {
+            $sql = "DELETE FROM f20_course_numbers WHERE dept_code = '$department' AND course_number = $courseNumber";
+            if ($db_conn->query($sql) === TRUE) {
+                echo("<div class='w3-panel w3-margin w3-green'><p>Successfully Removed " . $department . "</p></div>");
+            } 
+            else {
+                echo("<div class='w3-panel w3-margin w3-red'><p>Error removing record: " . $db_conn->error . "</p></div>");
+            }
+        }
+        else {
+            //Find all data related to the department.
+            $sql = "SELECT * FROM f20_course_numbers WHERE dept_code = '$department' AND course_number = '$courseNumber'";
+            $query = mysqli_query($db_conn, $sql);
+            $course = mysqli_fetch_assoc($query);
 ?>
 
+<!-- Content Title -->
+<header class="w3-container" style="padding-top:22px">
+    <h5><b><i class="fa fa-search"></i>  Admin View Tool</b></h5>
+</header>
 
-<!-- Course Information -->
+<!-- Department Information -->
+<div id="departmentForm" class="w3-card-4 w3-padding w3-margin">
+    <div class="w3-right" id="actionButtons">
+        <button type="button" class="w3-button w3-blue" name="departmentCreate" style="margin-right: 5px;" onclick="enableEdit()">Edit</button>
+        <button type="button" class="w3-button w3-red" name="departmentCreate" onclick="removeEntry('department', '<?php echo $department ?>')">Remove</button>
+    </div>
 
+    <h5>Course:</h5>
+    <form method="post" action="./dashboard?content=view&contentType=department">
+        <label for="wfID">Course Name:</label>
+        <input id="wfID" name="wfID" type="text" class="w3-input" value="" readonly>
+        <br>
+        <label for="type">Department:</label>
+        <input id="banner" name="banner" type="text" class="w3-input" value="<?php echo $department; ?>" readonly>
+        <br>
+        <label for="initiator">Course Number:</label>
+        <input id="initiator" name="initiator" type="text" class="w3-input" value="<?php echo $course['course_number']; ?>" readonly>
+        <br>
+        <div id="editButtons" style="display: none;">
+            <button type="submit" class="w3-button w3-blue" name="departmentCreate">Save</button>
+            <button type="button" class="w3-button w3-red" onclick="disableEdit()">Cancel</button>
+        </div>
+    </form>
+</div>
+
+<!-- Instructor -->
+
+
+<!-- Modal Pop-up to warn of deletion -->
+<div id="warningHolder" class="w3-modal w3-center">
+    <div class="w3-modal-content">
+        <div class="w3-container w3-red">
+            <p>Warning!!</p>
+            <p>A 'Remove' can not be undone!</p>
+            <p>Are you sure?
+                <br>
+                <form method="post" action="./dashboard.php?content=view&contentType=department">
+                    <input id="removeType" name="removeType" type="hidden">
+                    <input id="removeData" name="department" type="hidden">
+                    <button type="submit" name="remove">Yes</button>
+                    <button type="button" onclick="document.getElementById('warningHolder').style.display='none'">No</button>
+                </form>
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Remove from database Script -->
+<script>
+    function removeEntry(entryType, entry)
+    {
+        //Display the warning modal.
+        document.getElementById('warningHolder').style.display='block';
+        //Replace hidden input data to prepare for if the user chooses to submit.
+        document.getElementById('removeType').value = entryType;
+        document.getElementById('removeData').value = entry;
+    }
+</script>
+
+<!-- Enable/Disable table editing Script -->
+<script>
+    function enableEdit()
+    {
+        //Disable readonly on inputs.
+        var inputs = document.querySelectorAll(".w3-input");
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].readOnly=false;
+        }
+        //Hide the edit and remove buttons.
+        document.getElementById("actionButtons").style.display = "none";
+        //Show the save and cancel buttons.
+        document.getElementById("editButtons").style.display = "inline-block";
+    }
+    function disableEdit()
+    {
+        //Re-enable readonly on all inputs.
+        var inputs = document.querySelectorAll(".w3-input");
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].readOnly=true;
+        }
+        //Hide the save and cancel buttons.
+        document.getElementById("editButtons").style.display = "none";
+        //Show the edit and remove buttons.
+        document.getElementById("actionButtons").style.display = "inline-block";
+    }
+</script>
+
+<?php }
+    }
+?>

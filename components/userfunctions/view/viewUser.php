@@ -26,7 +26,6 @@
     $lastAccess = $row['last_access'];
 ?>
 
-
 <!-- Content Title -->
 <header class="w3-container" style="padding-top:22px">
     <h5><b><i class="fa fa-search"></i>  Admin View Tool</b></h5>
@@ -70,7 +69,6 @@
 </div>
 
 <!-- Workflows -->
-
 <div id="userForm" class="w3-card-4 w3-padding w3-margin">
     <h5>Workflows:</h5>
     <form method="post" action="./dashboard?content=view&contentType=user">
@@ -109,8 +107,4 @@
         }
     ?>
     </form>
-</div>
-<div class="w3-container">
-    <!-- Getting the current user's workflows from the database and printing them in a preview. -->
-    
 </div>

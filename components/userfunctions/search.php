@@ -82,8 +82,10 @@
             <td><?php echo $semester; ?></td>
             <td><?php echo $status; ?></td>
             <td>
-                <button class="w3-button w3-green">Edit</button>
-                <button class="w3-button w3-red" onclick="removeEntry('workflow', '<?php echo $wfID ?>')">Remove</button>
+                <form method="post" action="./dashboard.php?content=view&contentType=workflow">
+                    <input type="hidden" name="workflowID" value="<?php echo $wfID;?>">
+                    <button type="submit" name="viewWorkflow" class="w3-button w3-blue">View</button>
+                </form>
             </td>
         </tr>
         <?php } ?>
@@ -122,8 +124,10 @@
             <td><?php echo $dean; ?></td>
             <td><?php echo $secretary; ?></td>
             <td>
-                <button class="w3-button w3-green">Edit</button>
-                <button class="w3-button w3-red" onclick="removeEntry('department', '<?php echo $code ?>')">Remove</button>
+                <form method="post" action="./dashboard.php?content=view&contentType=department">
+                    <input type="hidden" name="department" value="<?php echo $code;?>">
+                    <button type="submit" name="viewDepartment" class="w3-button w3-blue">View</button>
+                </form>
             </td>
         </tr>
         <?php } ?>
@@ -147,16 +151,18 @@
             $query = mysqli_query($db_conn, $sql);
             while ($row = mysqli_fetch_assoc($query)) {
                 $dept = $row['dept_code'];
-                $number = $row['course_number'];
+                $courseNumber = $row['course_number'];
                 $id = $row['id'];
-                
         ?>
         <tr>
             <td><?php echo $dept; ?></td>
-            <td><?php echo $number; ?></td>
+            <td><?php echo $courseNumber; ?></td>
             <td>
-                <button class="w3-button w3-green">Edit</button>
-                <button type="button" class="w3-button w3-red" onclick="removeEntry('course', '<?php echo $dept . ' ' . $number ?>')">Remove</button>
+                <form method="post" action="./dashboard.php?content=view&contentType=course">
+                    <input type="hidden" name="department" value="<?php echo $dept;?>">
+                    <input type="hidden" name="courseNumber" value="<?php echo $courseNumber;?>">
+                    <button type="submit" name="viewCourse" class="w3-button w3-blue">View</button>
+                </form>
             </td>
         </tr>
         <?php } ?>
@@ -180,7 +186,6 @@
         <?php
             $sql = "SELECT * FROM " . $GLOBALS['accounts'];
             $query = mysqli_query($db_conn, $sql);
-            $rowNum = 1;
             while ($row = mysqli_fetch_assoc($query)) {
                 $userEmail = $row['email'];
                 $userType = $row['profile_type'];
@@ -198,7 +203,7 @@
                 </form>
             </td>
         </tr>
-        <?php $rowNum++; } ?>
+        <?php } ?>
     </table>
 </div>
 

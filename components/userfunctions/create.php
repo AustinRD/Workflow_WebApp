@@ -138,17 +138,20 @@
 <div id="departmentForm" class="w3-card-4 w3-padding w3-margin" style="display: none;">
     <h5>Create Department</h5>
     <form method="POST">
-        <label for="dept_name">Department name</label>
-        <input id="dept_name" name="deptname" type="text" class="w3-input">
+        <label for="dept_name">Department Name <span style="color: red;">(Required)</span></label>
+        <input id="dept_name" name="deptname" type="text" class="w3-input" required>
         <br>
-        <label for="dept">Department code</label>
-        <input id="dept" name="deptcode" maxlength='3' type="text" class="w3-input">
+        <label for="dept">Department Code <span style="color: red;">(Required)</span></label>
+        <input id="dept" name="deptcode" maxlength='3' type="text" class="w3-input" required>
         <br>
-        <label for="deptemail">Department Email</label>
-        <input id="deptemail" name="deptemail" type="email" class="w3-input">
+        <label for="deanEmail">Dean Email <span style="color: red;">(Required)</span></label>
+        <input id="deanEmail" name="deanEmail" type="email" class="w3-input" required>
         <br>
-        <label for="deptsecemail">Department Secretary Email</label>
-        <input id="deptsecemail" name="deptsecemail" type="text" class="w3-input">
+        <label for="deptsecemail">Chair Email</label>
+        <input id="deptsecemail" name="deptemail" type="text" class="w3-input">
+        <br>
+        <label for="deptsecemail">Secretary Email <span style="color: red;">(Required)</span></label>
+        <input id="deptsecemail" name="deptsecemail" type="text" class="w3-input" required>
         
         <p><Strong>Permissions</Strong></p>
             <p>Instructors:<br>

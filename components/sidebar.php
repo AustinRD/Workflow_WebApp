@@ -27,7 +27,7 @@
     <a href="./dashboard.php?content=connections" id="connectionsBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  Connections</a>
     <a href="./dashboard.php?content=workflows" id="workflowsBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-share-alt fa-fw"></i>  Workflows</a>
     <a href="./dashboard.php?content=history" id="historyBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-history fa-fw"></i>  History</a>
-    <a href="./settings.php" id="settingsBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-cog fa-fw"></i>  Settings</a>
+    <a href="./dashboard.php?content=settings" id="settingsBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-cog fa-fw"></i>  Settings</a>
     <a href="./util/logout.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-sign-out fa-fw"></i>  Sign-Out</a><br><br>
   </div>
   <?php } ?>
@@ -40,7 +40,7 @@
     <a href="./dashboard.php?content=search" id="searchBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-search fa-fw"></i>  Search</a>
     <a href="./dashboard.php?content=create" id="createBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-plus fa-fw"></i>  Create</a>
     <a href="./dashboard.php?content=messages" id="messagesBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-comment fa-fw"></i>  Messages</a>
-    <a href="./settings.php" id="settingsBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-cog fa-fw"></i>  Settings</a>
+    <a href="./dashboard.php?content=settings" id="settingsBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-cog fa-fw"></i>  Settings</a>
     <a href="./util/logout.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-sign-out fa-fw"></i>  Sign-Out</a><br><br>
   </div>
   <?php } ?>
