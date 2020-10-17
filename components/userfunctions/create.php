@@ -49,10 +49,10 @@
 
 <?php
     if (isset($_POST['courseCreate'])) {
-        $dept = mysqli_real_escape_string($db_conn, $_POST['dept']);
+        $deptCode = mysqli_real_escape_string($db_conn, $_POST['deptCode']);
         $class = mysqli_real_escape_string($db_conn, $_POST['classnumber']);
 
-        $insertclass = "INSERT INTO f20_course_numbers (dept_code, course_number) VALUES ('$dept', '$class')";
+        $insertclass = "INSERT INTO f20_course_numbers (dept_code, course_number) VALUES ('$deptCode', '$class')";
         $insertclassquery = mysqli_query($db_conn, $insertclass);
 
         //Database insert success
@@ -102,12 +102,13 @@
         }
     }
     else if (isset($_POST['departmentCreate'])) {
-        $deptname = mysqli_real_escape_string($db_conn, $_POST['deptname']);
-        $deptcode = mysqli_real_escape_string($db_conn, $_POST['deptcode']);
-        $deptemail = mysqli_real_escape_string($db_conn, $_POST['deptemail']);
-        $deptsecemail = mysqli_real_escape_string($db_conn, $_POST['deptsecemail']);
+        $deptName = mysqli_real_escape_string($db_conn, $_POST['deptName']);
+        $deptCode = mysqli_real_escape_string($db_conn, $_POST['deptCode']);
+        $deanEmail = mysqli_real_escape_string($db_conn, $_POST['deanEmail']);
+        $chairEmail = mysqli_real_escape_string($db_conn, $_POST['chairEmail']);
+        $secretaryEmail = mysqli_real_escape_string($db_conn, $_POST['secretaryEmail']);
 
-        $insertDeptSQL = "INSERT INTO f20_academic_dept_info (dept_code, dept_name, dean_email, secretary_email) VALUES ('$deptcode', '$deptname', '$deptemail', '$deptsecemail')";
+        $insertDeptSQL = "INSERT INTO f20_academic_dept_info (dept_code, dept_name, dean_email, secretary_email) VALUES ('$deptCode', '$deptName', '$deanEmail', '$secretaryEmail')";
         $insertDeptQuery = mysqli_query($db_conn, $insertDeptSQL);
 
         //Database insert success
@@ -115,7 +116,7 @@
             echo("<div class='w3-panel w3-margin w3-green'><p>Department Successfully Created.</p></div>");
             $defaultWorkflow = array(0 => 'Student', 1 => 'Instructor', 2 => 'Employer', 3 => 'Chair', 4 => 'Dean', 5 => 'Records&Registration');
             $defaultWorkflow = serialize($defaultWorkflow);
-            $insertWorkflowSQL = "INSERT INTO f20_workflow_order(dept_code, workflow) VALUES ('$deptcode','$defaultWorkflow')";
+            $insertWorkflowSQL = "INSERT INTO f20_workflow_order(dept_code, workflow) VALUES ('$deptCode','$defaultWorkflow')";
             $insertWorkflowQuery = mysqli_query($db_conn, $insertWorkflowSQL);
         } 
         //Database detected duplicate entry
@@ -138,20 +139,20 @@
 <div id="departmentForm" class="w3-card-4 w3-padding w3-margin" style="display: none;">
     <h5>Create Department</h5>
     <form method="POST">
-        <label for="dept_name">Department Name <span style="color: red;">(Required)</span></label>
-        <input id="dept_name" name="deptname" type="text" class="w3-input" required>
+        <label for="deptName">Department Name</label>
+        <input id="deptName" name="deptName" type="text" class="w3-input">
         <br>
-        <label for="dept">Department Code <span style="color: red;">(Required)</span></label>
-        <input id="dept" name="deptcode" maxlength='3' type="text" class="w3-input" required>
+        <label for="deptCode">Department Code</label>
+        <input id="deptCode" name="deptCode" maxlength='3' type="text" class="w3-input">
         <br>
-        <label for="deanEmail">Dean Email <span style="color: red;">(Required)</span></label>
-        <input id="deanEmail" name="deanEmail" type="email" class="w3-input" required>
+        <label for="deanEmail">Dean Email</label>
+        <input id="deanEmail" name="deanEmail" type="email" class="w3-input">
         <br>
-        <label for="deptsecemail">Chair Email</label>
-        <input id="deptsecemail" name="deptemail" type="text" class="w3-input">
+        <label for="chairEmail">Chair Email</label>
+        <input id="chairEmail" name="chairEmail" type="text" class="w3-input">
         <br>
-        <label for="deptsecemail">Secretary Email <span style="color: red;">(Required)</span></label>
-        <input id="deptsecemail" name="deptsecemail" type="text" class="w3-input" required>
+        <label for="secretaryEmail">Secretary Email</label>
+        <input id="secretaryEmail" name="secretaryEmail" type="text" class="w3-input">
         
         <p><Strong>Permissions</Strong></p>
             <p>Instructors:<br>
@@ -212,15 +213,15 @@
     <h5>Create Course</h5>
     <form method="post" action="./dashboard.php?content=create">
         <label for="type">Department</label>
-        <select id="type" name="dept" class="w3-input" required>
+        <select id="type" name="deptCode" class="w3-input" required>
             <?php
                 $sql = "SELECT * FROM f20_academic_dept_info ORDER BY dept_code ASC";
                 $deptquery  = mysqli_query($db_conn, $sql);
                 $r = mysqli_num_rows($deptquery);
                 if ($r > 0) {
                     while ($result = mysqli_fetch_assoc($deptquery)) {
-                        $deptcode = $result['dept_code'];
-                        echo("<option value=" . $deptcode . ">" . $deptcode . "</option>");
+                        $deptCode = $result['dept_code'];
+                        echo("<option value=" . $deptCode . ">" . $deptCode . "</option>");
                     }
                 }
             ?>

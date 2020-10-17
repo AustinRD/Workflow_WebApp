@@ -20,10 +20,11 @@
     else {
         include_once('./backend/util.php');
         include_once('./backend/db_connector.php');
+
         //Gather data passed to this page.
         $department = mysqli_real_escape_string($db_conn, $_POST['department']);
 
-        //User chose to remove entry.
+        //User chooses to remove department.
         if(isset($_POST['remove'])) {
             $sql = "DELETE FROM f20_academic_dept_info WHERE dept_code = '$department'";
             if ($db_conn->query($sql) === TRUE) {
@@ -37,7 +38,7 @@
             //Find all data related to the department.
             $sql = "SELECT * FROM f20_academic_dept_info WHERE dept_code = '$department'";
             $query = mysqli_query($db_conn, $sql);
-            $dept = mysqli_fetch_assoc($query);
+            $row = mysqli_fetch_assoc($query);
 ?>
 
 <!-- Content Title -->
@@ -48,29 +49,29 @@
 <!-- Department Information -->
 <div id="departmentForm" class="w3-card-4 w3-padding w3-margin">
     <div class="w3-right" id="actionButtons">
-        <button type="button" class="w3-button w3-blue" name="departmentCreate" style="margin-right: 5px;" onclick="enableEdit()">Edit</button>
-        <button type="button" class="w3-button w3-red" name="departmentCreate" onclick="removeEntry('department', '<?php echo $department ?>')">Remove</button>
+        <button type="button" class="w3-button w3-blue" name="editDepartment" style="margin-right: 5px;" onclick="enableEdit()">Edit</button>
+        <button type="button" class="w3-button w3-red" name="removeDepartment" onclick="removeEntry('<?php echo $department ?>')">Remove</button>
     </div>
 
     <h5>Department:</h5>
     <form method="post" action="./dashboard?content=view&contentType=department">
-        <label for="wfID">Department Name:</label>
-        <input id="wfID" name="wfID" type="text" class="w3-input" value="<?php echo $dept['dept_name']; ?>" readonly>
+        <label for="deptName">Department Name:</label>
+        <input id="deptName" name="deptName" type="text" class="w3-input" value="<?php echo $row['dept_name']; ?>" readonly>
         <br>
-        <label for="type">Department Code:</label>
-        <input id="banner" name="banner" type="text" class="w3-input" value="<?php echo $department; ?>" readonly>
+        <label for="deptCode">Department Code:</label>
+        <input id="deptCode" name="deptCode" type="text" class="w3-input" value="<?php echo $department; ?>" readonly>
         <br>
-        <label for="initiator">Dean:</label>
-        <input id="initiator" name="initiator" type="email" class="w3-input" value="<?php echo $dept['dean_email']; ?>" readonly>
+        <label for="deanEmail">Dean:</label>
+        <input id="deanEmail" name="deanEmail" type="email" class="w3-input" value="<?php echo $row['dean_email']; ?>" readonly>
         <br>
-        <label for="banner">Chair:</label>
-        <input id="banner" name="banner" type="text" class="w3-input" value="<?php echo $dept['chair_email']; ?>" readonly>
+        <label for="chairEmail">Chair:</label>
+        <input id="chairEmail" name="chairEmail" type="email" class="w3-input" value="<?php echo $row['chair_email']; ?>" readonly>
         <br>
-        <label for="type">Secretary:</label>
-        <input id="banner" name="banner" type="text" class="w3-input" value="<?php echo $dept['secretary_email']; ?>" readonly>
+        <label for="secretaryEmail">Secretary:</label>
+        <input id="secretaryEmail" name="secretaryEmail" type="email" class="w3-input" value="<?php echo $row['secretary_email']; ?>" readonly>
         <br>
         <div id="editButtons" style="display: none;">
-            <button type="submit" class="w3-button w3-blue" name="departmentCreate">Save</button>
+            <button type="submit" class="w3-button w3-blue" name="saveDepartmentChanges">Save</button>
             <button type="button" class="w3-button w3-red" onclick="disableEdit()">Cancel</button>
         </div>
     </form>
@@ -126,7 +127,6 @@
             <p>Are you sure?
                 <br>
                 <form method="post" action="./dashboard.php?content=view&contentType=department">
-                    <input id="removeType" name="removeType" type="hidden">
                     <input id="removeData" name="department" type="hidden">
                     <button type="submit" name="remove">Yes</button>
                     <button type="button" onclick="document.getElementById('warningHolder').style.display='none'">No</button>
@@ -138,13 +138,12 @@
 
 <!-- Remove from database Script -->
 <script>
-    function removeEntry(entryType, entry)
+    function removeEntry(department)
     {
         //Display the warning modal.
         document.getElementById('warningHolder').style.display='block';
         //Replace hidden input data to prepare for if the user chooses to submit.
-        document.getElementById('removeType').value = entryType;
-        document.getElementById('removeData').value = entry;
+        document.getElementById('removeData').value = department;
     }
 </script>
 

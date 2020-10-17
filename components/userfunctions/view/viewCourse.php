@@ -20,26 +20,26 @@
     else {
         include_once('./backend/util.php');
         include_once('./backend/db_connector.php');
+
         //Gather data passed to this page.
         $department = mysqli_real_escape_string($db_conn, $_POST['department']);
         $courseNumber = mysqli_real_escape_string($db_conn, $_POST['courseNumber']);
-        
 
-        //User chose to remove entry.
+        //User chooses to remove entry.
         if(isset($_POST['remove'])) {
-            $sql = "DELETE FROM f20_course_numbers WHERE dept_code = '$department' AND course_number = $courseNumber";
+            $sql = "DELETE FROM f20_course_numbers WHERE dept_code = '$department' AND course_number = '$courseNumber'";
             if ($db_conn->query($sql) === TRUE) {
-                echo("<div class='w3-panel w3-margin w3-green'><p>Successfully Removed " . $department . "</p></div>");
+                echo("<div class='w3-panel w3-margin w3-green'><p>Successfully Removed " . $department . $courseNumber . "</p></div>");
             } 
             else {
                 echo("<div class='w3-panel w3-margin w3-red'><p>Error removing record: " . $db_conn->error . "</p></div>");
             }
         }
         else {
-            //Find all data related to the department.
+            //Find all data related to the course.
             $sql = "SELECT * FROM f20_course_numbers WHERE dept_code = '$department' AND course_number = '$courseNumber'";
             $query = mysqli_query($db_conn, $sql);
-            $course = mysqli_fetch_assoc($query);
+            $row = mysqli_fetch_assoc($query);
 ?>
 
 <!-- Content Title -->
@@ -50,23 +50,29 @@
 <!-- Department Information -->
 <div id="departmentForm" class="w3-card-4 w3-padding w3-margin">
     <div class="w3-right" id="actionButtons">
-        <button type="button" class="w3-button w3-blue" name="departmentCreate" style="margin-right: 5px;" onclick="enableEdit()">Edit</button>
-        <button type="button" class="w3-button w3-red" name="departmentCreate" onclick="removeEntry('department', '<?php echo $department ?>')">Remove</button>
+        <button type="button" class="w3-button w3-blue" name="editCourse" style="margin-right: 5px;" onclick="enableEdit()">Edit</button>
+        <button type="button" class="w3-button w3-red" name="removeCourse" onclick="removeEntry('<?php echo $courseNumber; ?>', '<?php echo $department; ?>')">Remove</button>
     </div>
 
     <h5>Course:</h5>
-    <form method="post" action="./dashboard?content=view&contentType=department">
-        <label for="wfID">Course Name:</label>
-        <input id="wfID" name="wfID" type="text" class="w3-input" value="" readonly>
+    <form method="post" action="./dashboard?content=view&contentType=course">
+        <label for="courseTitle">Course Title:</label>
+        <input id="courseTitle" name="courseTitle" type="text" class="w3-input" value="" readonly>
         <br>
-        <label for="type">Department:</label>
-        <input id="banner" name="banner" type="text" class="w3-input" value="<?php echo $department; ?>" readonly>
+        <label for="dept">Department:</label>
+        <input id="dept" name="dept" type="text" class="w3-input" value="<?php echo $department; ?>" readonly>
         <br>
-        <label for="initiator">Course Number:</label>
-        <input id="initiator" name="initiator" type="text" class="w3-input" value="<?php echo $course['course_number']; ?>" readonly>
+        <label for="courseNum">Course Number:</label>
+        <input id="courseNum" name="courseNum" type="text" class="w3-input" value="<?php echo $courseNumber; ?>" readonly>
+        <br>
+        <label for="section">Section:</label>
+        <input id="section" name="section" type="text" class="w3-input" value="" readonly>
+        <br>
+        <label for="instructor">Instructor:</label>
+        <input id="instructor" name="instructor" type="text" class="w3-input" value="" readonly>
         <br>
         <div id="editButtons" style="display: none;">
-            <button type="submit" class="w3-button w3-blue" name="departmentCreate">Save</button>
+            <button type="submit" class="w3-button w3-blue" name="saveCourseChanges">Save</button>
             <button type="button" class="w3-button w3-red" onclick="disableEdit()">Cancel</button>
         </div>
     </form>
@@ -83,9 +89,9 @@
             <p>A 'Remove' can not be undone!</p>
             <p>Are you sure?
                 <br>
-                <form method="post" action="./dashboard.php?content=view&contentType=department">
-                    <input id="removeType" name="removeType" type="hidden">
-                    <input id="removeData" name="department" type="hidden">
+                <form method="post" action="./dashboard.php?content=view&contentType=course">
+                    <input id="department" name="department" type="hidden">
+                    <input id="courseNumber" name="courseNumber" type="hidden">
                     <button type="submit" name="remove">Yes</button>
                     <button type="button" onclick="document.getElementById('warningHolder').style.display='none'">No</button>
                 </form>
@@ -96,13 +102,13 @@
 
 <!-- Remove from database Script -->
 <script>
-    function removeEntry(entryType, entry)
+    function removeEntry(courseNumber, department)
     {
         //Display the warning modal.
         document.getElementById('warningHolder').style.display='block';
         //Replace hidden input data to prepare for if the user chooses to submit.
-        document.getElementById('removeType').value = entryType;
-        document.getElementById('removeData').value = entry;
+        document.getElementById('courseNumber').value = courseNumber;
+        document.getElementById('department').value = department;
     }
 </script>
 
