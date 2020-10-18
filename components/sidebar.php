@@ -74,11 +74,11 @@
     {
         document.getElementById('settingsBar').className += " w3-blue";
     }
-    else if(tempURL[1] == "search" || tempURL[1] == "view&contentType")
+    else if(tempURL[1] == "search" || tempURL[1] == "view&contentType" || tempURL[1] == "search&contentType")
     {
         document.getElementById('searchBar').className += " w3-blue";
     }
-    else if(tempURL[1] == "create")
+    else if(tempURL[1] == "create" || tempURL[1] == "create&contentType")
     {
         document.getElementById('createBar').className += " w3-blue";
     }
