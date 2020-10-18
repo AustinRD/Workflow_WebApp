@@ -30,7 +30,23 @@
         }
     }
     else if($_GET['content'] == "search") {
-        include_once("./components/userfunctions/search.php");
+        if(isset($_GET['contentType'])) {
+            if($_GET['contentType'] == "user") {
+                include_once("./components/userfunctions/search/searchUser.php");
+            }
+            if($_GET['contentType'] == "workflow") {
+                include_once("./components/userfunctions/search/searchWorkflow.php");
+            }
+            if($_GET['contentType'] == "department") {
+                include_once("./components/userfunctions/search/searchDepartment.php");
+            }
+            if($_GET['contentType'] == "course") {
+                include_once("./components/userfunctions/search/searchCourse.php");
+            }
+        }
+        else {
+            include_once("./components/userfunctions/search/search.php");
+        }
     }
     else if($_GET['content'] == "create") {
         if(isset($_GET['contentType'])) {
