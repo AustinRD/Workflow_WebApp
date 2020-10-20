@@ -3,13 +3,11 @@
     <h5><b><i class="fa fa-dashboard"></i>  Student Dashboard</b></h5>
 </header>
 
+<!-- Action Panel -->
 <div class="w3-row-padding w3-margin-bottom">
     <div class="w3-quarter">
     <div class="w3-container w3-red w3-padding-16">
         <div class="w3-left"><i class="fa fa-bell w3-xxxlarge"></i></div>
-        <div class="w3-right">
-        <h3>1</h3>
-        </div>
         <div class="w3-clear"></div>
         <h4>Alerts</h4>
     </div>
@@ -17,38 +15,31 @@
     <div class="w3-quarter">
     <div class="w3-container w3-blue w3-padding-16">
         <div class="w3-left"><i class="fa fa-comment w3-xxxlarge"></i></div>
-        <div class="w3-right">
-        <h3>1</h3>
-        </div>
         <div class="w3-clear"></div>
         <h4>Messages</h4>
     </div>
     </div>
-    <div class="w3-quarter" onClick="location.href = './workflows.php'">
+    <div class="w3-quarter" onClick="location.href = './dashboard.php?content=workflows'">
     <div class="w3-container w3-teal w3-padding-16">
         <div class="w3-left"><i class="fa fa-share-alt w3-xxxlarge"></i></div>
-        <div class="w3-right">
-        <h3>2</h3>
-        </div>
         <div class="w3-clear"></div>
         <h4>Workflows</h4>
     </div>
     </div>
-    <div class="w3-quarter">
+    <div class="w3-quarter" onClick="location.href = './dashboard.php?content=files'">
     <div class="w3-container w3-orange w3-text-white w3-padding-16">
-        <div class="w3-left"><i class="fa fa-users w3-xxxlarge"></i></div>
-        <div class="w3-right">
-        <h3>10</h3>
-        </div>
+        <div class="w3-left"><i class="fa fa-files-o w3-xxxlarge"></i></div>
         <div class="w3-clear"></div>
-        <h4>Connections</h4>
+        <h4>Files</h4>
     </div>
     </div>
 </div>
+
+<!-- Feed -- Currently a hardcoded placeholder -->
 <div class="w3-panel">
     <h5>Feed</h5>
     <table class="w3-table w3-striped w3-white">
-        <tr>
+    <tr>
         <td><i class="fa fa-share-alt w3-text-green w3-large"></i></td>
         <td>New workflow request from Jared Huberman.</td>
         <td><i>5 mins</i></td>
@@ -76,6 +67,8 @@
     </table>
 </div>
 <hr>
+
+<!-- Recent Workflows -- Currently a hardcoded placeholder -->
 <div class="w3-container">
     <h5>Recent Workflows</h5>
     <ul class="w3-ul w3-card-4 w3-white">
@@ -94,6 +87,8 @@
     </ul>
 </div>
 <hr>
+
+<!-- Recent Messages -- Currently a hardcoded placeholder  -->
 <div class="w3-container w3-dark-grey w3-padding-32"">
     <h5>Recent Messages</h5>
     <div class="w3-row">
@@ -105,7 +100,6 @@
         <p>Keep up the GREAT work! I am cheering for you!! Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><br>
     </div>
     </div>
-
     <div class="w3-row">
     <div class="w3-col m2 text-center">
         <img class="w3-circle" src="./images/w3avatar.png" style="width:96px;height:96px">

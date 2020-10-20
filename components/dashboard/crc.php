@@ -1,6 +1,6 @@
 <!-- Dashboard Header -->
 <header class="w3-container" style="padding-top:22px">
-    <h5><b><i class="fa fa-dashboard"></i>  Admin Dashboard</b></h5>
+    <h5><b><i class="fa fa-dashboard"></i>  CRC Dashboard</b></h5>
 </header>
 
 <!-- Action Panel -->
@@ -28,7 +28,7 @@
     </div>
     <div class="w3-quarter" onClick="location.href = './dashboard.php?content=files'">
     <div class="w3-container w3-orange w3-text-white w3-padding-16">
-        <div class="w3-left"><i class="fa fa-files-o w3-xxxlarge"></i></div>
+        <div class="w3-left"><i class="fa fa-users w3-xxxlarge"></i></div>
         <div class="w3-clear"></div>
         <h4>Files</h4>
     </div>

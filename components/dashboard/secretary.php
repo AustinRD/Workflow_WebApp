@@ -3,13 +3,11 @@
     <h5><b><i class="fa fa-dashboard"></i>  Secretary Dashboard</b></h5>
 </header>
 
+<!-- Action Panel -->
 <div class="w3-row-padding w3-margin-bottom">
     <div class="w3-quarter">
     <div class="w3-container w3-red w3-padding-16">
         <div class="w3-left"><i class="fa fa-bell w3-xxxlarge"></i></div>
-        <div class="w3-right">
-        <h3>52</h3>
-        </div>
         <div class="w3-clear"></div>
         <h4>Alerts</h4>
     </div>
@@ -17,38 +15,31 @@
     <div class="w3-quarter">
     <div class="w3-container w3-blue w3-padding-16">
         <div class="w3-left"><i class="fa fa-comment w3-xxxlarge"></i></div>
-        <div class="w3-right">
-        <h3>99</h3>
-        </div>
         <div class="w3-clear"></div>
         <h4>Messages</h4>
     </div>
     </div>
-    <div class="w3-quarter">
+    <div class="w3-quarter" onClick="location.href = './dashboard.php?content=workflows'">
     <div class="w3-container w3-teal w3-padding-16">
         <div class="w3-left"><i class="fa fa-share-alt w3-xxxlarge"></i></div>
-        <div class="w3-right">
-        <h3>23</h3>
-        </div>
         <div class="w3-clear"></div>
         <h4>Workflows</h4>
     </div>
     </div>
-    <div class="w3-quarter">
+    <div class="w3-quarter" onClick="location.href = './dashboard.php?content=files'">
     <div class="w3-container w3-orange w3-text-white w3-padding-16">
-        <div class="w3-left"><i class="fa fa-users w3-xxxlarge"></i></div>
-        <div class="w3-right">
-        <h3>50</h3>
-        </div>
+        <div class="w3-left"><i class="fa fa-files-o w3-xxxlarge"></i></div>
         <div class="w3-clear"></div>
-        <h4>Connections</h4>
+        <h4>Files</h4>
     </div>
     </div>
 </div>
+
+<!-- Feed -- Currently a hardcoded placeholder -->
 <div class="w3-panel">
     <h5>Feed</h5>
     <table class="w3-table w3-striped w3-white">
-        <tr>
+    <tr>
         <td><i class="fa fa-share-alt w3-text-green w3-large"></i></td>
         <td>New workflow request from Jared Huberman.</td>
         <td><i>5 mins</i></td>
@@ -76,29 +67,33 @@
     </table>
 </div>
 <hr>
+
+<!-- Recent Workflows -- Currently a hardcoded placeholder -->
 <div class="w3-container">
     <h5>Recent Workflows</h5>
     <ul class="w3-ul w3-card-4 w3-white">
     <li class="w3-padding-16">
-        <img src="../img/avatar.png" class="w3-left w3-circle w3-margin-right" style="width:35px">
+        <img src="./images/w3avatar.png" class="w3-left w3-circle w3-margin-right" style="width:35px">
         <span class="w3-xlarge">Mike</span><br>
     </li>
     <li class="w3-padding-16">
-        <img src="../img/avatar.png" class="w3-left w3-circle w3-margin-right" style="width:35px">
+        <img src="./images/w3avatar.png" class="w3-left w3-circle w3-margin-right" style="width:35px">
         <span class="w3-xlarge">Jill</span><br>
     </li>
     <li class="w3-padding-16">
-        <img src="../img/avatar.png" class="w3-left w3-circle w3-margin-right" style="width:35px">
+        <img src="./images/w3avatar.png" class="w3-left w3-circle w3-margin-right" style="width:35px">
         <span class="w3-xlarge">Jane</span><br>
     </li>
     </ul>
 </div>
 <hr>
+
+<!-- Recent Messages -- Currently a hardcoded placeholder -->
 <div class="w3-container w3-dark-grey w3-padding-32"">
     <h5>Recent Messages</h5>
     <div class="w3-row">
     <div class="w3-col m2 text-center">
-        <img class="w3-circle" src="../img/avatar.png" style="width:96px;height:96px">
+        <img class="w3-circle" src="./images/w3avatar.png" style="width:96px;height:96px">
     </div>
     <div class="w3-col m10 w3-container">
         <h4>John <span class="w3-opacity w3-medium">Sep 29, 2014, 9:12 PM</span></h4>
@@ -108,7 +103,7 @@
 
     <div class="w3-row">
     <div class="w3-col m2 text-center">
-        <img class="w3-circle" src="../img/avatar.png" style="width:96px;height:96px">
+        <img class="w3-circle" src="./images/w3avatar.png" style="width:96px;height:96px">
     </div>
     <div class="w3-col m10 w3-container">
         <h4>Bo <span class="w3-opacity w3-medium">Sep 28, 2014, 10:15 PM</span></h4>
