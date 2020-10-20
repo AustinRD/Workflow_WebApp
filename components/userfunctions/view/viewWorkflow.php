@@ -12,11 +12,16 @@
         echo "<div class='w3-panel w3-margin w3-red'><p>Error! You do not have permission to access this information.</p></div>";
         exit();
     }
+    //User returned to the page after submitting changes.
+    if(isset($_POST['saveWorkflowChanges'])) {
+        
+    }
     //Workflow ID was not sent to the page.
     if(!isset($_POST['workflowID'])) {
         echo "<div class='w3-panel w3-margin w3-red'><p>Error! No workflow ID recieved</p></div>";
         exit();
     }
+    
     else {
         include_once('./backend/util.php');
         include_once('./backend/db_connector.php');
@@ -58,7 +63,7 @@
         <label for="wfID">Workflow ID:</label>
         <input id="wfID" name="wfID" type="text" class="w3-input" value="<?php echo $workflow; ?>" readonly>
         <br>
-        <label for="workflowType">Type</label>
+        <label for="workflowType">Type:</label>
         <input id="workflowType" name="workflowType" type="text" class="w3-input" value="<?php echo $row['project_name']; ?>" readonly>
         <br>
         <label for="initiator">Initiator:</label>
@@ -76,6 +81,15 @@
         <label for="year">Year:</label>
         <input id="year" name="year" type="text" class="w3-input" value="<?php echo $row['year']; ?>" readonly>
         <br>
+        <label for="credit">Credit:</label>
+        <input id="credit" name="credit" type="text" class="w3-input" value="<?php echo $row['academic_credits']; ?>" readonly>
+        <br>
+        <label for="hours">Hours:</label>
+        <input id="hours" name="hours" type="text" class="w3-input" value="<?php echo $row['hours_per_wk']; ?>" readonly>
+        <br>
+        <label for="grade">Grade Mode:</label>
+        <input id="grade" name="grade" type="text" class="w3-input" value="<?php echo $row['grade_mode']; ?>" readonly>
+        <br>
         <div id="editButtons" style="display: none;">
             <button type="submit" class="w3-button w3-blue" name="saveWorkflowChanges">Save</button>
             <button type="button" class="w3-button w3-red" onclick="disableEdit()">Cancel</button>
@@ -84,6 +98,36 @@
 </div>
 
 <!-- Assigned Users -->
+<div class="w3-card-4 w3-padding w3-margin">
+    <!-- Display user emails -->
+    <h5>Assigned To:</h5>
+    <label for="studentEmail">Student:</label>
+    <input id="studentEmail" name="studentEmail" type="text" class="w3-input" value="<?php echo $row['student_email']; ?>" readonly>
+    <br>
+    <label for="instructorEmail">Instructor:</label>
+    <input id="instructorEmail" name="instructorEmail" type="text" class="w3-input" value="<?php echo $row['instructor_email']; ?>" readonly>
+    <br>
+    <label for="deanEmail">Dean:</label>
+    <input id="deanEmail" name="deanEmail" type="email" class="w3-input" value="" readonly>
+    <br>
+    <label for="chairEmail">Chair:</label>
+    <input id="chairEmail" name="chairEmail" type="text" class="w3-input" value="" readonly>
+    <br>
+    <label for="secretaryEmail">Secretary:</label>
+    <input id="secretaryEmail" name="secretaryEmail" type="text" class="w3-input" value="" readonly>
+    <br>
+    <label for="employerEmail">Employer:</label>
+    <input id="employerEmail" name="employerEmail" type="text" class="w3-input" value="<?php echo $row['employer_email']; ?>" readonly>
+    <br>
+    <label for="crcEmail">CRC:</label>
+    <input id="crcEmail" name="crcEmail" type="text" class="w3-input" value="" readonly>
+    <br>
+    <label for="recregEmail">Rec-Reg:</label>
+    <input id="recregEmail" name="recregEmail" type="text" class="w3-input" value="" readonly>
+    <br>
+    <!-- Display Visualizer -->
+    <h5>Order and Status:</h5>
+</div>
 
 
 <!-- Modal Pop-up to warn of deletion -->

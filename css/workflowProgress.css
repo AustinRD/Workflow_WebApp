@@ -13,8 +13,10 @@
 }
 .labelContainer {
   border: 1px solid black;
+  max-width: 100px;
   min-height: 20px;
   min-width: fit-content;
+  text-align: center;
 }
 .userType {
   display: flex;

@@ -11,12 +11,16 @@
         <div class="w3-clear"><h5>Workflow</h5></div>
     </div>
     </div>
+
+    <?php if($_SESSION['user_type'] == 'admin') { ?>
     <div class="w3-quarter" onclick="window.location.href='./dashboard.php?content=search&contentType=department'">
     <div class="w3-container w3-blue w3-padding-16 w3-border ">
         <div class="w3-left"><i class="fa fa-building w3-xxxlarge"></i></div>
         <div class="w3-clear"><h5>Deparment</h5></div>
     </div>
     </div>
+    <?php } ?>
+
     <div class="w3-quarter" onclick="window.location.href='./dashboard.php?content=search&contentType=course'">
     <div class="w3-container w3-blue w3-padding-16 w3-border">
         <div class="w3-left"><i class="fa fa-book w3-xxxlarge"></i></div>
