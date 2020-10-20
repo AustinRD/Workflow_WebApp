@@ -69,7 +69,7 @@
 <!-- Create Department -->
 <div id="departmentForm" class="w3-card-4 w3-padding w3-margin">
     <h5>Create Department</h5>
-    <form method="POST">
+    <form method="POST" action="./dashboard.php?content=create&contentType=department">
         <label for="deptName">Department Name</label>
         <input id="deptName" name="deptName" type="text" class="w3-input">
         <br>

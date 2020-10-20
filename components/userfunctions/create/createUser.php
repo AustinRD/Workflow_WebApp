@@ -67,7 +67,7 @@
 <!-- Create User -->
 <div id="userForm" class="w3-card-4 w3-padding w3-margin">
     <h5>Create User</h5>
-    <form method="post" action="./dashboard.php?content=create">
+    <form method="post" action="./dashboard.php?content=create&contentType=user">
         <label for="name">Name</label>
         <input id="name" name="name" type="text" class="w3-input" required>
         <br>
