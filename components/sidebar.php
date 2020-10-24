@@ -1,7 +1,8 @@
 <?php include_once('./backend/config.php'); ?>
 
-<!-- Sidebar/menu -->
+
 <nav class="w3-sidebar w3-collapse w3-white" style="z-index:3;width:300px;" id="mySidebar"><br>
+  <!-- Sidebar Header -->
   <div class="w3-container w3-row">
     <div class="w3-col s4">
       <img src="./images/w3avatar.png" class="w3-circle w3-margin-right" style="width:46px">
@@ -18,48 +19,33 @@
     <h5>Dashboard</h5>
   </div>
 
-  <!-- Admin Sidebar -->
-  <?php if($_SESSION['user_type'] == $GLOBALS['admin_type']) { ?>
+  <!-- Sidebar Content-->
+  
   <div class="w3-bar-block">
     <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
     <a href="./dashboard.php?content=home" id="homeBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-home fa-fw"></i>  Home</a>
-    <a href="./dashboard.php?content=search" id="searchBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-search fa-fw"></i>  Search</a>
-    <a href="./dashboard.php?content=create" id="createBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-plus fa-fw"></i>  Create</a>
-    <a href="./dashboard.php?content=messages" id="messagesBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-comment fa-fw"></i>  Messages</a>
-    <a href="./dashboard.php?content=settings" id="settingsBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-cog fa-fw"></i>  Settings</a>
-    <a href="./util/logout.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-sign-out fa-fw"></i>  Sign-Out</a><br><br>
+    
+    <?php
+      //Displaying the search option for all users except employer and student.
+      if(!($_SESSION['user_type'] == $GLOBALS['student_type']) && !($_SESSION['user_type'] == $GLOBALS['employer_type'])) {
+          echo("<a href='./dashboard.php?content=search' id='searchBar' class='w3-bar-item w3-button w3-padding'><i class='fa fa-search fa-fw'></i>  Search</a>");
+      }
+      //Displaying the create option for all users except employer and student.
+      if(!($_SESSION['user_type'] == $GLOBALS['student_type']) && !($_SESSION['user_type'] == $GLOBALS['employer_type'])) {
+          echo("<a href='./dashboard.php?content=create' id='createBar' class='w3-bar-item w3-button w3-padding'><i class='fa fa-plus fa-fw'></i>  Create</a>");
+      }
+      //Displaying the workflows option for all users except admin.
+      if(!($_SESSION['user_type'] == $GLOBALS['admin_type'])) {
+        echo("<a href='./dashboard.php?content=workflows' id='workflowsBar' class='w3-bar-item w3-button w3-padding'><i class='fa fa-share-alt fa-fw'></i>  Workflows</a>");
+      }
+    ?>
+      
+    <a href='./dashboard.php?content=messages' id='messagesBar' class='w3-bar-item w3-button w3-padding'><i class='fa fa-comment fa-fw'></i>  Messages</a>
+    <a href='./dashboard.php?content=history' id='historyBar' class='w3-bar-item w3-button w3-padding'><i class='fa fa-history fa-fw'></i>  History</a>
+    <a href='./dashboard.php?content=files' id='filesBar' class='w3-bar-item w3-button w3-padding'><i class='fa fa-files-o fa-fw'></i>  Files</a>
+    <a href='./dashboard.php?content=settings' id='settingsBar' class='w3-bar-item w3-button w3-padding'><i class='fa fa-cog fa-fw'></i>  Settings</a>
+    <a href='./util/logout.php' class='w3-bar-item w3-button w3-padding'><i class='fa fa-sign-out fa-fw'></i>  Sign-Out</a><br><br>
   </div>
-  <?php } ?>
-
-  <!-- Secretary Sidebar -->
-  <?php if($_SESSION['user_type'] == $GLOBALS['secretary_type']) { ?>
-  <div class="w3-bar-block">
-    <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
-    <a href="./dashboard.php?content=home" id="homeBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-home fa-fw"></i>  Home</a>
-    <a href="./dashboard.php?content=search" id="searchBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-search fa-fw"></i>  Search</a>
-    <a href="./dashboard.php?content=create" id="createBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-plus fa-fw"></i>  Create</a>
-    <a href="./dashboard.php?content=files" id="filesBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-files-o fa-fw"></i>  Files</a>
-    <a href="./dashboard.php?content=messages" id="messagesBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-comment fa-fw"></i>  Messages</a>
-    <a href="./dashboard.php?content=workflows" id="workflowsBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-share-alt fa-fw"></i>  Workflows</a>
-    <a href="./dashboard.php?content=history" id="historyBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-history fa-fw"></i>  History</a>
-    <a href="./dashboard.php?content=settings" id="settingsBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-cog fa-fw"></i>  Settings</a>
-    <a href="./util/logout.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-sign-out fa-fw"></i>  Sign-Out</a><br><br>
-  </div>
-  <?php } ?>
-
-  <!-- Student Sidebar -->
-  <?php if($_SESSION['user_type'] == $GLOBALS['student_type']) { ?>
-  <div class="w3-bar-block">
-    <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
-    <a href="./dashboard.php?content=home" id="homeBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-home fa-fw"></i>  Home</a>
-    <a href="./dashboard.php?content=messages" id="messagesBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-comment fa-fw"></i>  Messages</a>
-    <a href="./dashboard.php?content=files" id="filesBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-files-o fa-fw"></i>  Files</a>
-    <a href="./dashboard.php?content=workflows" id="workflowsBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-share-alt fa-fw"></i>  Workflows</a>
-    <a href="./dashboard.php?content=history" id="historyBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-history fa-fw"></i>  History</a>
-    <a href="./dashboard.php?content=settings" id="settingsBar" class="w3-bar-item w3-button w3-padding"><i class="fa fa-cog fa-fw"></i>  Settings</a>
-    <a href="./util/logout.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-sign-out fa-fw"></i>  Sign-Out</a><br><br>
-  </div>
-  <?php } ?>
 </nav>
 
 <!-- Overlay effect when opening sidebar on small screens -->
