@@ -1,5 +1,6 @@
 <!-- File for redirection to the appropriate content based on get requests. -->
 <?php
+    //If the content requested is the home/dashboard.
     if($_GET['content'] == "home") {
         include_once('./backend/config.php');
         switch ($_SESSION['user_type']) {
@@ -18,8 +19,8 @@
             case $GLOBALS['dean_type']:
                 include_once("./components/dashboard/dean.php");
                 break;
-            case $GLOBALS['instructor_type']:
-                include_once("./components/dashboard/instructor.php");
+            case $GLOBALS['faculty_type']:
+                include_once("./components/dashboard/faculty.php");
                 break;
             case $GLOBALS['employer_type']:
                 include_once("./components/dashboard/employer.php");
@@ -27,9 +28,14 @@
             case $GLOBALS['recreg_type']:
                 include_once("./components/dashboard/recreg.php");
                 break;
+            case $GLOBALS['crc_type']:
+                include_once("./components/dashboard/crc.php");
+                break;
         }
     }
+    //If the content requested is the search page.
     else if($_GET['content'] == "search") {
+        //If the user requested the a specific section of the search page.
         if(isset($_GET['contentType'])) {
             if($_GET['contentType'] == "user") {
                 include_once("./components/userfunctions/search/searchUser.php");
@@ -48,7 +54,9 @@
             include_once("./components/userfunctions/search/search.php");
         }
     }
+    //If the content requested is the create page.
     else if($_GET['content'] == "create") {
+        //If the user requested the a specific section of the create page.
         if(isset($_GET['contentType'])) {
             if($_GET['contentType'] == "user") {
                 include_once("./components/userfunctions/create/createUser.php");
@@ -73,7 +81,9 @@
     else if($_GET['content'] == "workflows") {
         include_once("./components/userfunctions/workflows.php");
     }
+    //If the content requested is the view page.
     else if($_GET['content'] == "view") {
+        //If the user requested the a specific section of the view page.
         if($_GET['contentType'] == "user") {
             include_once("./components/userfunctions/view/viewUser.php");
         }
