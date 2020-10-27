@@ -78,8 +78,23 @@
     else if($_GET['content'] == "messages") {
         include_once("./components/userfunctions/messages.php");
     }
+    //If the content requested is the workflows page.
     else if($_GET['content'] == "workflows") {
-        include_once("./components/userfunctions/workflows.php");
+        //If the user requested the a specific section of the workflows page.
+        if(isset($_GET['contentType'])) {
+            if($_GET['contentType'] == "active") {
+                include_once("./components/userfunctions/workflows/activeWorkflows.php");
+            }
+            if($_GET['contentType'] == "new") {
+                include_once("./components/userfunctions/workflows/newWorkflows.php");
+            }
+            if($_GET['contentType'] == "start") {
+                include_once("./components/userfunctions/workflows/startWorkflow.php");
+            }
+        }
+        else {
+            include_once("./components/userfunctions/workflows/workflows.php");
+        }
     }
     //If the content requested is the view page.
     else if($_GET['content'] == "view") {
@@ -99,6 +114,9 @@
     }
     else if($_GET['content'] == "viewWorkflow") {
         include_once("./components/userfunctions/viewWorkflow.php");
+    }
+    else if($_GET['content'] == "startInternApp") {
+        include_once("./components/userfunctions/workflows/internAppStart.php");
     }
     else if($_GET['content'] == "settings") {
         include_once("./components/userfunctions/settings.php");
