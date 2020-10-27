@@ -64,7 +64,7 @@
     {
         document.getElementById('filesBar').className += " w3-blue";
     }
-    else if(tempURL[1] == "workflows")
+    else if(tempURL[1] == "workflows" || tempURL[1] == "workflows&contentType")
     {
         document.getElementById('workflowsBar').className += " w3-blue";
     }
