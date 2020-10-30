@@ -140,10 +140,8 @@
 </script>
 
 <!-- Table Filter/Search Script -->
-<!-- Need to enable search on more than just the first column.-->
 <script>
     function search(tableID, inputID) {
-        // Declare variables
         var input, filter, table, tr, td, i, txtValue;
         input = document.getElementById(inputID);
         filter = input.value.toUpperCase();
@@ -152,15 +150,19 @@
 
         // Loop through all table rows, and hide those who don't match the search query
         for (i = 0; i < tr.length; i++) {
-            //Modify search function to check more than just the first column.
-            td = tr[i].getElementsByTagName("td")[0];
-            if (td) {
-                txtValue = td.textContent || td.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    tr[i].style.display = "";
-                } 
-                else {
-                    tr[i].style.display = "none";
+            //the for loop searches all columns and the break statement is executed when a match is found.
+            for(j = 0; j < table.rows[0].cells.length; ++j)
+            {
+                td = tr[i].getElementsByTagName("td")[j];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                        break;
+                    } 
+                    else {
+                        tr[i].style.display = "none";
+                    }
                 }
             }
         }

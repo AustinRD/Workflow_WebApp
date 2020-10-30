@@ -1,5 +1,8 @@
 <!--
-
+    This file displays all results from the user table in the database 
+    into an html table. All users except employers/supervisors, and students
+    could have use for this table in looking up other faculty to put on a
+    custom workflow, or finding students who would like to start a workflow.
 -->
 
 <?php
@@ -20,24 +23,26 @@
             <th class="w3-center">Name</th>
             <th class="w3-center">Email</th>
             <th class="w3-center">Account Type</th>
-            <th class="w3-center">Last Login</th>
             <th class="w3-center">Action</th>
         </tr>
         <?php
-            $sql = "SELECT * FROM `f20_user_table`";
+            $sql = "SELECT * FROM f20_user_table
+                        JOIN f20_user_role_table 
+                        ON f20_user_table.URID = f20_user_role_table.URID;";
             $query = mysqli_query($db_conn, $sql);
             while ($row = mysqli_fetch_assoc($query)) {
-                $userEmail = $row['email'];
-                $userType = $row['profile_type'];
-                $lastAccess = $row['last_access'];
+                $userName = $row['user_name'];
+                $userEmail = $row['user_email'];
+                $userType = $row['user_role_title'];
         ?>
         <tr>
-            <td><?php echo " " ?></td>
+            <td><?php echo $userName; ?></td>
             <td><?php echo $userEmail; ?></td>
             <td><?php echo $userType; ?></td>
-            <td><?php echo $lastAccess; ?></td>
             <td>
                 <form method="post" action="./dashboard.php?content=view&contentType=user">
+                    <!-- The hidden input field must be used to pass the account the user has selected
+                        to the next page. -->
                     <input type="hidden" name="userEmail" value="<?php echo $userEmail;?>">
                     <button type="submit" name="viewUser" class="w3-button w3-blue">View</button>
                 </form>

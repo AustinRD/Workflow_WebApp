@@ -4,8 +4,8 @@
     <h5>My Account</h5>
     <form method="post">
         <label class="w3-input" for="userName">Full Name:</label>
-        <input class="w3-input" type="text" value="<?php echo $_SESSION['user_name']; ?>"></input>
+        <input class="w3-input" type="text" value="<?php echo $_SESSION['user_name']; ?>" readonly></input>
         <label class="w3-input" for="userEmail">Email</label>
-        <input class="w3-input" type="text"></input>
+        <input class="w3-input" type="text" value="<?php echo $_SESSION['user_email']; ?>" readonly></input>
     </form>
 </div>
