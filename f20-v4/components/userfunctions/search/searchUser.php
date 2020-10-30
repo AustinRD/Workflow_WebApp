@@ -24,7 +24,7 @@
             <th class="w3-center">Action</th>
         </tr>
         <?php
-            $sql = "SELECT * FROM " . $GLOBALS['accounts'];
+            $sql = "SELECT * FROM `f20_user_table`";
             $query = mysqli_query($db_conn, $sql);
             while ($row = mysqli_fetch_assoc($query)) {
                 $userEmail = $row['email'];

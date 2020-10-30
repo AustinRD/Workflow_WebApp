@@ -26,7 +26,7 @@
 
         //User chooses to remove user.
         if(isset($_POST['remove'])) {
-            $sql = "DELETE FROM " . $GLOBALS['accounts'] . " WHERE email = '$user'";
+            $sql = "DELETE FROM `f20_user_table` WHERE email = '$user'";
             if ($db_conn->query($sql) === TRUE) {
                 echo("<div class='w3-panel w3-margin w3-green'><p>Successfully Removed " . $user . "</p></div>");
             } 
@@ -36,7 +36,7 @@
         }
         else {
             //Find all data related to the user.
-            $sql = "SELECT * FROM " . $GLOBALS['accounts'] . " WHERE email = '$user'";
+            $sql = "SELECT * FROM `f20_user_table` WHERE email = '$user'";
             $query = mysqli_query($db_conn, $sql);
             $row = mysqli_fetch_assoc($query);
 ?>

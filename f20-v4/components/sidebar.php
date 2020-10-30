@@ -8,10 +8,10 @@
       <img src="./images/w3avatar.png" class="w3-circle w3-margin-right" style="width:46px">
     </div>
     <div class="w3-col s8 w3-bar">
-      <span>Welcome, <br><strong><?php echo("User's Name"); ?></strong></span><br>
+      <span>Welcome, <br><strong><?php echo $_SESSION['user_name']; ?></strong></span><br>
       <a href="#" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i></a>
       <a href="#" class="w3-bar-item w3-button"><i class="fa fa-user"></i></a>
-      <a href="./settings.php" class="w3-bar-item w3-button"><i class="fa fa-cog"></i></a>
+      <a href="./dashboard.php?content=settings" class="w3-bar-item w3-button"><i class="fa fa-cog"></i></a>
     </div>
   </div>
   <hr>
@@ -72,7 +72,7 @@
     {
         document.getElementById('historyBar').className += " w3-blue";
     }
-    else if(tempURL[1] == "settings")
+    else if(tempURL[1] == "settings" || tempURL[1] == "settings&contentType")
     {
         document.getElementById('settingsBar').className += " w3-blue";
     }
@@ -83,6 +83,10 @@
     else if(tempURL[1] == "create" || tempURL[1] == "create&contentType")
     {
         document.getElementById('createBar').className += " w3-blue";
+    }
+    else if(tempURL[1] == "messages")
+    {
+        document.getElementById('messagesBar').className += " w3-blue";
     }
 
     // Get the Sidebar

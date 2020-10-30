@@ -48,14 +48,15 @@
             $email = mysqli_real_escape_string($db_conn, $_POST['email']);
             $password = mysqli_real_escape_string($db_conn, $_POST['password']);
           
-            $sql = "SELECT * FROM " . $GLOBALS['accounts'] . " WHERE email = '$email' AND passcode = '$password'";
+            $sql = "SELECT * FROM `f20_user_table` WHERE user_email = '$email' AND user_password = '$password'";
             $result = mysqli_query($db_conn, $sql);
             $row = mysqli_fetch_assoc($result);
             $count = mysqli_num_rows($result);
 
             if ($count == 1) {
-              $_SESSION['user_type'] = $row["profile_type"];
-              $_SESSION['user_email'] = $row['email'];
+              $_SESSION['user_type'] = $row['URID'];
+              $_SESSION['user_email'] = $row['user_email'];
+              $_SESSION['user_name'] = $row['user_name'];
               $_SESSION['timestamp'] = time();
               $_SESSION['token'] = bin2hex(random_bytes(32));
               //If the user is found and the password is correct

@@ -119,6 +119,19 @@
         include_once("./components/userfunctions/workflows/internAppStart.php");
     }
     else if($_GET['content'] == "settings") {
-        include_once("./components/userfunctions/settings.php");
+        if(isset($_GET['contentType'])) {
+            if($_GET['contentType'] == 'myAccount') {
+                include_once("./components/userfunctions/settings/viewProfile.php");
+            }
+            if($_GET['contentType'] == 'changeEmail') {
+                include_once("./components/userfunctions/settings/changeEmail.php");
+            }
+            if($_GET['contentType'] == 'changePassword') {
+                include_once("./components/userfunctions/settings/changePassword.php");
+            }
+        }
+        else {
+            include_once("./components/userfunctions/settings/settings.php");
+        }
     }
 ?>

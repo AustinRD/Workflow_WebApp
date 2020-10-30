@@ -8,7 +8,7 @@
         exit();
     }
     //User is not an admin.
-    if(!($_SESSION['user_type'] == 'admin')){
+    if(!($_SESSION['user_type'] == $GLOBALS['admin_type'])){
         echo "<div class='w3-panel w3-margin w3-red'><p>Error! You do not have permission to access this information.</p></div>";
         exit();
     }

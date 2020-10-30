@@ -3,25 +3,25 @@
     <?php
         //Display the correct page title based on user type.
         //Display access denied if they don't have permission to view this page.
-        if($_SESSION['user_type'] == 'admin') {
+        if($_SESSION['user_type'] == $GLOBALS['admin_type']) {
             echo("<h5><b><i class='fa fa-search'></i>  Admin Search Tool</b></h5>");
         }
-        else if($_SESSION['user_type'] == 'crc') {
+        else if($_SESSION['user_type'] == $GLOBALS['crc_type']) {
             echo("<h5><b><i class='fa fa-search'></i>  CRC Search Tool</b></h5>");
         }
-        else if($_SESSION['user_type'] == 'recreg') {
+        else if($_SESSION['user_type'] == $GLOBALS['recreg_type']) {
             echo("<h5><b><i class='fa fa-search'></i>  Rec-Reg Search Tool</b></h5>");
         }
-        else if($_SESSION['user_type'] == 'dean') {
+        else if($_SESSION['user_type'] == $GLOBALS['dean_type']) {
             echo("<h5><b><i class='fa fa-search'></i>  Dean Search Tool</b></h5>");
         }
-        else if($_SESSION['user_type'] == 'chair') {
+        else if($_SESSION['user_type'] == $GLOBALS['chair_type']) {
             echo("<h5><b><i class='fa fa-search'></i>  Chair Search Tool</b></h5>");
         }
-        else if($_SESSION['user_type'] == 'secretary') {
+        else if($_SESSION['user_type'] == $GLOBALS['secretary_type']) {
             echo("<h5><b><i class='fa fa-search'></i>  Secretary Search Tool</b></h5>");
         }
-        else if($_SESSION['user_type'] == 'faculty') {
+        else if($_SESSION['user_type'] == $GLOBALS['faculty_type']) {
             echo("<h5><b><i class='fa fa-search'></i>  Faculty Search Tool</b></h5>");
         }
         else{
