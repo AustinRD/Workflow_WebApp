@@ -7,14 +7,14 @@
         echo "<div class='w3-panel w3-margin w3-red'><p>Session Expired, Please sign in again.</p></div>";
         exit();
     }
-    //User is not an admin.
-    if(!($_SESSION['user_type'] == 'admin')){
+    //User is not an admin or secretary.
+    if(!($_SESSION['user_type'] == $GLOBALS['admin_type']) && !($_SESSION['user_type'] == $GLOBALS['secretary_type'])){
         echo "<div class='w3-panel w3-margin w3-red'><p>Error! You do not have permission to access this information.</p></div>";
         exit();
     }
-    //Workflow ID was not sent to the page.
+    //User Email was not sent to the page.
     if(!isset($_POST['userEmail'])) {
-        echo "<div class='w3-panel w3-margin w3-red'><p>Error! No workflow ID recieved</p></div>";
+        echo "<div class='w3-panel w3-margin w3-red'><p>Error! No user email recieved</p></div>";
         exit();
     }
     else {
@@ -22,21 +22,48 @@
         include_once('./backend/db_connector.php');
 
         //Gather data passed to this page.
-        $user = mysqli_real_escape_string($db_conn, $_POST['userEmail']);
+        $userEmail = mysqli_real_escape_string($db_conn, $_POST['userEmail']);
 
         //User chooses to remove user.
         if(isset($_POST['remove'])) {
-            $sql = "DELETE FROM `f20_user_table` WHERE email = '$user'";
+            $sql = "UPDATE f20_user_table SET USID = 3 WHERE user_email = '$userEmail'";
             if ($db_conn->query($sql) === TRUE) {
-                echo("<div class='w3-panel w3-margin w3-green'><p>Successfully Removed " . $user . "</p></div>");
+                echo("<div class='w3-panel w3-margin w3-green'><p>Successfully Terminated " . $userEmail . "</p></div>");
             } 
             else {
-                echo("<div class='w3-panel w3-margin w3-red'><p>Error removing user: " . $db_conn->error . "</p></div>");
+                echo("<div class='w3-panel w3-margin w3-red'><p>Error terminating user: " . $db_conn->error . "</p></div>");
+            }
+        }
+        else if(isset($_POST['saveUserChanges'])) {
+            //Gather all input form fields.
+            $userRole = mysqli_real_escape_string($db_conn, $_POST['type']);
+            $userStatus = mysqli_real_escape_string($db_conn, $_POST['status']);
+            $userName = mysqli_real_escape_string($db_conn, $_POST['name']);
+            $userNewEmail = mysqli_real_escape_string($db_conn, $_POST['userEmail']);
+            $userPassword = mysqli_real_escape_string($db_conn, $_POST['password']);
+                
+            $sql = "UPDATE f20_user_table 
+                        SET `URID` = $userRole,
+                        `USID` = $userStatus,
+                        `user_name` = '$userName',
+                        `user_email` = '$userEmail',
+                        `user_password` = '$userPassword'
+                        WHERE `user_email` = '$userEmail'";
+            if ($db_conn->query($sql) === TRUE) {
+                echo("<div class='w3-panel w3-margin w3-green'><p>Successfully Updated " . $userEmail . "</p></div>");
+            } 
+            else {
+                echo("<div class='w3-panel w3-margin w3-red'><p>Error updating user: " . $db_conn->error . "</p></div>");
             }
         }
         else {
             //Find all data related to the user.
-            $sql = "SELECT * FROM `f20_user_table` WHERE email = '$user'";
+            $sql = "SELECT * FROM f20_user_table
+                        JOIN f20_user_role_table 
+                            ON f20_user_table.URID = f20_user_role_table.URID
+                        JOIN f20_user_status_table
+                            ON f20_user_table.USID = f20_user_status_table.USID
+                        WHERE user_email = '$userEmail'";
             $query = mysqli_query($db_conn, $sql);
             $row = mysqli_fetch_assoc($query);
 ?>
@@ -50,36 +77,39 @@
 <div id="userForm" class="w3-card-4 w3-padding w3-margin">
     <div class="w3-right" id="actionButtons">
         <button type="button" class="w3-button w3-blue" name="editUser" style="margin-right: 5px;" onclick="enableEdit()">Edit</button>
-        <button type="button" class="w3-button w3-red" name="removeUser" onclick="removeEntry('<?php echo $user ?>')">Remove</button>
+        <button type="button" class="w3-button w3-red" name="removeUser" onclick="removeEntry('<?php echo $userEmail ?>')">Remove</button>
     </div>
 
     <h5>User:</h5>
-    <form method="post" action="./dashboard?content=view&contentType=user">
-        <label for="name">Name</label>
-        <input id="name" name="name" type="text" class="w3-input" value="" readonly>
-        <br>
-        <label for="email">Email</label>
-        <input id="email" name="email" type="email" class="w3-input" value="<?php echo $user; ?>" readonly>
-        <br>
-        <label for="banner">Banner ID</label>
-        <input id="banner" name="banner" type="text" class="w3-input" readonly>
-        <br>
-        <label for="type">User Type</label>
-        <select id="type" name="type" class="w3-input" readonly>
-            <option value="<?php echo $userType; ?>" selected><?php echo $row['profile_type']; ?></option>
-            <option value="admin">Admin</option>
-            <option value="recreg">Records &amp; Registration</option>
-            <option value="crc">Career Resource Center</option>
-            <option value="dean">Dean</option>
-            <option value="chair">Department Chair</option>
-            <option value="secretary">Secretary</option>
-            <option value="student">Student</option>
-            <option value="employer">Employer</option>
-            <option value="instructor">Faculty [Advisor/Instructor]</option> 
+    <form method="post" action="./dashboard.php?content=view&contentType=user">
+        <label class="w3-input" for="name">Name</label>
+        <input class="w3-input" id="name" name="name" type="text" value="<?php echo $row['user_name']; ?>" readonly>
+        <label class="w3-input" for="userEmail">Email</label>
+        <input class="w3-input" id="userEmail" name="userEmail" type="email" value="<?php echo $userEmail; ?>" readonly>
+        <label class="w3-input" for="password">Password:</label>
+        <input class="w3-input" id="password" name="password" type="password" value="<?php echo $row['user_password']; ?>" readonly>
+        <label class="w3-input" for="status">User Status</label>
+        <select class="w3-input" id="status" name="status">
+            <option value="<?php echo $row['USID']; ?>"><?php echo $row['user_status']; ?></option>
+            <?php
+                $sql = "SELECT * FROM f20_user_status_table";
+                $query = mysqli_query($db_conn, $sql);
+                while ($statusrow = mysqli_fetch_assoc($query)) {
+                    echo("<option value='" . $statusrow['USID'] . "'>" . $statusrow['user_status'] . "</option>");
+                }
+            ?>
         </select>
-        <br>
-        <label for="lastAccess">Last Sign In:</label>
-        <input id="lastAccess" name="lastAccess" type="text" class="w3-input" value="<?php echo $row['last_access']; ?>" readonly>
+        <label class="w3-input" for="type">User Type</label>
+        <select class="w3-input" id="type" name="type" readonly>
+            <option value="<?php echo $row['URID']; ?>"><?php echo $row['user_role_title']; ?></option>
+            <?php
+                $sql = "SELECT * FROM f20_user_role_table";
+                $query = mysqli_query($db_conn, $sql);
+                while ($rolerow = mysqli_fetch_assoc($query)) {
+                    echo("<option value='" . $rolerow['URID'] . "'>" . $rolerow['user_role_title'] . "</option>");
+                }
+            ?>
+        </select>
         <br>
         <div id="editButtons" style="display: none;">
             <button type="submit" class="w3-button w3-blue" name="saveUserChanges">Save</button>
@@ -122,7 +152,7 @@
             }
         }
         else {
-            echo('<div class="w3-row w3-card-4 w3-margin">'
+            echo('<div class="w3-row w3-card-4 w3-margin w3-center w3-red">'
                     . '<p>No Workflows Found!</p></div>');
         }
     ?>
@@ -132,15 +162,15 @@
 <!-- Modal Pop-up to warn of deletion -->
 <div id="warningHolder" class="w3-modal w3-center">
     <div class="w3-modal-content">
-        <div class="w3-container w3-red">
+        <div class="w3-container w3-orange">
             <p>Warning!!</p>
-            <p>A 'Remove' can not be undone!</p>
-            <p>Are you sure?
+            <p>'Removing' a user will terminate their account.</p>
+            <p>Are you sure this is what you want to do?
                 <br>
                 <form method="post" action="./dashboard.php?content=view&contentType=user">
                     <input id="removeData" name="userEmail" type="hidden">
-                    <button type="submit" name="remove">Yes</button>
-                    <button type="button" onclick="document.getElementById('warningHolder').style.display='none'">No</button>
+                    <button class="w3-button w3-red" type="submit" name="remove">Yes</button>
+                    <button class="w3-button w3-black" type="button" onclick="document.getElementById('warningHolder').style.display='none'">No</button>
                 </form>
             </p>
         </div>

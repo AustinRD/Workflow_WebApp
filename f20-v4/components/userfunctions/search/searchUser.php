@@ -23,22 +23,27 @@
             <th class="w3-center">Name</th>
             <th class="w3-center">Email</th>
             <th class="w3-center">Account Type</th>
+            <th class="w3-center">Account Status</th>
             <th class="w3-center">Action</th>
         </tr>
         <?php
             $sql = "SELECT * FROM f20_user_table
-                        JOIN f20_user_role_table 
-                        ON f20_user_table.URID = f20_user_role_table.URID;";
+                JOIN f20_user_role_table 
+                    ON f20_user_table.URID = f20_user_role_table.URID
+                JOIN f20_user_status_table
+                    ON f20_user_table.USID = f20_user_status_table.USID";
             $query = mysqli_query($db_conn, $sql);
             while ($row = mysqli_fetch_assoc($query)) {
                 $userName = $row['user_name'];
                 $userEmail = $row['user_email'];
                 $userType = $row['user_role_title'];
+                $userStatus = $row['user_status'];
         ?>
         <tr>
             <td><?php echo $userName; ?></td>
             <td><?php echo $userEmail; ?></td>
             <td><?php echo $userType; ?></td>
+            <td><?php echo $userStatus; ?></td>
             <td>
                 <form method="post" action="./dashboard.php?content=view&contentType=user">
                     <!-- The hidden input field must be used to pass the account the user has selected
