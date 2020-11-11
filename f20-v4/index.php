@@ -54,6 +54,7 @@
             $count = mysqli_num_rows($result);
 
             if ($count == 1) {
+				      $_SESSION['user_id'] = $row['UID'];
               $_SESSION['user_type'] = $row['URID'];
               $_SESSION['user_email'] = $row['user_email'];
               $_SESSION['user_name'] = $row['user_name'];

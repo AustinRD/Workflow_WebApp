@@ -70,6 +70,9 @@
             if($_GET['contentType'] == "course") {
                 include_once("./components/userfunctions/create/createCourse.php");
             }
+			if($_GET['contentType'] == "message") {
+                include_once("./components/userfunctions/create/createMessage.php");
+            }
         }
         else {
             include_once("./components/userfunctions/create/create.php");
@@ -78,6 +81,10 @@
     else if($_GET['content'] == "messages") {
         include_once("./components/userfunctions/messages.php");
     }
+    else if($_GET['content'] == "files") {
+        include_once("./components/userfunctions/files.php");
+    }
+
     //If the content requested is the workflows page.
     else if($_GET['content'] == "workflows") {
         //If the user requested the a specific section of the workflows page.
@@ -110,6 +117,9 @@
         }
         if($_GET['contentType'] == "course") {
             include_once("./components/userfunctions/view/viewCourse.php");
+        }
+		if($_GET['contentType'] == "message") {
+            include_once("./components/userfunctions/view/viewMessage.php");
         }
     }
     else if($_GET['content'] == "viewWorkflow") {

@@ -12,7 +12,7 @@
         <h4>Alerts</h4>
     </div>
     </div>
-    <div class="w3-quarter">
+    <div class="w3-quarter onClick="location.href = './dashboard.php?content=messages'">
     <div class="w3-container w3-blue w3-padding-16">
         <div class="w3-left"><i class="fa fa-comment w3-xxxlarge"></i></div>
         <div class="w3-clear"></div>

@@ -22,6 +22,9 @@
         else if($_SESSION['user_type'] == $GLOBALS['faculty_type']) {
             echo("<h5><b><i class='fa fa-plus'></i>  Faculty Create Tool</b></h5>");
         }
+		else if($_SESSION['user_type'] == $GLOBALS['student_type'] && (isset($_POST['viewMessage']) || isset($_POST['userCompose']) || isset($_POST['messageCreate']))){
+			echo("<h5><b><i class='fa fa-plus'></i>  Student Create Tool</b></h5>");
+		}
         else{
             echo("<div class='w3-card w3-red w3-margin w3-padding'>You do not have access to this feature</div>");
             exit();
