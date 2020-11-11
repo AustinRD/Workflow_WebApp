@@ -34,6 +34,7 @@
                     ON f20_user_table.USID = f20_user_status_table.USID";
             $query = mysqli_query($db_conn, $sql);
             while ($row = mysqli_fetch_assoc($query)) {
+                $UID = $row['UID'];
                 $userName = $row['user_name'];
                 $userEmail = $row['user_email'];
                 $userType = $row['user_role_title'];
@@ -48,7 +49,7 @@
                 <form method="post" action="./dashboard.php?content=view&contentType=user">
                     <!-- The hidden input field must be used to pass the account the user has selected
                         to the next page. -->
-                    <input type="hidden" name="userEmail" value="<?php echo $userEmail;?>">
+                    <input type="hidden" name="UID" value="<?php echo $UID;?>">
                     <button type="submit" name="viewUser" class="w3-button w3-blue">View</button>
                 </form>
             </td>
