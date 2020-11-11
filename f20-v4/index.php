@@ -45,14 +45,18 @@
           if(isset($_POST['submit'])) {
             include_once('./backend/db_connector.php');
             include_once('./backend/util.php');
-            $email = mysqli_real_escape_string($db_conn, $_POST['email']);
+
+            //Get the input from the sign in form.
+            $username = mysqli_real_escape_string($db_conn, $_POST['username']);
             $password = mysqli_real_escape_string($db_conn, $_POST['password']);
           
-            $sql = "SELECT * FROM `f20_user_table` WHERE user_email = '$email' AND user_password = '$password'";
+            //Check if any results match in the database.
+            $sql = "SELECT * FROM `f20_user_table` WHERE user_login_name = '$username' AND user_password = '$password'";
             $result = mysqli_query($db_conn, $sql);
             $row = mysqli_fetch_assoc($result);
             $count = mysqli_num_rows($result);
 
+            
             if ($count == 1) {
 				      $_SESSION['user_id'] = $row['UID'];
               $_SESSION['user_type'] = $row['URID'];
@@ -80,8 +84,8 @@
       </div>
       
       <div class="w3-center w3-padding">
-        <label class="w3-left" for="inputEmail">Email:</label><br>
-        <input type="email" class="w3-input" id="inputEmail" name="email" required autofocus><br>
+        <label class="w3-left" for="inputUsername">Username:</label><br>
+        <input type="username" class="w3-input" id="inputUsername" name="username" required autofocus><br>
         <label class="w3-left" for="inputPassword">Password:</label><br>
         <input type="password" class="w3-input" id="inputPassword" name="password" required>
       </div>
