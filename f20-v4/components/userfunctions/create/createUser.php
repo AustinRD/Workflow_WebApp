@@ -1,10 +1,3 @@
-<!-- 
-    This file is for creating users it may need work 
-    1. Implement user creation
-    2. Add password(generate random or make user pick)
-    3. Add password field to database.
-    3. Add name field to database.
--->
 <?php
     //Loading the page title and action buttons.
     include_once('./components/userfunctions/create/create.php');
@@ -15,10 +8,11 @@
         $userName = mysqli_real_escape_string($db_conn, $_POST['name']);
         $userEmail = mysqli_real_escape_string($db_conn, $_POST['email']);
         $userType = mysqli_real_escape_string($db_conn, $_POST['type']);
-        $userPass = mysqli_real_escape_string($db_conn, $_POST['pswd']);
+        $userPass = mysqli_real_escape_string($db_conn, $_POST['pswd']); 
+        $userLoginName = mysqli_real_escape_string($db_conn, $_POST['username']);
 
-        $insertUser = "INSERT INTO f20_user_table (URID, USID, user_email, user_password, user_name) 
-                            VALUES ($userType, 1,'$userEmail','$userPass', '$userName')";
+        $insertUser = "INSERT INTO f20_user_table (URID, USID, user_email, user_login_name, user_password, user_name) 
+                            VALUES ($userType, 1,'$userEmail', '$userLoginName', '$userPass', '$userName')";
         $insertUserQuery = mysqli_query($db_conn, $insertUser);
 
         //Database insert success
@@ -37,10 +31,13 @@
     <h5>Create User</h5>
     <form method="post" action="./dashboard.php?content=create&contentType=user">
         <label for="name">Full Name</label>
-        <input id="name" name="name" type="text" class="w3-input" placeholder="Enter the user's Full Name" required>
+        <input id="name" name="name" type="text" class="w3-input" required>
         <br>
         <label for="email">Email Address</label>
-        <input id="email" name="email" type="email" class="w3-input" placeholder="@newpaltz.edu" required>
+        <input id="email" name="email" type="email" class="w3-input" required>
+        <br>
+        <label for="pswd">Username</label>
+        <input id="username" name="username" type="text" class="w3-input" required>
         <br>
         <label for="pswd">Password</label>
         <input id="pswd" name="pswd" type="password" class="w3-input" required>
