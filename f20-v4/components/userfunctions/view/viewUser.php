@@ -13,8 +13,8 @@
         exit();
     }
     //User Email was not sent to the page.
-    if(!isset($_POST['userEmail'])) {
-        echo "<div class='w3-panel w3-margin w3-red'><p>Error! No user email recieved</p></div>";
+    if(!isset($_POST['UID'])) {
+        echo "<div class='w3-panel w3-margin w3-red'><p>Error! No user recieved</p></div>";
         exit();
     }
     else {
@@ -22,13 +22,13 @@
         include_once('./backend/db_connector.php');
 
         //Gather data passed to this page.
-        $userEmail = mysqli_real_escape_string($db_conn, $_POST['userEmail']);
+        $UID = mysqli_real_escape_string($db_conn, $_POST['UID']);
 
         //User chooses to remove user.
         if(isset($_POST['remove'])) {
-            $sql = "UPDATE f20_user_table SET USID = 3 WHERE user_email = '$userEmail'";
+            $sql = "UPDATE f20_user_table SET USID = 3 WHERE `UID` = '$UID'";
             if ($db_conn->query($sql) === TRUE) {
-                echo("<div class='w3-panel w3-margin w3-green'><p>Successfully Terminated " . $userEmail . "</p></div>");
+                echo("<div class='w3-panel w3-margin w3-green'><p>Successfully Terminated User.</p></div>");
             } 
             else {
                 echo("<div class='w3-panel w3-margin w3-red'><p>Error terminating user: " . $db_conn->error . "</p></div>");
@@ -36,10 +36,11 @@
         }
         else if(isset($_POST['saveUserChanges'])) {
             //Gather all input form fields.
+            $UID = mysqli_real_escape_string($db_conn, $_POST['UID']);
             $userRole = mysqli_real_escape_string($db_conn, $_POST['type']);
             $userStatus = mysqli_real_escape_string($db_conn, $_POST['status']);
             $userName = mysqli_real_escape_string($db_conn, $_POST['name']);
-            $userNewEmail = mysqli_real_escape_string($db_conn, $_POST['userEmail']);
+            $userEmail = mysqli_real_escape_string($db_conn, $_POST['userEmail']);
             $userPassword = mysqli_real_escape_string($db_conn, $_POST['password']);
                 
             $sql = "UPDATE f20_user_table 
@@ -48,9 +49,9 @@
                         `user_name` = '$userName',
                         `user_email` = '$userEmail',
                         `user_password` = '$userPassword'
-                        WHERE `user_email` = '$userEmail'";
+                        WHERE `UID` = '$UID'";
             if ($db_conn->query($sql) === TRUE) {
-                echo("<div class='w3-panel w3-margin w3-green'><p>Successfully Updated " . $userEmail . "</p></div>");
+                echo("<div class='w3-panel w3-margin w3-green'><p>Successfully Updated User.</p></div>");
             } 
             else {
                 echo("<div class='w3-panel w3-margin w3-red'><p>Error updating user: " . $db_conn->error . "</p></div>");
@@ -63,7 +64,7 @@
                             ON f20_user_table.URID = f20_user_role_table.URID
                         JOIN f20_user_status_table
                             ON f20_user_table.USID = f20_user_status_table.USID
-                        WHERE user_email = '$userEmail'";
+                        WHERE `UID` = '$UID'";
             $query = mysqli_query($db_conn, $sql);
             $row = mysqli_fetch_assoc($query);
 ?>
@@ -77,17 +78,20 @@
 <div id="userForm" class="w3-card-4 w3-padding w3-margin">
     <div class="w3-right" id="actionButtons">
         <button type="button" class="w3-button w3-blue" name="editUser" style="margin-right: 5px;" onclick="enableEdit()">Edit</button>
-        <button type="button" class="w3-button w3-red" name="removeUser" onclick="removeEntry('<?php echo $userEmail ?>')">Remove</button>
+        <button type="button" class="w3-button w3-red" name="removeUser" onclick="removeEntry('<?php echo $row['UID'] ?>')">Remove</button>
     </div>
 
     <h5>User:</h5>
     <form method="post" action="./dashboard.php?content=view&contentType=user">
+        <input name="UID" id="UID" type="hidden" value="<?php echo $row['UID']; ?>">
         <label class="w3-input" for="name">Name</label>
         <input class="w3-input" id="name" name="name" type="text" value="<?php echo $row['user_name']; ?>" readonly>
         <label class="w3-input" for="userEmail">Email</label>
-        <input class="w3-input" id="userEmail" name="userEmail" type="email" value="<?php echo $userEmail; ?>" readonly>
+        <input class="w3-input" id="userEmail" name="userEmail" type="email" value="<?php echo $row['user_email']; ?>" readonly>
+        <label class="w3-input" for="username">Username:</label>
+        <input class="w3-input" id="username" name="username" type="text" value="<?php echo $row['user_login_name']; ?>" readonly>
         <label class="w3-input" for="password">Password:</label>
-        <input class="w3-input" id="password" name="password" type="password" value="<?php echo $row['user_password']; ?>" readonly>
+        <input class="w3-input" id="password" name="password" type="text" value="<?php echo $row['user_password']; ?>" readonly>
         <label class="w3-input" for="status">User Status</label>
         <select class="w3-input" id="status" name="status">
             <option value="<?php echo $row['USID']; ?>"><?php echo $row['user_status']; ?></option>
@@ -168,7 +172,7 @@
             <p>Are you sure this is what you want to do?
                 <br>
                 <form method="post" action="./dashboard.php?content=view&contentType=user">
-                    <input id="removeData" name="userEmail" type="hidden">
+                    <input id="removeData" name="UID" type="hidden">
                     <button class="w3-button w3-red" type="submit" name="remove">Yes</button>
                     <button class="w3-button w3-black" type="button" onclick="document.getElementById('warningHolder').style.display='none'">No</button>
                 </form>
