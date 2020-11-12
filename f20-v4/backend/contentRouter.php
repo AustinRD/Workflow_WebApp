@@ -2,36 +2,11 @@
 <?php
     //If the content requested is the home/dashboard.
     if($_GET['content'] == "home") {
-        include_once('./backend/config.php');
-        switch ($_SESSION['user_type']) {
-            case $GLOBALS['student_type']:
-                include_once("./components/dashboard/student.php");
-                break;
-            case $GLOBALS['admin_type']:
-                include_once("./components/dashboard/admin.php");
-                break;
-            case $GLOBALS['secretary_type']:
-                include_once("./components/dashboard/secretary.php");
-                break;
-            case $GLOBALS['chair_type']:
-                include_once("./components/dashboard/chair.php");
-                break;
-            case $GLOBALS['dean_type']:
-                include_once("./components/dashboard/dean.php");
-                break;
-            case $GLOBALS['faculty_type']:
-                include_once("./components/dashboard/faculty.php");
-                break;
-            case $GLOBALS['employer_type']:
-                include_once("./components/dashboard/employer.php");
-                break;
-            case $GLOBALS['recreg_type']:
-                include_once("./components/dashboard/recreg.php");
-                break;
-            case $GLOBALS['crc_type']:
-                include_once("./components/dashboard/crc.php");
-                break;
-        }
+        include_once('./components/dashboard/header.php');
+        include_once('./components/dashboard/actionpanel.php');
+        include_once('./components/dashboard/feed.php');
+        include_once('./components/dashboard/recentworkflows.php');
+        include_once('./components/dashboard/recentmessages.php');
     }
     //If the content requested is the search page.
     else if($_GET['content'] == "search") {
