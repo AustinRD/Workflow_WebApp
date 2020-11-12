@@ -55,7 +55,6 @@
 			<td><?php echo $messageSubject; ?></td>
 			<td><?php echo $messageContents; ?></td>
             <td>
-            <td>
                 <form method="post" action="./dashboard.php?content=view&contentType=message">
                     <!-- The hidden input field must be used to pass the message the user has selected
                         to the next page. -->
@@ -109,7 +108,6 @@
             <td><?php echo $messageStatus; ?></td>
 			<td><?php echo $messageSubject; ?></td>
 			<td><?php echo $messageContents; ?></td>
-            <td>
             <td>
                 <form method="post" action="./dashboard.php?content=view&contentType=message">
                     <!-- The hidden input field must be used to pass the message the user has selected

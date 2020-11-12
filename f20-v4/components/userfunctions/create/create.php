@@ -42,7 +42,7 @@
     </div>
 
     <!-- Department Creation only available to Admin -->
-    <?php if($_SESSION['user_type'] == 'admin') { ?>
+    <?php if($_SESSION['user_type'] == $GLOBALS['admin_type']) { ?>
     <div class="w3-quarter" onclick="window.location.href='./dashboard.php?content=create&contentType=department'">
     <div class="w3-container w3-teal w3-padding-16 w3-border ">
         <div class="w3-left"><i class="fa fa-building w3-xxxlarge"></i></div>
