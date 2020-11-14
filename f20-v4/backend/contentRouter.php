@@ -15,14 +15,23 @@
             if($_GET['contentType'] == "user") {
                 include_once("./components/userfunctions/search/searchUser.php");
             }
-            if($_GET['contentType'] == "workflow") {
+            else if($_GET['contentType'] == "workflows") {
                 include_once("./components/userfunctions/search/searchWorkflow.php");
             }
-            if($_GET['contentType'] == "department") {
+            else if($_GET['contentType'] == "workflowtemplate") {
+                include_once("./components/userfunctions/search/searchWorkflowTemplates.php");
+            }
+            else if($_GET['contentType'] == "department") {
                 include_once("./components/userfunctions/search/searchDepartment.php");
             }
-            if($_GET['contentType'] == "course") {
+            else if($_GET['contentType'] == "course") {
                 include_once("./components/userfunctions/search/searchCourse.php");
+            }
+            else if($_GET['contentType'] == "steps") {
+                include_once("./components/userfunctions/search/searchSteps.php");
+            }
+            else if($_GET['contentType'] == "steptemplates") {
+                include_once("./components/userfunctions/search/searchStepTemplates.php");
             }
         }
         else {
@@ -36,7 +45,7 @@
             if($_GET['contentType'] == "user") {
                 include_once("./components/userfunctions/create/createUser.php");
             }
-            if($_GET['contentType'] == "workflow") {
+            if($_GET['contentType'] == "workflows") {
                 include_once("./components/userfunctions/create/createWorkflow.php");
             }
             if($_GET['contentType'] == "department") {
