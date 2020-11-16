@@ -1,12 +1,8 @@
-<!--
-
--->
-
 <?php
     include_once('./backend/config.php');
     include_once('./backend/db_connector.php');
     //Loading the page title and action buttons.
-    include_once('./components/userfunctions/search/search.php');
+    include_once('./components/userfunctions/search/search.php')
 ?>
 
 <!-- Workflow Search -->
@@ -18,44 +14,38 @@
     <table id="workflowTable" class="pagination w3-table-all w3-responsive" data-pagecount="8" style="max-width:fit-content;">
         <tr>
             <th>Title</th>
-            <th>Initiator</th>
-            <th>Priority</th>
+            <th>Type</th>
             <th>Status</th>
             <th>Created</th>
             <th>Deadline</th>
-            <th>Actions</th>
+            <th>Action</th>
         </tr>
 
         <?php
-            $sql = "SELECT * FROM f20_app_table
-                        JOIN f20_app_type_table
-                            ON f20_app_table.ATID = f20_app_type_table.ATID
-                        JOIN f20_app_status_table
-                            ON f20_app_table.ASID = f20_app_status_table.ASID
-                        JOIN f20_user_table
-                            ON f20_app_table.UID = f20_user_table.UID";
+            $sql = "SELECT * FROM f20_step_table
+                        JOIN f20_step_type_table
+                            ON f20_step_table.STID = f20_step_type_table.STID
+                        JOIN f20_step_status_table
+                            ON f20_step_table.SSID = f20_step_status_table.SSID";
 
             $query = mysqli_query($db_conn, $sql);
-            
             while ($row = mysqli_fetch_array($query)) {
-                $workflowID = $row['AID'];
-                $owner = $row['user_name'] . " (" . $row['user_email'] . ")";
                 $title = $row['4'];
-                $priority = $row['9'];
-                $status = $row['12'];
+                $type = $row['10'];
+                $status = $row['13'];
                 $created = $row['created'];
                 $deadline = $row['deadline'];
         ?>
         <tr>
             <td><?php echo $title; ?></td>
-            <td><?php echo $owner; ?></td>
-            <td><?php echo $priority; ?></td>
+            <td><?php echo $type; ?></td>
             <td><?php echo $status; ?></td>
             <td><?php echo $created; ?></td>
             <td><?php echo $deadline; ?></td>
+
             <td>
                 <form method="post" action="./dashboard.php?content=view&contentType=workflow">
-                    <input type="hidden" name="workflowID" value="<?php echo $workflowID;?>">
+                    <input type="hidden" name="workflowID" value="<?php echo $wfID;?>">
                     <button type="submit" name="viewWorkflow" class="w3-button w3-blue">View</button>
                 </form>
             </td>

@@ -45,7 +45,7 @@
             if($_GET['contentType'] == "user") {
                 include_once("./components/userfunctions/create/createUser.php");
             }
-            if($_GET['contentType'] == "workflows") {
+            if($_GET['contentType'] == "workflow") {
                 include_once("./components/userfunctions/create/createWorkflow.php");
             }
             if($_GET['contentType'] == "department") {
