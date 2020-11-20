@@ -56,20 +56,29 @@
             $row = mysqli_fetch_assoc($result);
             $count = mysqli_num_rows($result);
 
-            
+            //If there was a result with a matching username and password.
             if ($count == 1) {
-				      $_SESSION['user_id'] = $row['UID'];
-              $_SESSION['user_type'] = $row['URID'];
-              $_SESSION['user_email'] = $row['user_email'];
-              $_SESSION['user_name'] = $row['user_name'];
-              $_SESSION['timestamp'] = time();
-              $_SESSION['token'] = bin2hex(random_bytes(32));
-              //If the user is found and the password is correct
-              //  then print a success message and redirect
-              echo '<div class="w3-panel w3-round w3-green">
-                      <p>Sign In Success:<br> Redirecting.</p>
-                    </div>';
-              exit(header("refresh:1;url=./dashboard.php?content=home"));
+              //Check if the account is active or terminated, if the status of the account is 3 then it's terminated.
+              if($row['USID'] == 3) {
+                echo '<div class="w3-panel w3-round w3-red">
+                <p>Sign In Failed:<br> This account was terminated, please contact a supervisor if this was a mistake.!</p>
+                </div>';
+              }
+              else {
+                $_SESSION['user_id'] = $row['UID'];
+                $_SESSION['user_type'] = $row['URID'];
+                $_SESSION['user_email'] = $row['user_email'];
+                $_SESSION['user_name'] = $row['user_name'];
+                $_SESSION['timestamp'] = time();
+                $_SESSION['token'] = bin2hex(random_bytes(32));
+                //If the user is found and the password is correct
+                //  then print a success message and redirect
+                echo '<div class="w3-panel w3-round w3-green">
+                        <p>Sign In Success:<br> Redirecting.</p>
+                      </div>';
+                exit(header("refresh:1;url=./dashboard.php?content=home"));
+              }
+                
             } 
             else {
               //The username was not found or password didn't match
