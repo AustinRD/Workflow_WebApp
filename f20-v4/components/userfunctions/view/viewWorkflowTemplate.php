@@ -1,4 +1,7 @@
 <?php
+    //Loading the page title and action buttons.
+    include_once('./components/userfunctions/search/search.php');
+    
     if(!isset($_SESSION)) {
         session_start();
     }

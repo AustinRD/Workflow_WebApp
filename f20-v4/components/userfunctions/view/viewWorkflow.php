@@ -1,4 +1,7 @@
 <?php
+    //Loading the page title and action buttons.
+    include_once('./components/userfunctions/search/search.php');
+    
     if(!isset($_SESSION)) {
         session_start();
     }
@@ -76,8 +79,6 @@
         $query = mysqli_query($db_conn, $sql);
         $row = mysqli_fetch_array($query);
 ?>
-
-<br>
 
 <!-- Workflow Information -->
 <div id="workflowForm" class="w3-card-4 w3-padding w3-margin">

@@ -36,7 +36,15 @@ It is also responsible for changing the action bar based on the content selected
 
 
 <?php 
-    if(isset($_GET['contentType']) && ($_GET['contentType'] == 'workflows' || $_GET['contentType'] == 'workflowtemplate' || $_GET['contentType'] == 'steps' || $_GET['contentType'] == 'steptemplates')) {
+    if(isset($_GET['contentType']) 
+        && ($_GET['contentType'] == 'workflows'
+        || $_GET['contentType'] == 'workflow' 
+        || $_GET['contentType'] == 'workflowtemplate'
+        || $_GET['contentType'] == 'workflowTemplate' 
+        || $_GET['contentType'] == 'step'
+        || $_GET['contentType'] == 'steps'
+        || $_GET['contentType'] == 'steptemplates'
+        || $_GET['contentType'] == 'stepTemplate')) {
 ?>
         <div class="w3-row-padding w3-margin-bottom">
             <div class="w3-quarter" onclick="window.location.href='./dashboard.php?content=search&contentType=workflows'">
