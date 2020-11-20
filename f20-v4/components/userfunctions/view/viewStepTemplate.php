@@ -14,7 +14,26 @@
     }
     //User returned to the page after submitting changes.
     if(isset($_POST['saveStepTemplateChanges'])) {
-        
+        include_once('./backend/db_connector.php');
+        //Get all user input.
+        $stepTemplateID = mysqli_real_escape_string($db_conn, $_POST['stepID']);
+        $title = mysqli_real_escape_string($db_conn, $_POST['stepTitle']);
+        $status = mysqli_real_escape_string($db_conn, $_POST['status']);
+        $fileLocation = mysqli_real_escape_string($db_conn, $_POST['fileLocation']);
+        $instructions = mysqli_real_escape_string($db_conn, $_POST['instructions']);
+
+        $sql = "UPDATE f20_step_template_table 
+                    SET TSID = $status,
+                    title = '$title',
+                    `location` = '$fileLocation',
+                    instructions = '$instructions'                     
+                WHERE `SID` = $stepTemplateID";
+        if ($db_conn->query($sql) === TRUE) {
+            echo("<div class='w3-panel w3-margin w3-green'><p>Successfully Edited this Step Template.</p></div>");
+        } 
+        else {
+            echo("<div class='w3-panel w3-margin w3-red'><p>Error updating the workflow: " . $db_conn->error . "</p></div>");
+        }
     }
     //User chooses to remove step template.
     if(isset($_POST['remove'])) {
@@ -62,8 +81,26 @@
 
         <label for="stepTemplateTitle" class="w3-input">Title:</label>
         <input id="stepTemplateTitle" name="stepTemplateTitle" type="text" class="w3-input" value="<?php echo $row['2']; ?>" readonly>
+
+        <!-- A select field so the user can only choose to edit the workflow from the list of available options -->
         <label for="status" class="w3-input">Status:</label>
-        <input id="status" name="status" type="text" class="w3-input" value="<?php echo $row['6']; ?>" readonly>
+        <select name="status" id="status" class="w3-input" disabled>
+            <option value="<?php echo $row['1']; ?>"><?php echo $row['6']; ?></option>
+            <?php
+                $sql = "SELECT * FROM f20_template_status_table";
+                $query = mysqli_query($db_conn, $sql);
+                while($status = mysqli_fetch_array($query)) {
+                    echo("<option value='" . $status['TSID'] . "'>" . $status['title'] . "</option>");
+                };
+            ?>
+        </select>
+
+        <label for="fileLocation" class="w3-input">File Location:</label>
+        <input id="fileLocation" name="fileLocation" type="text" class="w3-input" value="<?php echo $row['4']; ?>" readonly>
+        
+        <label class="w3-input">Form:</label>
+        <button type="button" class="w3-button w3-blue" onclick="document.getElementById('formHolder').style.display='block';">Click here to View</button>
+
         <label for="instructions" class="w3-input">Instructions:</label>
         <textarea name="instructions" id="instructions" class="w3-input" cols="30" rows="5" readonly>
             <?php echo $row['instructions']; ?>
@@ -76,6 +113,12 @@
     </form>
 </div>
 
+<div id="formHolder" class="w3-modal">
+    <div class="w3-modal-content w3-padding" style="background-color: transparent;">
+        <button class="w3-btn w3-right w3-border w3-margin w3-red" onclick="document.getElementById('formHolder').style.display='none';">&times;</button>
+        <?php include_once("." . $row['4']) ?>
+    </div>
+</div>
 
 <!-- Modal Pop-up to warn of deletion -->
 <div id="warningHolder" class="w3-modal w3-center">
@@ -114,6 +157,7 @@
         var inputs = document.querySelectorAll(".w3-input");
         for (var i = 0; i < inputs.length; i++) {
             inputs[i].readOnly=false;
+            inputs[i].disabled=false;
         }
         //Hide the edit and remove buttons.
         document.getElementById("actionButtons").style.display = "none";
@@ -127,6 +171,8 @@
         for (var i = 0; i < inputs.length; i++) {
             inputs[i].readOnly=true;
         }
+
+        document.getElementById("status").disabled = true;
         //Hide the save and cancel buttons.
         document.getElementById("editButtons").style.display = "none";
         //Show the edit and remove buttons.

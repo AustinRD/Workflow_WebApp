@@ -31,7 +31,7 @@
                     instructions = '$instructions'                     
                 WHERE `SID` = $stepID";
         if ($db_conn->query($sql) === TRUE) {
-            echo("<div class='w3-panel w3-margin w3-green'><p>Successfully Edited this Workflow.</p></div>");
+            echo("<div class='w3-panel w3-margin w3-green'><p>Successfully Edited this Step.</p></div>");
         } 
         else {
             echo("<div class='w3-panel w3-margin w3-red'><p>Error updating the workflow: " . $db_conn->error . "</p></div>");
@@ -115,8 +115,8 @@
         <label for="fileLocation" class="w3-input">File Location:</label>
         <input id="fileLocation" name="fileLocation" type="text" class="w3-input" value="<?php echo $row['6']; ?>" readonly>
         
-        <label for="instructions" class="w3-input">Form:</label>
-        <button type="button" class="w3-button w3-teal" onclick="document.getElementById('formHolder').style.display='block';">Click here to View</button>
+        <label class="w3-input">Form:</label>
+        <button type="button" class="w3-button w3-blue" onclick="document.getElementById('formHolder').style.display='block';">Click here to View</button>
 
         <label for="instructions" class="w3-input">Instructions:</label>
         <textarea name="instructions" id="instructions" class="w3-input" cols="30" rows="5" readonly>
@@ -131,8 +131,8 @@
 </div>
 
 <div id="formHolder" class="w3-modal">
-    <div class="w3-modal-content w3-padding">
-        <button class="w3-btn w3-right w3-border" onclick="document.getElementById('formHolder').style.display='none';">&times;</button>
+    <div class="w3-modal-content w3-padding" style="background-color: transparent;">
+        <button class="w3-btn w3-right w3-border w3-margin w3-red" onclick="document.getElementById('formHolder').style.display='none';">&times;</button>
         <?php include_once("." . $row['6']) ?>
     </div>
 </div>
@@ -186,7 +186,6 @@
         var inputs = document.querySelectorAll(".w3-input");
         for (var i = 0; i < inputs.length; i++) {
             inputs[i].readOnly=true;
-
         }
 
         //Disable the select fields.
