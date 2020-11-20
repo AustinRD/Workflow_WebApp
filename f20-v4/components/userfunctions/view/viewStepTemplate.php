@@ -16,6 +16,16 @@
     if(isset($_POST['saveStepTemplateChanges'])) {
         
     }
+    //User chooses to remove step template.
+    if(isset($_POST['remove'])) {
+        $sql = "UPDATE f20_step_template_table SET TSID = 3 WHERE STPID = '$stepTemplateID'";
+        if ($db_conn->query($sql) === TRUE) {
+            echo("<div class='w3-panel w3-margin w3-green'><p>Successfully Removed Step Template</p></div>");
+        } 
+        else {
+            echo("<div class='w3-panel w3-margin w3-red'><p>Error removing step template: " . $db_conn->error . "</p></div>");
+        }
+    }
     //Step Template ID was not sent to the page.
     if(!isset($_POST['stepTemplateID'])) {
         echo "<div class='w3-panel w3-margin w3-red'><p>Error! No step template ID recieved</p></div>";
@@ -28,30 +38,16 @@
         //Gather data passed to this page.
         $stepTemplateID = mysqli_real_escape_string($db_conn, $_POST['stepTemplateID']);
 
-        //User chooses to remove step template.
-        if(isset($_POST['remove'])) {
-            $sql = "UPDATE f20_step_template_table SET TSID = 3 WHERE STPID = '$stepTemplateID'";
-            if ($db_conn->query($sql) === TRUE) {
-                echo("<div class='w3-panel w3-margin w3-green'><p>Successfully Removed " . $stepTemplateID . "</p></div>");
-            } 
-            else {
-                echo("<div class='w3-panel w3-margin w3-red'><p>Error removing record: " . $db_conn->error . "</p></div>");
-            }
-        }
-        else {
-            //Find all data related to the step template.
-            $sql = "SELECT * FROM f20_step_template_table
-                        JOIN f20_template_status_table
-                            ON f20_step_template_table.TSID = f20_template_status_table.TSID
-                        WHERE f20_step_template_table.STPID = '$stepTemplateID'";
-            $query = mysqli_query($db_conn, $sql);
-            $row = mysqli_fetch_array($query);
+        //Find all data related to the step template.
+        $sql = "SELECT * FROM f20_step_template_table
+                    JOIN f20_template_status_table
+                        ON f20_step_template_table.TSID = f20_template_status_table.TSID
+                    WHERE f20_step_template_table.STPID = '$stepTemplateID'";
+        $query = mysqli_query($db_conn, $sql);
+        $row = mysqli_fetch_array($query);
 ?>
 
-<!-- Content Title -->
-<header class="w3-container" style="padding-top:22px">
-    <h5><b><i class="fa fa-search"></i>  Admin View Tool</b></h5>
-</header>
+<br>
 
 <!-- Step Template Information -->
 <div id="stepTemplateForm" class="w3-card-4 w3-padding w3-margin">
@@ -62,11 +58,7 @@
 
     <h5>Step Template:</h5>
     <form method="post" action="./dashboard?content=view&contentType=stepTemplate">
-
-        <!-- Input field that may be hidden later but stores the ID for access if the user would like
-            to edit the information for this template -->
-        <label for="stepTemplateID" class="w3-input">Template ID:</label>
-        <input id="stepTemplateID" name="stepTemplateID" type="text" class="w3-input" value="<?php echo $stepTemplateID; ?>" readonly>
+        <input id="stepTemplateID" name="stepTemplateID" type="hidden" class="w3-input" value="<?php echo $stepTemplateID; ?>" readonly>
 
         <label for="stepTemplateTitle" class="w3-input">Title:</label>
         <input id="stepTemplateTitle" name="stepTemplateTitle" type="text" class="w3-input" value="<?php echo $row['2']; ?>" readonly>
@@ -94,7 +86,7 @@
             <p>Are you sure?
                 <br>
                 <form method="post" action="./dashboard.php?content=view&contentType=stepTemplate">
-                    <input id="removeData" name="appTemplateID" type="hidden">
+                    <input id="removeData" name="stepID" type="hidden">
                     <button class="w3-button w3-red" type="submit" name="remove">Yes</button>
                     <button class="w3-button w3-black" type="button" onclick="document.getElementById('warningHolder').style.display='none'">No</button>
                 </form>
@@ -142,6 +134,6 @@
     }
 </script>
 
-<?php }
-    }
+<?php 
+    }    
 ?>

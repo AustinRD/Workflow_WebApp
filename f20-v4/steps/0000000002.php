@@ -1,6 +1,4 @@
 <?php
-    //Loads the action bar so the user can navigate between pages.
-    include_once('./components/userfunctions/workflows/workflows.php');
     //If this field is set then the user submitted the form to start the workflow.
     if(isset($_POST['studentSubmit'])) {
         //First we gather all the input field information.
@@ -82,13 +80,7 @@
     else if(isset($_POST['wfID'])) {
         $workflowID = $_POST['wfID'];
     }
-    
 ?>
-
-<script>
-    //Hides the currently hardcoded Feed from workflows.php
-    document.getElementById('activityFeed').style.display = 'none';
-</script>
 
 <!-- Form that starts the internship workflow from the student's side.--> 
 <form method="post" action="./dashboard.php?content=startInternApp">

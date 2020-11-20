@@ -8,7 +8,7 @@
         exit();
     }
     //User is not an admin.
-    if(!($_SESSION['user_type'] == 'admin')){
+    if(!($_SESSION['user_type'] == $GLOBALS['admin_type'])){
         echo "<div class='w3-panel w3-margin w3-red'><p>Error! You do not have permission to access this information.</p></div>";
         exit();
     }
@@ -41,10 +41,7 @@
             $row = mysqli_fetch_assoc($query);
 ?>
 
-<!-- Content Title -->
-<header class="w3-container" style="padding-top:22px">
-    <h5><b><i class="fa fa-search"></i>  Admin View Tool</b></h5>
-</header>
+<br>
 
 <!-- Department Information -->
 <div id="departmentForm" class="w3-card-4 w3-padding w3-margin">

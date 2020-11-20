@@ -69,11 +69,6 @@
             $row = mysqli_fetch_assoc($query);
 ?>
 
-<!-- Content Title -->
-<header class="w3-container" style="padding-top:22px">
-    <h5><b><i class="fa fa-search"></i>  Admin View Tool</b></h5>
-</header>
-
 <!-- User Information -->
 <div id="userForm" class="w3-card-4 w3-padding w3-margin">
     <div class="w3-right" id="actionButtons">

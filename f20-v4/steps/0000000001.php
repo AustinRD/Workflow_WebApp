@@ -36,65 +36,67 @@
 <!-- This form is specficically for the internship application and may be adapted for
     custom workflows in the future -->
 <form method="post" action="./dashboard.php?content=workflows&contentType=start">
-    <label for="studentEmail">Student's Email</label>
-    <input type="email" name="studentEmail" class="w3-input">
-    
-    <!-- Function to show the courses available in a selected department. -->
-    <script>
-        function showCourse(str) {
-            if (str == "") {
-                document.getElementById("course").innerHTML = "";
-                return;
-            } 
-            else {
-                var xmlhttp = new XMLHttpRequest();
-                xmlhttp.onreadystatechange = function() {
-                    if (this.readyState == 4 && this.status == 200) {
-                        document.getElementById("course").innerHTML = this.responseText;
-                    }
-                };
-                xmlhttp.open("GET","./backend/getCourse.php?q="+str,true);
-                xmlhttp.send();
-            }
-        }
-    </script>
-
-    <!-- Select field for the department -->
-    <label for="department">Department</label>
-    <select class="w3-input" name="department" id="department" onchange="showCourse(this.value)">
-        <option value="">Select a department:</option>
-        <?php 
-            $sql = "SELECT * FROM `f20_academic_dept_info`";
-            $query = mysqli_query($db_conn, $sql);
-            if ($query) {
-                while ($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
-                    echo("<option value='" . $row['dept_code'] . "'>" . $row['dept_name'] . "</option>");
+    <div class="w3-card-4 w3-margin w3-padding" id="studentInformation">
+        <label for="studentEmail">Student's Email</label>
+        <input type="email" name="studentEmail" class="w3-input">
+        
+        <!-- Function to show the courses available in a selected department. -->
+        <script>
+            function showCourse(str) {
+                if (str == "") {
+                    document.getElementById("course").innerHTML = "";
+                    return;
+                } 
+                else {
+                    var xmlhttp = new XMLHttpRequest();
+                    xmlhttp.onreadystatechange = function() {
+                        if (this.readyState == 4 && this.status == 200) {
+                            document.getElementById("course").innerHTML = this.responseText;
+                        }
+                    };
+                    xmlhttp.open("GET","./backend/getCourse.php?q="+str,true);
+                    xmlhttp.send();
                 }
             }
-        ?>
-    </select>
+        </script>
 
-    <label for="course">Course</label>
-    <select class="w3-input" name="course" id="course">
-        <option value="">Select a course:</option>
-    </select>
+        <!-- Select field for the department -->
+        <label for="department">Department</label>
+        <select class="w3-input" name="department" id="department" onchange="showCourse(this.value)">
+            <option value="">Select a department:</option>
+            <?php 
+                $sql = "SELECT * FROM `f20_academic_dept_info`";
+                $query = mysqli_query($db_conn, $sql);
+                if ($query) {
+                    while ($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
+                        echo("<option value='" . $row['dept_code'] . "'>" . $row['dept_name'] . "</option>");
+                    }
+                }
+            ?>
+        </select>
 
-    <label for="semester">Semester</label>
-    <select class= "w3-input" name="semester" id="semester">
-        <option value="">Select a semester:</option>
-        <option value="Fall">Fall</option>
-        <option value="Spring">Spring</option>
-        <option value="Summer">Summer</option>
-        <option value="Winter">Winter</option>
-    </select>
-    <label for="semester">Year</label>
-    <input type="text" name="year" class="w3-input">
-    <label for="gradeMethod">Grade Method</label>
-    <select name="gradeMethod" class="w3-input">
-        <option value="">Select a grade method:</option>
-        <option value="Letter Grades">Letter Grades</option>
-        <option value="Pass/Fail">Pass/Fail</option>
-    </select>
-    <br>
-    <button class="w3-button w3-teal" type="submit" name="startInternshipWF">Start</button>
+        <label for="course">Course</label>
+        <select class="w3-input" name="course" id="course">
+            <option value="">Select a course:</option>
+        </select>
+
+        <label for="semester">Semester</label>
+        <select class= "w3-input" name="semester" id="semester">
+            <option value="">Select a semester:</option>
+            <option value="Fall">Fall</option>
+            <option value="Spring">Spring</option>
+            <option value="Summer">Summer</option>
+            <option value="Winter">Winter</option>
+        </select>
+        <label for="semester">Year</label>
+        <input type="text" name="year" class="w3-input">
+        <label for="gradeMethod">Grade Method</label>
+        <select name="gradeMethod" class="w3-input">
+            <option value="">Select a grade method:</option>
+            <option value="Letter Grades">Letter Grades</option>
+            <option value="Pass/Fail">Pass/Fail</option>
+        </select>
+        <br>
+        <button class="w3-button w3-teal" type="submit" name="startInternshipWF">Start</button>
+    </div>
 </form>
