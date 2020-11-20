@@ -1,7 +1,3 @@
-<!--
-
--->
-
 <?php
     include_once('./backend/config.php');
     include_once('./backend/db_connector.php');
@@ -13,7 +9,7 @@
 <div id="workflowSearch" class="w3-card-4 w3-padding w3-margin">
     <button class="w3-button w3-right w3-blue" type="button" onclick="window.location.href='.'">Start Workflow</button>
     <h5>Workflow Search</h5>
-    <p>You may search by ID</p>
+    <p>You may search by any field in the table.</p>
     <input id="workflowInput" type="text" onkeyup="search('workflowTable', 'workflowInput')"></input>
     <table id="workflowTable" class="pagination w3-table-all w3-responsive" data-pagecount="8" style="max-width:fit-content;">
         <tr>
