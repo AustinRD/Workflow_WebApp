@@ -45,16 +45,16 @@
             if($_GET['contentType'] == "user") {
                 include_once("./components/userfunctions/create/createUser.php");
             }
-            if($_GET['contentType'] == "workflow") {
+            else if($_GET['contentType'] == "workflow") {
                 include_once("./components/userfunctions/create/createWorkflow.php");
             }
-            if($_GET['contentType'] == "department") {
+            else if($_GET['contentType'] == "department") {
                 include_once("./components/userfunctions/create/createDepartment.php");
             }
-            if($_GET['contentType'] == "course") {
+            else if($_GET['contentType'] == "course") {
                 include_once("./components/userfunctions/create/createCourse.php");
             }
-			if($_GET['contentType'] == "message") {
+			else if($_GET['contentType'] == "message") {
                 include_once("./components/userfunctions/create/createMessage.php");
             }
         }
@@ -76,10 +76,10 @@
             if($_GET['contentType'] == "active") {
                 include_once("./components/userfunctions/workflows/activeWorkflows.php");
             }
-            if($_GET['contentType'] == "new") {
+            else if($_GET['contentType'] == "new") {
                 include_once("./components/userfunctions/workflows/newWorkflows.php");
             }
-            if($_GET['contentType'] == "start") {
+            else if($_GET['contentType'] == "start") {
                 include_once("./components/userfunctions/workflows/startWorkflow.php");
             }
         }
@@ -93,17 +93,26 @@
         if($_GET['contentType'] == "user") {
             include_once("./components/userfunctions/view/viewUser.php");
         }
-        if($_GET['contentType'] == "workflow") {
+        else if($_GET['contentType'] == "workflow") {
             include_once("./components/userfunctions/view/viewWorkflow.php");
         }
-        if($_GET['contentType'] == "department") {
+        else if($_GET['contentType'] == "workflowTemplate") {
+            include_once("./components/userfunctions/view/viewWorkflowTemplate.php");
+        }
+        else if($_GET['contentType'] == "department") {
             include_once("./components/userfunctions/view/viewDepartment.php");
         }
-        if($_GET['contentType'] == "course") {
+        else if($_GET['contentType'] == "course") {
             include_once("./components/userfunctions/view/viewCourse.php");
         }
-		if($_GET['contentType'] == "message") {
+		else if($_GET['contentType'] == "message") {
             include_once("./components/userfunctions/view/viewMessage.php");
+        }
+        else if($_GET['contentType'] == "step") {
+            include_once("./components/userfunctions/view/viewStep.php");
+        }
+        else if($_GET['contentType'] == "stepTemplate") {
+            include_once("./components/userfunctions/view/viewStepTemplate.php");
         }
     }
     else if($_GET['content'] == "viewWorkflow") {
