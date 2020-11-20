@@ -57,6 +57,9 @@
 			else if($_GET['contentType'] == "message") {
                 include_once("./components/userfunctions/create/createMessage.php");
             }
+			else if($_GET['contentType'] == "app") {
+                include_once("./components/userfunctions/create/createApp.php");
+            }
         }
         else {
             include_once("./components/userfunctions/create/create.php");
@@ -108,6 +111,10 @@
 		else if($_GET['contentType'] == "message") {
             include_once("./components/userfunctions/view/viewMessage.php");
         }
+		else if($_GET['contentType'] == "file") {
+            include_once("./components/userfunctions/view/viewFile.php");
+        }
+
         else if($_GET['contentType'] == "step") {
             include_once("./components/userfunctions/view/viewStep.php");
         }
