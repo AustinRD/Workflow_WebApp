@@ -44,7 +44,7 @@
     <a href='./dashboard.php?content=history' id='historyBar' class='w3-bar-item w3-button w3-padding'><i class='fa fa-history fa-fw'></i>  History</a>
     <a href='./dashboard.php?content=files' id='filesBar' class='w3-bar-item w3-button w3-padding'><i class='fa fa-files-o fa-fw'></i>  Files</a>
     <a href='./dashboard.php?content=settings' id='settingsBar' class='w3-bar-item w3-button w3-padding'><i class='fa fa-cog fa-fw'></i>  Settings</a>
-    <a href='./util/logout.php' class='w3-bar-item w3-button w3-padding'><i class='fa fa-sign-out fa-fw'></i>  Sign-Out</a><br><br>
+    <a href='./backend/logout.php' class='w3-bar-item w3-button w3-padding'><i class='fa fa-sign-out fa-fw'></i>  Sign-Out</a><br><br>
   </div>
 </nav>
 

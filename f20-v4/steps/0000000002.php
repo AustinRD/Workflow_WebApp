@@ -110,7 +110,7 @@
             <select class="w3-input" name="studentState" id="studentState" required>
                 <option value="">Select the Student's State.</option>
                 <!-- File that contains the list of states. -->
-                <?php include('./util/states.php') ?>
+                <?php include('./backend/states.php') ?>
             </select>
             <label class="w3-input" for="studentZip">Zip</label>
             <input type="text" class="w3-input" name="studentZip" id="studentZip" placeholder="Enter the Student's Zip Code." required>
@@ -173,7 +173,7 @@
             <label class="w3-input" for="employerState">State</label>
             <select class="w3-input" name="employerState" id="employerState" required>
                 <option value="">Select the State.</option>
-                <?php include('./util/states.php') ?>
+                <?php include('./backend/states.php') ?>
             </select>
             <label class="w3-input" for="employerZipcode">Zip</label>
             <input type="text" name="employerZipcode" id="employerZipcode" class="w3-input" required>

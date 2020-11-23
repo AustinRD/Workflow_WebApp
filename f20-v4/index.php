@@ -101,7 +101,7 @@
 
       <div class = "w3-center">
         <br>
-        <a href="./util/recoverAccount.php">Click here to recover password</a><br><br>
+        <a href="./backend/recoverAccount.php">Click here to recover password</a><br><br>
         <button class="w3-button w3-blue" name="submit" type="submit">Sign in</button></center>
         <p>&copy; Career Resource Center 2020</p>
       </div>

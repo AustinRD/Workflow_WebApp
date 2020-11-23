@@ -98,7 +98,7 @@
         <!-- A select field so the user can only choose to edit the workflow from the list of available options -->
         <label for="initiator" class="w3-input">Initiator:</label>
         <select name="initiator" id="initiator" class="w3-input" disabled>
-            <option value="<?php echo $row['3']; ?>"><?php echo $row['user_name'] . " (" . $row['user_email'] . ")"; ?></option>
+            <option value="<?php echo $row['3']; ?>"><?php echo $row['user_name'] . " (" . $row['user_login_name'] . ")"; ?></option>
         </select>
 
         <!-- A select field so the user can only choose to edit the workflow from the list of available options -->
@@ -172,14 +172,22 @@
         }
     ?>
     <h5>Participants:</h5>
-    <form>
-    <?php 
-        for($i = 0; $i < sizeof($order); ++$i) {
-            echo("<label for='" . $order[$i] . "' class='w3-input'>" . $order[$i] . "</label>");
-            echo("<input type='text' id='" . $order[$i] . $i . "' class='w3-input' readonly>");
+    <?php
+        $sql = "SELECT * FROM f20_app_details_table
+                    WHERE AID = $workflowID
+                    ORDER BY `SID`";
+        $query = mysqli_query($db_conn, $sql);
+        while($row = mysqli_fetch_array($query)) {
+            $stepID = $row['SID'];
+            $index = $row['step_order'] - 1;
+            echo("<label class='w3-input w3-half' for='" . $order[$index] . "'>" . $order[$index] . "</label>");
+            echo("<form method='post' action='./dashboard.php?content=view&contentType=step'>
+                <input type='hidden' name='stepID' value='" . $stepID. "'>
+                <button type='submit' name='viewStep' class='w3-button w3-right w3-blue'>View</button>
+                </form>");
+            echo("<input type='text' id='" . $order[$index] . $index . "' class='w3-input' readonly>");
         }
     ?>
-    </form>
     <?php
         $sql = "SELECT * FROM f20_app_details_table
                     JOIN f20_step_table
