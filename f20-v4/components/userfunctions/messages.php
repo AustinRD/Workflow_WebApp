@@ -68,10 +68,9 @@
 </div>
 	<?php } else { $thisUser = $_SESSION['user_id']; ?>
 	
-<!-- User Messages (non admins can only see their own messages-->
+<!-- User Messages (non admins can only see their own messages)-->
 <div id="messages" class="w3-card-4 w3-padding w3-margin">
-	<form method="post" name="userCompose" action='./dashboard.php?content=create&contentType=message'>
-    <input type="submit" class="w3-button w3-right w3-blue" name="userCompose" type="button" value="Compose Message">
+    <button class="w3-button w3-right w3-blue" type="button" onclick="window.location.href='./dashboard.php?content=create&contentType=message'">Compose Message</button>
     <h5>Messages</h5>
     <p>You may search by receiver, sender, or message contents</p>
     <input type="text" id="userInput" onkeyup="search('messageTable', 'userInput')"></input>

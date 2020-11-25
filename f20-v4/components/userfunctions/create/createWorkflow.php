@@ -28,13 +28,46 @@
     }
 ?>
 
+<!-- Content Title -->
+<header class="w3-container" style="padding-top:22px">
+    <h5><b><i class="fa fa-plus"></i>  Admin Create Tool</b></h5>
+</header>
+
+<!-- Action Panel -->
+<div class="w3-row-padding w3-margin-bottom">
+    <div class="w3-quarter" onclick="window.location.href='./dashboard.php?content=create&contentType=workflow'">
+    <div class="w3-container w3-teal w3-padding-16 w3-border">
+        <div class="w3-left"><i class="fa fa-share-alt w3-xxxlarge"></i></div>
+        <div class="w3-clear"><h5>Workflow</h5></div>
+    </div>
+    </div>
+    <div class="w3-quarter" onclick="window.location.href='./dashboard.php?content=create&contentType=department'">
+    <div class="w3-container w3-teal w3-padding-16 w3-border ">
+        <div class="w3-left"><i class="fa fa-building w3-xxxlarge"></i></div>
+        <div class="w3-clear"><h5>Deparment</h5></div>
+    </div>
+    </div>
+    <div class="w3-quarter" onclick="window.location.href='./dashboard.php?content=create&contentType=course'">
+    <div class="w3-container w3-teal w3-padding-16 w3-border">
+        <div class="w3-left"><i class="fa fa-book w3-xxxlarge"></i></div>
+        <div class="w3-clear"><h5>Course</h5></div>
+    </div>
+    </div>
+    <div class="w3-quarter" onclick="window.location.href='./dashboard.php?content=create&contentType=user'">
+    <div class="w3-container w3-teal w3-padding-16 w3-border">
+        <div class="w3-left"><i class="fa fa-users w3-xxxlarge"></i></div>
+        <div class="w3-clear"><h5>User</h5></div>
+    </div>
+    </div>
+</div>
+
 <!-- Create Workflow -->
 <div id="workflowForm" class="w3-card-4 w3-padding w3-margin" style="display: block;">
-    <h5>Create Workflow</h5>
-    <p>You can create a custom workflow here.</p>
+    <h5>Create Workflow Template</h5>
+    <p>You can create a custom workflow template here.</p>
     <form id="subform" method="post" action="./backend/workflow_edited.php">
 	<div class =row>
-        <label for="workflowTitle">Workflow Title</label>
+        <label for="workflowTitle">Workflow Template Title</label>
         <input class="w3-input" type="text" name="workflowTitle"></input>
 
         <?php
@@ -45,7 +78,6 @@
 			$result = $db_conn->query($sql);
 			if ($result->num_rows > 0){
 				echo " <select id='deptselect' name='dept' onchange='findCourses(this.value)'><option selected disabled hidden>Select a Department</option>";
-				echo "<option selected disabled hidden>Select a Department</option>";
 				while($row = $result->fetch_assoc()){
 			
 					echo "<option value=".$row['dept_code']." id=".$row['dept_code'].">" .$row['dept_name']. "</option>";
@@ -53,7 +85,7 @@
 			}
 			echo "</select>";
             $userLabels = array('Records & Registration', 'Career Resource Center', 'Dean', 'Chair', 'Secretary', 'Student', 'Employer', 'Faculty [Advisor/Instructor]');
-            $userTypes = array('recreg', 'crc', 'dean', 'chair', 'secretary', 'student', 'employer', 'faculty');
+            $userTypes = array('Recreg', 'Crc', 'Dean', 'Chair', 'Secretary', 'Student', 'Employer', 'Faculty');
         ?>
         <h2>Participant List</h2>
         <p>Drag and Drop participants to their appropriate order</p>
@@ -83,7 +115,7 @@
             </div>
         </div>
         <br>
-        <input type="submit" value="Create Workflow" class="w3-button w3-teal" name="createWorkflow"></input>
+        <input type="submit" value="Create Workflow Template" class="w3-button w3-teal" name="createWorkflow"></input>
     </form>
 </div>
 
@@ -102,7 +134,7 @@
         event.preventDefault();
         var data = event.dataTransfer.getData("text");
 		var thisStep = event.target.id;
-		//if(event.target.classList.contains("userType")){ 
+
 		if (thisStep == "labelContainer1"){ 
 			if(arr.includes(data)){
 				for(i = 0; i < arr.length; i++){
@@ -192,7 +224,7 @@
 				}
 			}
 		}
-		//}
+
 		//testing
 		//alert("current order: " + arr[0] + ", " + arr[1] + ", " + arr[2] + ", " + arr[3] + ", " + arr[4] + ", " + arr[5] + ", " + arr[6] + ", " + arr[7]);
 		

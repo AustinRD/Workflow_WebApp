@@ -66,6 +66,7 @@
               }
               else {
                 $_SESSION['user_id'] = $row['UID'];
+				$_SESSION['user_login_name'] = $row['user_login_name'];
                 $_SESSION['user_type'] = $row['URID'];
                 $_SESSION['user_email'] = $row['user_email'];
                 $_SESSION['user_name'] = $row['user_name'];

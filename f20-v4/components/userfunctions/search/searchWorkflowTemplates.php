@@ -7,7 +7,7 @@
 
 <!-- Workflow Template Search -->
 <div id="workflowTemplateSearch" class="w3-card-4 w3-padding w3-margin">
-    <button class="w3-button w3-right w3-blue" type="button" onclick="window.location.href='.'">Start Workflow</button>
+    <button class="w3-button w3-right w3-blue" type="button" onclick="window.location.href='./dashboard.php?content=create&contentType=workflow'">Start Workflow Template</button>
     <h5>Workflow Template Search</h5>
     <p>You may search by any field in the table.</p>
     <input id="workflowInput" type="text" onkeyup="search('workflowTable', 'workflowInput')"></input>

@@ -8,107 +8,106 @@
         exit();
     }
 
-    //Message ID was not sent to the page.
-    if(!isset($_POST['message_ID'])) {
-        echo "<div class='w3-panel w3-margin w3-red'><p>Error! No message recieved</p></div>";
+    //Data ID was not sent to the page.
+    if(!isset($_POST['dataID'])) {
+        echo "<div class='w3-panel w3-margin w3-red'><p>Error! No data recieved</p></div>";
         exit();
     }
     else {
         include_once('./backend/util.php');
         include_once('./backend/db_connector.php');
+	
+	$dataID = mysqli_real_escape_string($db_conn, $_POST['dataID']);
+	
 
         //Gather data passed to this page.
-        $messageID = mysqli_real_escape_string($db_conn, $_POST['message_ID']);
+        $userEmail = mysqli_real_escape_string($db_conn, $_POST['dataID']);
 
-        //User chooses to delete message.
+        //User chooses to delete file.
         if(isset($_POST['remove'])) {
             $sql = "UPDATE f20_user_table SET USID = 3 WHERE user_email = '$userEmail'";
             if ($db_conn->query($sql) === TRUE) {
                 echo("<div class='w3-panel w3-margin w3-green'><p>Successfully Terminated " . $userEmail . "</p></div>");
             } 
             else {
-                echo("<div class='w3-panel w3-margin w3-red'><p>Error terminating user: " . $db_conn->error . "</p></div>");
+                echo("<div class='w3-panel w3-margin w3-red'><p>Error erasing data: " . $db_conn->error . "</p></div>");
             }
         }
         else if(isset($_POST['saveUserChanges'])) {
             //Gather all input form fields.
-            $userRole = mysqli_real_escape_string($db_conn, $_POST['type']);
-            $userStatus = mysqli_real_escape_string($db_conn, $_POST['status']);
-            $userName = mysqli_real_escape_string($db_conn, $_POST['name']);
-            $userNewEmail = mysqli_real_escape_string($db_conn, $_POST['userEmail']);
-            $userPassword = mysqli_real_escape_string($db_conn, $_POST['password']);
-                
-            $sql = "UPDATE f20_user_table 
-                        SET `URID` = $userRole,
-                        `USID` = $userStatus,
-                        `user_name` = '$userName',
-                        `user_email` = '$userEmail',
-                        `user_password` = '$userPassword'
-                        WHERE `user_email` = '$userEmail'";
+            $dataType = mysqli_real_escape_string($db_conn, $_POST['type']);
+            $dataStatus = mysqli_real_escape_string($db_conn, $_POST['status']);
+            $owner = mysqli_real_escape_string($db_conn, $_POST['name']);                
+            $sql = "UPDATE f20_data_T 
+                        SET `data_owner` = $owner,
+                        `dataStatus_id` = $dataStatus,
+                        `dataType_id` = '$dataType'
+			JOIN f20_dataType_T 
+                            ON f20_data_T.dataType_id = f20_dataType_T.dataType_id
+                        JOIN f20_dataStatus_T
+                            ON f20_data_T.dataStatus_id = f20_dataStatus_T.dataStatus_id
+                        WHERE `data_owner` = '$owner'";
             if ($db_conn->query($sql) === TRUE) {
-                echo("<div class='w3-panel w3-margin w3-green'><p>Successfully Updated " . $userEmail . "</p></div>");
+                echo("<div class='w3-panel w3-margin w3-green'><p>Successfully Updated " . $owner . "</p></div>");
             } 
             else {
-                echo("<div class='w3-panel w3-margin w3-red'><p>Error updating user: " . $db_conn->error . "</p></div>");
+                echo("<div class='w3-panel w3-margin w3-red'><p>Error updating data: " . $db_conn->error . "</p></div>");
             }
         }
         else {
             //Find all data related to the user.
-            $sql = "SELECT * FROM f20_message_T WHERE message_id = '$messageID'";
-			//echo $sql;
+            $sql = "SELECT * FROM f20_data_T JOIN f20_dataType_T ON f20_data_T.dataType_id = f20_dataType_T.dataType_id JOIN f20_dataStatus_T ON f20_data_T.dataStatus_id = f20_dataStatus_T.dataStatus_id WHERE data_id = '$dataID'";
             $query = mysqli_query($db_conn, $sql);
             $row = mysqli_fetch_assoc($query);
 ?>
 
 <!-- Content Title -->
 <header class="w3-container" style="padding-top:22px">
-    <h5><b><i class="fa fa-search"></i>  Message View</b></h5>
+    <h5><b><i class="fa fa-search"></i>  Admin View Tool</b></h5>
 </header>
 
-<!-- Message Information -->
+<!-- User Information -->
 <div id="userForm" class="w3-card-4 w3-padding w3-margin">
     <div class="w3-right" id="actionButtons">
         <button type="button" class="w3-button w3-blue" name="editUser" style="margin-right: 5px;" onclick="enableEdit()">Edit</button>
         <button type="button" class="w3-button w3-red" name="removeUser" onclick="removeEntry('<?php echo $userEmail ?>')">Remove</button>
     </div>
 
-    <h5>Message:</h5>
+    <h5>File:</h5>
     <form method="post" action="./dashboard.php?content=view&contentType=user">
-	<?php
-        $messageSenderId = $row['message_sender'];
-        $messageReceiverId = $row['message_receiver'];
-        $messageTypeId = $row['message_type'];
-		$messageStatusId = $row['message_status'];
-	?>
-        <label class="w3-input" for="sender">Sender</label>
-        <input class="w3-input" id="sender" name="sender" type="text" value="<?php echo mysqli_fetch_assoc(mysqli_query($db_conn, "SELECT * FROM f20_user_table WHERE UID = '$messageSenderId'"))['user_name']; ?>" readonly>
-        <label class="w3-input" for="receiver">Receiver</label>
-        <input class="w3-input" id="receiver" name="receiver" type="text" value="<?php echo mysqli_fetch_assoc(mysqli_query($db_conn, "SELECT * FROM f20_user_table WHERE UID = '$messageReceiverId'"))['user_name']; ?>" readonly>
-        <label class="w3-input" for="type">Message Type</label>
-        <input class="w3-input" id="type" name="type" type="type" value="<?php echo mysqli_fetch_assoc(mysqli_query($db_conn, "SELECT * FROM f20_messageType_T WHERE messageType_id = '$messageTypeId'"))['messageType_Title']; ?>" readonly>
-        <label class="w3-input" for="status">Message Status</label>
-        <input class="w3-input" id="status" name="status" type="status" value="<?php
-		//update message status from new to read if it is being opened by the receiver
-		if($messageStatusId == 1 && $messageReceiverId == $_SESSION['user_id']){
-			$update_stmt = "UPDATE f20_message_T SET message_status = 2 WHERE message_id = '$messageID'";
-			mysqli_query($db_conn, $update_stmt);
-			$messageStatusId = 2;
-		}
-		echo mysqli_fetch_assoc(mysqli_query($db_conn, "SELECT * FROM f20_messageStatus_T WHERE messageStatus_id = '$messageStatusId'"))['messageStatus_title'];
-		?>" readonly>	
-		
-        <label class="w3-input" for="subject">Message Subject</label>
-		<input class="w3-input" id="subject" name="subject" type="text" value="<?php echo $row['message_subject']; ?>" readonly>		
+        <label class="w3-input" for="owner">Owner</label>
+        <input class="w3-input" id="owner" name="name" type="text" value="<?php echo $row['data_owner']; ?>" readonly>
+	<label class="w3-input" for="modifier">Data Modifier</label>
+        <input class="w3-input" id="modifier" name="name" type="text" value="<?php echo $row['data_modifier']; ?>" readonly>
+        <label class="w3-input" for="status">Data Status</label>
+        <select class="w3-input" id="status" name="status">
+            <option value="<?php echo $row['dataStatus_title']; ?>"><?php echo $row['dataStatus_title']; ?></option>
+            <?php
+                $sql = "SELECT * FROM f20_dataStatus_T";
+                $query = mysqli_query($db_conn, $sql);
+                while ($statusrow = mysqli_fetch_assoc($query)) {
+                    echo("<option value='" . $statusrow['dataStatus_title'] . "'>" . $statusrow['dataStatus_title'] . "</option>");
+                }
+            ?>
+        </select>
+        <label class="w3-input" for="type">Data Type</label>
+        <select class="w3-input" id="type" name="type" readonly>
+            <option value="<?php echo $row['dataType_title']; ?>"><?php echo $row['dataType_title']; ?></option>
+            <?php
+                $sql = "SELECT * FROM f20_dataType_T";
+                $query = mysqli_query($db_conn, $sql);
+                while ($typerow = mysqli_fetch_assoc($query)) {
+                    echo("<option value='" . $typerow['dataType_title'] . "'>" . $typerow['dataType_title'] . "</option>");
+                }
+            ?>
+        </select>
         <br>
-		<label class="w3-input" for="contents">Message Contents</label>
-		<textarea id="contents" name="contents" type="text" class="w3-input" readonly><?php echo $row['message_contents']; ?></textarea>
         <div id="editButtons" style="display: none;">
             <button type="submit" class="w3-button w3-blue" name="saveUserChanges">Save</button>
             <button type="button" class="w3-button w3-red" onclick="disableEdit()">Cancel</button>
         </div>
     </form>
 </div>
-
 
 <!-- Modal Pop-up to warn of deletion -->
 <div id="warningHolder" class="w3-modal w3-center">

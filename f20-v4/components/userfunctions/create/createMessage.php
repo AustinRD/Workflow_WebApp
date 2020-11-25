@@ -2,16 +2,18 @@
 -->
 <?php
     //Loading the page title and action buttons.
+	if($_SESSION['user_type'] == 1){
     include_once('./components/userfunctions/create/create.php');
+	}
     include_once('./backend/config.php');
     include_once('./backend/db_connector.php');
     
     if (isset($_POST['messageCreate'])) {
 		$senderName = $_POST['sender'];
-		$senderID = mysqli_fetch_assoc(mysqli_query($db_conn, "SELECT * FROM f20_user_table WHERE user_name = '$senderName'"))['UID'];
+		$senderID = mysqli_fetch_assoc(mysqli_query($db_conn, "SELECT * FROM f20_user_table WHERE user_login_name = '$senderName'"))['UID'];
         $sender = mysqli_real_escape_string($db_conn, $senderID);
 		$receiverName = $_POST['receiver'];
-		$receiverID = mysqli_fetch_assoc(mysqli_query($db_conn, "SELECT * FROM f20_user_table WHERE user_name = '$receiverName'"))['UID'];
+		$receiverID = mysqli_fetch_assoc(mysqli_query($db_conn, "SELECT * FROM f20_user_table WHERE user_login_name = '$receiverName'"))['UID'];
 		$receiver = mysqli_real_escape_string($db_conn, $receiverID);
         $type = mysqli_real_escape_string($db_conn, $_POST['type']);
         $status = mysqli_real_escape_string($db_conn, $_POST['status']);
@@ -43,10 +45,10 @@ if($_SESSION['user_type'] == 1){
     <h5>Compose Message</h5>
     <form method="post" action="./dashboard.php?content=create&contentType=message">
         <label for="sender">Sender</label>
-        <input id="sender" name="sender" type="text" class="w3-input" placeholder="Enter the user's Full Name" required>
+        <input id="sender" name="sender" type="text" class="w3-input" placeholder="Enter the user's login name" required>
         <br>
 		<label for="receiver">Receiver</label>
-        <input id="receiver" name="receiver" type="text" class="w3-input" placeholder="Enter the user's Full Name" required>
+        <input id="receiver" name="receiver" type="text" class="w3-input" placeholder="Enter the user's login Name" required>
         <br>
         <label for="type">Type</label>
         <select id="type" name="type" class="w3-input">
@@ -78,10 +80,10 @@ if($_SESSION['user_type'] == 1){
     <h5>Compose Message</h5>
     <form method="post" action="./dashboard.php?content=create&contentType=message">
         <label for="sender">Sender</label>
-        <input id="sender" name="sender" type="text" class="w3-input" value='<?php echo $_SESSION['user_name']?>' required readonly>
+        <input id="sender" name="sender" type="text" class="w3-input" value='<?php echo $_SESSION['user_login_name']?>' required readonly>
         <br>
 		<label for="receiver">Receiver</label>
-        <input id="receiver" name="receiver" type="text" class="w3-input" placeholder="Enter the user's Full Name" required>
+        <input id="receiver" name="receiver" type="text" class="w3-input" placeholder="Enter the user's login Name" required>
         <br>
         <label for="type">Type</label>
         <select id="type" name="type" class="w3-input">

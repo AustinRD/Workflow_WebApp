@@ -1,14 +1,14 @@
 <?php
 include_once('db_connector.php');
 include_once('config.php');
-$newWorkflowOrder = $_POST['hiddeninput'];
-$deptKey = $_POST['dept'];
+$newWorkflowOrder = str_replace(',', '=>', $_POST['hiddeninput']);
+//$deptKey = $_POST['dept'];
 $title = $_POST['workflowTitle'];
-$stmt = "INSERT INTO f20_workflow_order (title, dept_code, workflow) 
-			VALUES ('$title', '$deptKey', '$newWorkflowOrder' )";
+$stmt = "INSERT INTO f20_app_template_table (TSID, title, instructions) 
+			VALUES (1, '$title', '$newWorkflowOrder')";
 $prepare = $db_conn->query($stmt);
-echo "Added workflow '$title' for access by department '$deptKey'.<br><br>";
-echo "New workflow order: <br>";
+echo "Added workflow template '$title'.";
+echo "New workflow template order: <br>";
 echo $newWorkflowOrder;
 mysqli_query($prepare, $stmt);
 
