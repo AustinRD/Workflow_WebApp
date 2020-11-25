@@ -20,6 +20,7 @@
     else {
         include_once('./backend/util.php');
         include_once('./backend/db_connector.php');
+        include_once('./components/userfunctions/search/search.php');
 
         //Gather data passed to this page.
         $department = mysqli_real_escape_string($db_conn, $_POST['department']);

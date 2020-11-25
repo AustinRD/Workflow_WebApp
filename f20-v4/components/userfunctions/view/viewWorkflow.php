@@ -11,7 +11,7 @@
         exit();
     }
     //User is not an admin.
-    if(!($_SESSION['user_type'] == $GLOBALS['admin_type'])){
+    if(!($_SESSION['user_type'] == $GLOBALS['admin_type']) && !($_SESSION['user_type'] == $GLOBALS['secretary_type'])){
         echo "<div class='w3-panel w3-margin w3-red'><p>Error! You do not have permission to access this information.</p></div>";
         exit();
     }
@@ -202,26 +202,26 @@
         //Changing the color of the step visualizer based on the status of each step.
         //And loading the participant information into their respective forms.
         $i=0;
-        while($row = mysqli_fetch_array($query)) {    
+        while($row = mysqli_fetch_array($query)) {   
             echo("<script>
                     document.getElementById('" . $order[$i] . $i . "').value='" . $row['user_name'] . " (" . $row['user_email'] . ")'
                 </script>");
             $i++;
 
             //If the step's status is 1 (Approved) then the visualizer for that step should be lawngreen.
-            if($row['SSID'] == '1') {
+            if($row['4'] == '1') {
                 echo("<script>
                     document.getElementById('participant" . $row['step_order'] . "').style.backgroundColor = 'lawngreen';
                 </script>");
             }
             //If the step's status is 2 (In-progress) then the visualizer for that step should be cyan.
-            else if($row['SSID'] == '2') {
+            else if($row['4'] == '2') {
                 echo("<script>
                     document.getElementById('participant" . $row['step_order'] . "').style.backgroundColor = 'cyan';
                 </script>");
             }
             //If the step's status is 3 (Rejected) then the visualizer for that step should be red.
-            else if($row['SSID'] == '3') {
+            else if($row['4'] == '3') {
                 echo("<script>
                     document.getElementById('participant" . $row['step_order'] . "').style.backgroundColor = 'red';
                 </script>");

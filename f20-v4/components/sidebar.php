@@ -41,7 +41,10 @@
     ?>
       
     <a href='./dashboard.php?content=messages' id='messagesBar' class='w3-bar-item w3-button w3-padding'><i class='fa fa-comment fa-fw'></i>  Messages</a>
-    <a href='./dashboard.php?content=history' id='historyBar' class='w3-bar-item w3-button w3-padding'><i class='fa fa-history fa-fw'></i>  History</a>
+
+    <!-- The History sidebar navigation is hidden for the final presentation. [Not Implemented] -->
+    <!-- <a href='./dashboard.php?content=history' id='historyBar' class='w3-bar-item w3-button w3-padding'><i class='fa fa-history fa-fw'></i>  History</a> -->
+
     <a href='./dashboard.php?content=files' id='filesBar' class='w3-bar-item w3-button w3-padding'><i class='fa fa-files-o fa-fw'></i>  Files</a>
     <a href='./dashboard.php?content=settings' id='settingsBar' class='w3-bar-item w3-button w3-padding'><i class='fa fa-cog fa-fw'></i>  Settings</a>
     <a href='./backend/logout.php' class='w3-bar-item w3-button w3-padding'><i class='fa fa-sign-out fa-fw'></i>  Sign-Out</a><br><br>

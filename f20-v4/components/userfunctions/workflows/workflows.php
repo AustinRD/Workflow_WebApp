@@ -28,54 +28,28 @@
     <div class="w3-quarter" onclick="window.location.href='./dashboard.php?content=workflows&contentType=active'">
     <div class="w3-container w3-teal w3-padding-16 w3-border">
         <div class="w3-left"><i class="fa fa-share-alt w3-xxxlarge"></i></div>
-        <div class="w3-right"><h3><?php echo $r;?></h3></div>
         <div class="w3-clear"><h5>Active</h5></div>
     </div>
     </div>
     <div class="w3-quarter" onclick="window.location.href='./dashboard.php?content=workflows&contentType=new'">
     <div class="w3-container w3-teal w3-padding-16 w3-border ">
         <div class="w3-left"><i class="fa fa-bell w3-xxxlarge"></i></div>
-        <div class="w3-right"><h3>1</h3></div>
         <div class="w3-clear"><h5>New</h5></div>
+    </div>
+    </div>
+    <div class="w3-quarter" onclick="window.location.href='./dashboard.php?content=workflows&contentType=completed'">
+    <div class="w3-container w3-teal w3-padding-16 w3-border">
+        <div class="w3-left"><i class="fa fa-check w3-xxxlarge"></i></div>
+        <div class="w3-clear"><h5>Completed</h5></div>
+    
     </div>
     </div>
     <div class="w3-quarter" onclick="window.location.href='./dashboard.php?content=workflows&contentType=start'">
     <div class="w3-container w3-teal w3-padding-16 w3-border">
         <div class="w3-left"><i class="fa fa-plus w3-xxxlarge"></i></div>
-        <div class="w3-right"><h3>&nbsp;</h3></div>
         <div class="w3-clear"><h5>Start</h5></div>
     </div>
     </div>
 </div>
 
-<!-- Feed -->
-<div class="w3-panel" id="activityFeed">
-    <h5>Feed</h5>
-    <table class="w3-table w3-striped w3-white">
-        <tr>
-        <td><i class="fa fa-share-alt w3-text-green w3-large"></i></td>
-        <td>New workflow request from Jared Huberman.</td>
-        <td><i>5 mins</i></td>
-    </tr>
-    <tr>
-        <td><i class="fa fa-check w3-text-green w3-large"></i></td>
-        <td>Transfer Credit Application Approved.</td>
-        <td><i>10 mins</i></td>
-    </tr>
-    <tr>
-        <td><i class="fa fa-exclamation-triangle w3-text-yellow w3-large"></i></td>
-        <td>Fieldwork Application Needs Review.</td>
-        <td><i>14 mins</i></td>
-    </tr>
-    <tr>
-        <td><i class="fa fa-share-alt w3-text-green w3-large"></i></td>
-        <td>New workflow request from Brandon Turner.</td>
-        <td><i>20 mins</i></td>
-    </tr>
-    <tr>
-        <td><i class="fa fa-times w3-text-red w3-large"></i></td>
-        <td>Internship Application Denied.</td>
-        <td><i>2 Days</i></td>
-    </tr>
-    </table>
-</div>
+<!-- Feed could go here when implemented to fill the content of the page -->

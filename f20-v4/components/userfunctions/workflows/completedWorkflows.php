@@ -3,9 +3,9 @@
     include_once('./components/userfunctions/workflows/workflows.php')
 ?>
 
-<!-- New Workflows -->
+<!--  Completed Workflows -->
 <div class="w3-container">
-    <h5>New Workflows</h5>
+    <h5>Completed Workflows</h5>
     <!-- Getting the current user's workflows from the database and printing them in a preview. -->
     <?php
         include_once('./backend/db_connector.php');
@@ -22,7 +22,7 @@
                         ON f20_app_table.ATID = f20_app_type_table.ATID
                     JOIN f20_app_status_table
                         ON f20_app_table.ASID = f20_app_status_table.ASID
-                WHERE f20_step_details_table.UID = $user AND f20_app_table.ASID = 2";
+                WHERE f20_step_details_table.UID = $user AND f20_app_table.ASID = 1";
 
         $query = mysqli_query($db_conn, $sql);
         $count = mysqli_num_rows($query);

@@ -20,6 +20,7 @@
     else {
         include_once('./backend/util.php');
         include_once('./backend/db_connector.php');
+        include_once('./components/userfunctions/search/search.php');
 
         //Gather data passed to this page.
         $department = mysqli_real_escape_string($db_conn, $_POST['department']);
@@ -59,13 +60,43 @@
         <input id="deptCode" name="deptCode" type="text" class="w3-input" value="<?php echo $department; ?>" readonly>
         <br>
         <label for="deanEmail">Dean:</label>
-        <input id="deanEmail" name="deanEmail" type="email" class="w3-input" value="<?php echo $row['dean_email']; ?>" readonly>
+        <select id="deanEmail" name="deanEmail" class="w3-input" disabled>
+            <option value="<?php echo $row['dean_email']; ?>"><?php echo $row['dean_email']; ?></option>
+            <?php
+                $sql = "SELECT * FROM f20_user_table WHERE URID = 4";
+                $deptquery  = mysqli_query($db_conn, $sql);
+                while ($result = mysqli_fetch_array($deptquery)) {
+                    $deanEmail = $result['user_email'];
+                    echo("<option value=" . $deanEmail . ">" . $deanEmail . "</option>");
+                }
+            ?>
+        </select>
         <br>
         <label for="chairEmail">Chair:</label>
-        <input id="chairEmail" name="chairEmail" type="email" class="w3-input" value="<?php echo $row['chair_email']; ?>" readonly>
+        <select id="chairEmail" name="chairEmail" class="w3-input" disabled>
+            <option value="<?php echo $row['chair_email']; ?>"><?php echo $row['chair_email']; ?></option>
+            <?php
+                $sql = "SELECT * FROM f20_user_table WHERE URID = 5";
+                $deptquery  = mysqli_query($db_conn, $sql);
+                while ($result = mysqli_fetch_array($deptquery)) {
+                    $deanEmail = $result['user_email'];
+                    echo("<option value=" . $deanEmail . ">" . $deanEmail . "</option>");
+                }
+            ?>
+        </select>
         <br>
         <label for="secretaryEmail">Secretary:</label>
-        <input id="secretaryEmail" name="secretaryEmail" type="email" class="w3-input" value="<?php echo $row['secretary_email']; ?>" readonly>
+        <select id="secretaryEmail" name="secretaryEmail" class="w3-input" disabled>
+            <option value="<?php echo $row['secretary_email']; ?>"><?php echo $row['secretary_email']; ?></option>
+            <?php
+                $sql = "SELECT * FROM f20_user_table WHERE URID = 6";
+                $deptquery  = mysqli_query($db_conn, $sql);
+                while ($result = mysqli_fetch_array($deptquery)) {
+                    $deanEmail = $result['user_email'];
+                    echo("<option value=" . $deanEmail . ">" . $deanEmail . "</option>");
+                }
+            ?>
+        </select>
         <br>
         <div id="editButtons" style="display: none;">
             <button type="submit" class="w3-button w3-blue" name="saveDepartmentChanges">Save</button>
@@ -76,7 +107,7 @@
 
 <!-- Courses -->
 <div id="courseList" class="w3-card-4 w3-padding w3-margin">
-    <button class="w3-button w3-right w3-blue" type="button" onclick="window.location.href='./dashboard.php?content=create'">Create Course</button>
+    <button class="w3-button w3-right w3-blue" type="button" onclick="window.location.href='./dashboard.php?content=create&contentType=course'">Create Course</button>
     <h5>Course List</h5>
     <p>You may search by Course Number or Department</p>
     <input type="text" id="courseInput" onkeyup="search('courseTable', 'courseInput')"></input>
@@ -152,6 +183,7 @@
         var inputs = document.querySelectorAll(".w3-input");
         for (var i = 0; i < inputs.length; i++) {
             inputs[i].readOnly=false;
+            inputs[i].disabled=false;
         }
         //Hide the edit and remove buttons.
         document.getElementById("actionButtons").style.display = "none";
@@ -165,6 +197,12 @@
         for (var i = 0; i < inputs.length; i++) {
             inputs[i].readOnly=true;
         }
+
+        //Disable the select fields.
+        document.getElementById("secretaryEmail").disabled = true;
+        document.getElementById("chairEmail").disabled = true;
+        document.getElementById("deanEmail").disabled = true;
+
         //Hide the save and cancel buttons.
         document.getElementById("editButtons").style.display = "none";
         //Show the edit and remove buttons.

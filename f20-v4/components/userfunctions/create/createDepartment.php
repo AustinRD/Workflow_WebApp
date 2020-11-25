@@ -5,11 +5,11 @@
 -->
 
 <?php
+    include_once('./components/userfunctions/create/create.php');
+    include_once('./backend/db_connector.php');
     if (isset($_POST['departmentCreate'])) {
         include_once('./backend/config.php');
-        include_once('./backend/db_connector.php');
         //Loading the page title and action buttons.
-        include_once('./components/userfunctions/create/create.php');
 
         $deptName = mysqli_real_escape_string($db_conn, $_POST['deptName']);
         $deptCode = mysqli_real_escape_string($db_conn, $_POST['deptCode']);
@@ -17,7 +17,7 @@
         $chairEmail = mysqli_real_escape_string($db_conn, $_POST['chairEmail']);
         $secretaryEmail = mysqli_real_escape_string($db_conn, $_POST['secretaryEmail']);
 
-        $insertDeptSQL = "INSERT INTO f20_academic_dept_info (dept_code, dept_name, dean_email, secretary_email) VALUES ('$deptCode', '$deptName', '$deanEmail', '$secretaryEmail')";
+        $insertDeptSQL = "INSERT INTO f20_academic_dept_info (dept_code, dept_name, dean_email, chair_email, secretary_email) VALUES ('$deptCode', '$deptName', '$deanEmail', '$chairEmail', '$secretaryEmail')";
         $insertDeptQuery = mysqli_query($db_conn, $insertDeptSQL);
 
         //Database insert success
@@ -46,14 +46,45 @@
         <input id="deptCode" name="deptCode" maxlength='3' type="text" class="w3-input">
         <br>
         <label for="deanEmail">Dean Email</label>
-        <input id="deanEmail" name="deanEmail" type="email" class="w3-input">
+        <select id="deanEmail" name="deanEmail" class="w3-input" required>
+            <option value="">Please select a valid user.</option>
+            <?php
+                $sql = "SELECT * FROM f20_user_table WHERE URID = 4";
+                $deptquery  = mysqli_query($db_conn, $sql);
+                while ($result = mysqli_fetch_array($deptquery)) {
+                    $deanEmail = $result['user_email'];
+                    echo("<option value=" . $deanEmail . ">" . $deanEmail . "</option>");
+                }
+            ?>
+        </select>
         <br>
         <label for="chairEmail">Chair Email</label>
-        <input id="chairEmail" name="chairEmail" type="text" class="w3-input">
+        <select id="chairEmail" name="chairEmail" class="w3-input" required>
+            <option value="">Please select a valid user.</option>
+            <?php
+                $sql = "SELECT * FROM f20_user_table WHERE URID = 5";
+                $deptquery  = mysqli_query($db_conn, $sql);
+                while ($result = mysqli_fetch_array($deptquery)) {
+                    $deanEmail = $result['user_email'];
+                    echo("<option value=" . $deanEmail . ">" . $deanEmail . "</option>");
+                }
+            ?>
+        </select>
         <br>
         <label for="secretaryEmail">Secretary Email</label>
-        <input id="secretaryEmail" name="secretaryEmail" type="text" class="w3-input">
+        <select id="secretaryEmail" name="secretaryEmail" class="w3-input" required>
+            <option value="">Please select a valid user.</option>
+            <?php
+                $sql = "SELECT * FROM f20_user_table WHERE URID = 6";
+                $deptquery  = mysqli_query($db_conn, $sql);
+                while ($result = mysqli_fetch_array($deptquery)) {
+                    $deanEmail = $result['user_email'];
+                    echo("<option value=" . $deanEmail . ">" . $deanEmail . "</option>");
+                }
+            ?>
+        </select>
         
+        <!-- The following is hidden for our final Presentation [Not Implemented] 
         <p><Strong>Permissions</Strong></p>
             <p>Instructors:<br>
                 <input name="perm1" id="perm1_0" type="checkbox" class="w3-check">
@@ -104,6 +135,8 @@
                 <label for="em4_1" class="custom-control-label">receive rejection emails</label>
                 <input name="em4" id="em4_2" type="checkbox" class="w3-check">
                 <label for="em4_2" class="custom-control-label">receive reminder emails</label></p>
+        -->
+        <br>
         <button name="departmentCreate" type="submit" class="w3-button w3-teal">Create Department</button>
     </form>
 </div>

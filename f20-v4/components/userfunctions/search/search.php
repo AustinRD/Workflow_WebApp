@@ -63,6 +63,7 @@ It is also responsible for changing the action bar based on the content selected
             </div>
             <?php } ?>
 
+            
             <div class="w3-quarter" onclick="window.location.href='./dashboard.php?content=search&contentType=steps'">
                 <div class="w3-container w3-blue w3-padding-16 w3-border">
                     <div class="w3-left"><i class="fa fa-share-alt w3-xxxlarge"></i></div>
@@ -70,12 +71,14 @@ It is also responsible for changing the action bar based on the content selected
                 </div>
             </div>
 
+            <?php if($_SESSION['user_type'] == $GLOBALS['admin_type']) { ?>
             <div class="w3-quarter" onclick="window.location.href='./dashboard.php?content=search&contentType=steptemplates'">
                 <div class="w3-container w3-blue w3-padding-16 w3-border">
                     <div class="w3-left"><i class="fa fa-share-alt w3-xxxlarge"></i></div>
                     <div class="w3-clear"><h5>Step Template</h5></div>
                 </div>
             </div>
+            <?php } ?>
         </div>
 <?php
     }

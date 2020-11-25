@@ -4,9 +4,12 @@
     if($_GET['content'] == "home") {
         include_once('./components/dashboard/header.php');
         include_once('./components/dashboard/actionpanel.php');
-        include_once('./components/dashboard/feed.php');
-        include_once('./components/dashboard/recentworkflows.php');
-        include_once('./components/dashboard/recentmessages.php');
+
+        //The following are hidden for our final presentation because they were not yet implemented.
+
+        //include_once('./components/dashboard/feed.php');
+        //include_once('./components/dashboard/recentworkflows.php');
+        //include_once('./components/dashboard/recentmessages.php');
     }
     //If the content requested is the search page.
     else if($_GET['content'] == "search") {
@@ -84,6 +87,12 @@
             }
             else if($_GET['contentType'] == "start") {
                 include_once("./components/userfunctions/workflows/startWorkflow.php");
+            }
+            else if($_GET['contentType'] == "completed") {
+                include_once("./components/userfunctions/workflows/completedWorkflows.php");
+            }
+            else if($_GET['contentType'] == "viewWorkflow") {
+                include_once("./components/userfunctions/workflows/viewWorkflow.php");
             }
         }
         else {
